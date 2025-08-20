@@ -1,13 +1,60 @@
 .login-container{
-    display: flex;
-    align-self: center;
-    width: 30%;
-    height: 60%;
-    background: rgb(222, 222, 222);
-    border: 2px solid blue;
+    background-color: var(--containerColour)!important;
 }
 
 .error-text{
     color: red;
     font-size: 0.8rem;
 }
+
+.variable-colour{
+    color: var(--borderShadow)!important;
+}
+
+.cursor{
+    cursor: pointer;
+}
+
+.input-field{
+    background-color: var(--backgroundColour)!important;
+    border: none!important;
+    color: var(--borderShadow)!important;
+}
+
+.input-field::placeholder{
+    color: var(--borderShadow)!important;
+}
+
+
+.border-shadow{
+    border: 0.1px solid var(--borderShadow)!important;
+    box-shadow: 0 0px 20px var(--borderShadow);
+}
+
+/* .dynamic-border{
+    border: 3px solid blue;
+
+    animation: border-wiggle 4s infinite,
+     moving-border 2s infinite alternate;
+    
+}
+
+
+
+@keyframes moving-border {
+    0% {
+        border-color: chartreuse;
+    }
+    50% {
+        border-color: red;
+    }
+    100% {
+        border-color: rgb(7, 31, 216);
+    }
+}
+
+
+@keyframes border-wiggle {
+    0%, 100% {border-width: 2px;}
+    50% {border-width: 8px;}
+} */

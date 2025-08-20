@@ -24,15 +24,15 @@ const LoginPage = () => {
 
     return (
 
-    <div className="card d-flex justify-content-center align-items-center p-4 w-auto h-50 bg-light border-3  border-primary">
+    <div className="login-container border-shadow card d-flex justify-content-center align-items-center p-4 w-auto h-50">
 
-        <h2 className="text-center mb-4">Login</h2>
+        <h2 className="variable-colour text-center mb-4">Login</h2>
 
         <form className="d-flex flex-column justify-content-center gap-2" onSubmit={handleSubmit(onSubmit)}>
 
             <div className="d-flex flex-column mb-3">
 
-                <input className="form-control" 
+                <input className="form-control input-field"  
                     {...register("email", {
                         required: "you must enter a valid email address",
                         pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
@@ -46,7 +46,7 @@ const LoginPage = () => {
 
             <div className="d-flex flex-column mb-3">
 
-                <input className="form-control"
+                <input className="form-control input-field"
                     {...register("password", {
                         required: "password must be over 8 characters",
                         minLength: 8
@@ -58,11 +58,11 @@ const LoginPage = () => {
 
             </div>
 
-            <button className="btn btn-primary" type="submit">Submit</button> 
+            <button className="btn variable-colour border-shadow" type="submit">Submit</button> 
 
             <div className="d-flex mt-3">
 
-                <p className="">or not signed up yet? <br></br><a className="w-50">sign up here</a></p>
+                <p className="variable-colour">or not signed up yet? <br></br><a className="cursor">sign up here</a></p>
                 
             </div>
         </form>
@@ -73,5 +73,5 @@ const LoginPage = () => {
     
 )
 }
-//
+// card d-flex justify-content-center align-items-center p-4 w-auto h-50
 export default LoginPage;

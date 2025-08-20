@@ -1,4 +1,11 @@
+*{
+  --backgroundColour: rgb(60, 59, 59);
+  --borderShadow: rgba(237, 237, 37, 0.812);
+  --containerColour: rgba(147, 147, 147, 0.227);
+}
+
 .app-container{
   width: 100vw;
   height: 100vh;
+  background-color: var(--backgroundColour);
 }
