@@ -1,6 +1,7 @@
 import './LoginPage.css';
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { type SubmitHandler, useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router';
 
 
 type FormFields = {
@@ -12,6 +13,8 @@ type FormFields = {
 
 const LoginPage = () => {
 
+    const navigate = useNavigate();
+
     const { handleSubmit,
             register,
             formState: {errors} } = useForm<FormFields>();
@@ -20,6 +23,10 @@ const LoginPage = () => {
     const onSubmit: SubmitHandler<FormFields> = (data) => {
 
         console.log(data)
+
+        if(data.email === "lewiswootton88@hotmail.com"){
+            navigate('/dashboard');
+        }
     }
 
     return (
@@ -62,7 +69,7 @@ const LoginPage = () => {
 
             <div className="d-flex mt-3">
 
-                <p className="variable-colour">or not signed up yet? <br></br><a className="cursor">sign up here</a></p>
+                <p className="variable-colour">or not signed up yet? <br></br><Link to='/register' className="cursor">sign up here</Link></p>
                 
             </div>
         </form>

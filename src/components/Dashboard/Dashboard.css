@@ -1,0 +1,14 @@
+.main-dash-container{
+    width: 100%;
+    height: 100%;
+    background: var(--mainContainer);
+    color: white;
+}
+
+.dashboard-nav{
+    margin-top: 0%;
+    width: 100%;
+    height: 8%;
+    background-color: black;
+}
+
