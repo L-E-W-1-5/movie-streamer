@@ -12,3 +12,7 @@
     background-color: black;
 }
 
+.dashboard-containers{
+    background-color: var(--containerColour)!important;
+    border-radius: 0.375rem;
+}
