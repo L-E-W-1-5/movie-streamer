@@ -20,13 +20,18 @@ const LoginPage = () => {
             formState: {errors} } = useForm<FormFields>();
 
 
+
     const onSubmit: SubmitHandler<FormFields> = (data) => {
 
         console.log(data)
 
-        if(data.email === "lewiswootton88@hotmail.com"){
-            navigate('/dashboard');
-        }
+        // if(data.email === "lewiswootton88@hotmail.com"){
+        //     navigate('/dashboard');
+        // }
+    };
+
+    const handlePage = () => {
+        navigate('/dashboard');
     }
 
     return (
@@ -66,6 +71,8 @@ const LoginPage = () => {
             </div>
 
             <button className="btn variable-colour border-shadow" type="submit">Submit</button> 
+
+            <button className="btn variable-colour border-shadow" type="button" onClick={handlePage}>Development</button> 
 
             <div className="d-flex mt-3">
 
