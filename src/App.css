@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,700;1,400&display=swap');
+
 *{
   --backgroundColour: rgb(60, 59, 59);
   --borderShadow: rgba(234, 28, 135, 0.812);
@@ -15,4 +17,11 @@
   background-repeat: no-repeat;
   background-position: center;
   overflow-y: hidden;
+  
 }
+
+:root{
+  font-family: "Ubuntu", sans-serif;
+ 
+}
+

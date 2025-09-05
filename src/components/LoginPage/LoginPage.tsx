@@ -36,7 +36,7 @@ const LoginPage = () => {
 
     return (
 
-    <div className="login-container border-shadow card d-flex justify-content-center align-items-center p-4 w-auto h-50">
+    <div className="login-container border-shadow card d-flex justify-content-center align-items-center p-4 w-auto h-auto">
 
         <h2 className="variable-colour text-center mb-4">Login</h2>
 

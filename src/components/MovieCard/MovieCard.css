@@ -1,4 +1,6 @@
 .movie-card{
     background-color: rgb(225, 0, 139)!important;
     cursor: pointer;
+    max-height: 100px;
+    min-width: 120px;
 }

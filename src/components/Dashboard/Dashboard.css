@@ -5,6 +5,13 @@
     color: white;
 }
 
+.upload-form{
+    background-color: var(--containerColour);
+    z-index: 2;
+    margin-top: 10%!important;
+    align-self: center;
+}
+
 .dashboard-nav{
     margin-top: 0%;
     width: 100%;
@@ -12,7 +19,39 @@
     background-color: black;
 }
 
-.dashboard-containers{
+.dashboard-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.dashboard-message-container{
     background-color: var(--containerColour)!important;
     border-radius: 0.375rem;
+    width: 40%;
+}
+
+.dashboard-movie-container{
+    background-color: var(--containerColour)!important;
+    border-radius: 0.375rem;
+    overflow-y: scroll;
+    padding: 0%;
+}
+
+
+
+
+@media only screen and (max-width: 765px){
+
+    .dashboard-container{
+        flex-direction: column;
+    }
+
+    .dashboard-message-container{
+        width: 100%;
+    }
+
+    .dashboard-movie-container{
+        height: 60%;
+        max-height: 60%;
+    }
 }

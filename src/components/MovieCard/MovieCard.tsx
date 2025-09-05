@@ -10,7 +10,7 @@ const MovieCard: React.FC<MovieInfo> = ({title, movieFile}) => {
 
     return(
 
-        <div className="movie-card border-shadow card w-25 h-25 p-3">
+        <div className="movie-card border-shadow card p-2">
 
             <h3>{title}</h3>
 

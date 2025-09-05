@@ -1,5 +1,5 @@
 
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import './RegisterForm.css'
 
@@ -70,6 +70,8 @@ const RegisterForm = () => {
 
 
                 <button className="btn variable-colour border-shadow" type="submit">Submit</button>
+
+                <Link to='/'>sign in</Link>
 
             </form>
 

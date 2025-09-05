@@ -15,7 +15,7 @@ const MovieList = () => {
 
 
     return (
-        <div className="movie-list-container d-flex flex-row justify-content-around p-4">
+        <div className="movie-list-container d-flex flex-row justify-content-start p-2 gap-2 flex-wrap">
 
             {fakeFilms.map((film:Film, x:number) => {
 

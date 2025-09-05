@@ -10,5 +10,7 @@
 .textarea-style{
     border-radius: 0.375rem;
     resize: none;
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0)!important; 
 }
+
+
