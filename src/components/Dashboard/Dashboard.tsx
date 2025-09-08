@@ -6,6 +6,9 @@ import { Link } from 'react-router';
 import { useState } from 'react';
 
 
+const url = 'http://localhost:3001';
+
+
 type MovieUpload = {
     title: string,
     file: File | null
@@ -35,6 +38,7 @@ const Dashboard = () => {
         };
     };
 
+
     const handleTitleUpload = (e:React.ChangeEvent<HTMLInputElement>) => {
 
         if(e.target.value){
@@ -43,34 +47,78 @@ const Dashboard = () => {
         }
     };
 
+
     const handleSubmit = () => {
 
         if(!movieUpload.file){
             alert("please select a video to upload first");
             return
-        }
+        };
 
         if(!movieUpload.title){
              alert("please select title first");
             return
-        }
-
-        console.log(movieUpload);
+        };
 
         const formData = new FormData();
 
-        formData.append(movieUpload.title, movieUpload.file!);
+        formData.append('movie', movieUpload.file);
 
-        const movieUrl = URL.createObjectURL(movieUpload.file);
+        formData.append('title', movieUpload.title)
 
-        console.log("created url", movieUrl)
+        sendMovie(formData);
 
-        setTempUrl(movieUrl);
+        setAdmin(true); //TODO: just to stop the error, replace with proper admin functionality
+    };
 
-        //TODO: create the post to the backend here
 
-        setAdmin(true); // just to stop the error
-    }
+    const sendMovie = async (formData: FormData) => {
+
+        let reply = {
+
+            payload: "",
+            url: "",
+            key: "",
+            status: ""
+        };
+
+        try{
+
+            const res = await fetch(`${url}/upload`, {
+            
+                method: "POST",
+
+                body: formData
+            })
+
+            if(!res.ok){
+                const errorText = await res.text();
+                console.error('server error', res.status, errorText)
+            }
+
+            reply = await res.json();
+        
+        }catch(err){
+
+            console.log("99", err);
+        
+        }finally{
+
+            console.log(reply)
+
+            console.log(reply.url, reply.url.length, reply.url.split('').length);
+
+            if(reply.url && reply.url.split('').length > 0){
+
+                setTempUrl(reply.url);
+            }
+
+            console.log("102", reply);
+
+            showUploadForm(false);
+        };
+
+    };
 
 
     return (
