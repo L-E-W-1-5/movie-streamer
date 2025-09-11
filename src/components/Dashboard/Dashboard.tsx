@@ -6,7 +6,8 @@ import { Link } from 'react-router';
 import { useState, useEffect } from 'react';
 
 
-const url = 'http://localhost:3001';
+//const url = 'http://localhost:3001';
+const url = 'https://movie-streamer-backend.onrender.com'
 
 
 type MovieUpload = {
@@ -58,6 +59,7 @@ const Dashboard = () => {
             }
 
             console.log(res)
+            console.log(url)
 
         }
 
