@@ -8,7 +8,7 @@ interface MovieInfo {
     setMovieUrl: React.Dispatch<React.SetStateAction<string>>
 }
 
-const MovieCard: React.FC<MovieInfo> = ({name, url, setMovieUrl}) => {
+const MovieCard: React.FC<MovieInfo> = ({name, url, genre, setMovieUrl}) => {
 
     return(
 
@@ -16,7 +16,7 @@ const MovieCard: React.FC<MovieInfo> = ({name, url, setMovieUrl}) => {
 
             <h3>{name}</h3>
 
-            <p>{url}</p>
+            <p>{genre}</p>
 
         </div>
     )

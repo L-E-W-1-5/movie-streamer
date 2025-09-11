@@ -25,14 +25,14 @@ const LoginPage = () => {
 
         console.log(data)
 
-        // if(data.email === "lewiswootton88@hotmail.com"){
-        //     navigate('/dashboard');
-        // }
+        if(data.email === "lewiswootton" && data.password === "netflix"){
+            navigate('/dashboard');
+        }
     };
 
-    const handlePage = () => {
-        navigate('/dashboard');
-    }
+    // const handlePage = () => {
+    //     navigate('/dashboard');
+    // }
 
     return (
 
@@ -72,7 +72,7 @@ const LoginPage = () => {
 
             <button className="btn variable-colour border-shadow" type="submit">Submit</button> 
 
-            <button className="btn variable-colour border-shadow" type="button" onClick={handlePage}>Development</button> 
+            {/* <button className="btn variable-colour border-shadow" type="button" onClick={handlePage}>Development</button>  */}
 
             <div className="d-flex mt-3">
 
