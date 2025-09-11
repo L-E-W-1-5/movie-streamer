@@ -1,13 +1,26 @@
 import './MovieList.css';
-import { fakeFilms } from '../../assets/FakeFilms.tsx'
+//import { fakeFilms } from '../../assets/FakeFilms.tsx'
 import MovieCard from '../MovieCard/MovieCard.tsx';
 
-type Film = {
-    title: string,
-    movieFile: string
+// type Film = {
+//     title: string,
+//     url: string,
+//     genre: string
+// }
+
+type MovieDownload = {
+    name: string,
+    url: string,
+    genre: string
+    
 }
 
-const MovieList = () => {
+type MovieListProps = {
+    downloadedMovies: Array<MovieDownload>,
+    setMovieUrl: React.Dispatch<React.SetStateAction<string>>
+}
+
+const MovieList: React.FC<MovieListProps> = ({downloadedMovies, setMovieUrl}) => {
 
 
 //TODO: create the fetch for movies here
@@ -17,9 +30,9 @@ const MovieList = () => {
     return (
         <div className="movie-list-container d-flex flex-row justify-content-start p-2 gap-2 flex-wrap">
 
-            {fakeFilms.map((film:Film, x:number) => {
+            {downloadedMovies.map((film:MovieDownload, x:number) => {
 
-                return <MovieCard key={x} title={film.title} movieFile={film.movieFile}/>
+                return <MovieCard key={x} name={film.name} url={film.url} genre={film.genre} setMovieUrl={setMovieUrl}/>
 
             })}
 

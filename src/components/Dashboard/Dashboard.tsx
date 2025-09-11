@@ -3,7 +3,7 @@ import MovieList from '../MovieList/MovieList';
 import MessageBoard from '../MessageBoard/MessageBoard';
 import MoviePlayer from '../MoviePlayer/MoviePlayer';
 import { Link } from 'react-router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 
 const url = 'http://localhost:3001';
@@ -12,6 +12,13 @@ const url = 'http://localhost:3001';
 type MovieUpload = {
     title: string,
     file: File | null
+}
+
+type MovieDownload = {
+    name: string,
+    url: string,
+    genre: string,
+    setMovieUrl: React.Dispatch<React.SetStateAction<string>>
 }
 
 
@@ -24,10 +31,39 @@ const Dashboard = () => {
 
     const [movieUpload, setMovieUpload] = useState<MovieUpload>({file: null, title: "" });
 
-    const [tempUrl, setTempUrl] = useState<string>();
+    //const [tempUrl, setTempUrl] = useState<string>();
 
-    //const [selectedMovie, setSelectedMovie] = useState<File | null>(null);
+    const [allMovies, setAllMovies] = useState<Array<MovieDownload>>([]);
 
+    const [movieUrl, setMovieUrl] = useState<string>("");
+
+
+    useEffect(() => {
+
+        const fetchAllMovies = async () => {
+
+            const movies = await fetch(`${url}/movies`, {
+
+                headers: {"Content-Type": "application/json"}
+            })
+
+            const res = await movies.json() as {
+                payload: MovieDownload[];
+                success: boolean;
+            }
+
+            if(res.success) {
+
+                setAllMovies(res.payload);
+            }
+
+            console.log(res)
+
+        }
+
+        fetchAllMovies();
+
+    }, [])
 
 
     const handleFileUpload = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -108,12 +144,12 @@ const Dashboard = () => {
 
             console.log(reply.url, reply.url.length, reply.url.split('').length);
 
-            if(reply.url && reply.url.split('').length > 0){
+            // if(reply.url && reply.url.split('').length > 0){
 
-                setTempUrl(reply.url);
-            }
+            //     setTempUrl(reply.url);
+            // }
 
-            console.log("102", reply);
+            // console.log("102", reply);
 
             showUploadForm(false);
         };
@@ -151,9 +187,9 @@ const Dashboard = () => {
 
                            </div>}
 
-            {tempUrl && <div>
+            {movieUrl && <div>
                 
-                            <MoviePlayer title={movieUpload.title} url={tempUrl}/>
+                            <MoviePlayer title={movieUpload.title} url={movieUrl}/>
                 
                         </div>}
 
@@ -163,11 +199,13 @@ const Dashboard = () => {
 
                 <div className="dashboard-container h-100 w-100 gap-2">
 
+                   {allMovies.length > 0 &&
+                   
                     <div className="container border-shadow dashboard-movie-container">
 
-                        <MovieList/>
+                        <MovieList downloadedMovies={allMovies} setMovieUrl={setMovieUrl}/>
 
-                    </div>
+                    </div>}
 
                     <div className="container border-shadow dashboard-message-container flex-grow-1">
 
