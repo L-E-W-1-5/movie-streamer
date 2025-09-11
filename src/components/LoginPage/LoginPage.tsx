@@ -25,7 +25,7 @@ const LoginPage = () => {
 
         console.log(data)
 
-        if(data.email === "lewiswootton" && data.password === "netflix"){
+        if(data.email === "lewiswootton" && data.password === "netflix88"){
             navigate('/dashboard');
         }
     };
