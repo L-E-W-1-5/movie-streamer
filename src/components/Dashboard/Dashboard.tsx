@@ -23,7 +23,7 @@ type MovieDownload = {
 }
 
 
-const Dashboard = () => {
+const Dashboard = ({userState}:{userState:boolean}) => {
 
 
     const [admin, setAdmin] = useState<boolean>(true);
@@ -37,6 +37,8 @@ const Dashboard = () => {
     const [allMovies, setAllMovies] = useState<Array<MovieDownload>>([]);
 
     const [movieUrl, setMovieUrl] = useState<string>("");
+
+    
 
 
     useEffect(() => {
@@ -58,14 +60,11 @@ const Dashboard = () => {
                 setAllMovies(res.payload);
             }
 
-            console.log(res)
-            console.log(url)
-
         }
 
         fetchAllMovies();
 
-    }, [])
+    }, [userState])
 
 
     const handleFileUpload = (e:React.ChangeEvent<HTMLInputElement>) => {

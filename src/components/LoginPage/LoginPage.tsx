@@ -1,38 +1,43 @@
 import './LoginPage.css';
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { type SubmitHandler, useForm } from 'react-hook-form';
+
 import { Link, useNavigate } from 'react-router';
+import type { FormEvent } from 'react';
 
 
-type FormFields = {
-    email: string,
-    password: string
+
+type userLogin = {
+    userState: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
-
-const LoginPage = () => {
+const LoginPage: React.FC<userLogin> = ({userState}) => {
 
     const navigate = useNavigate();
 
-    const { handleSubmit,
-            register,
-            formState: {errors} } = useForm<FormFields>();
+    
 
 
 
-    const onSubmit: SubmitHandler<FormFields> = (data) => {
+    const onSubmit = (event:FormEvent<HTMLFormElement>) => {
 
-        console.log(data)
+        event.preventDefault();
 
-        if(data.email === "lewiswootton88@gmail.com" && data.password === "netflix88"){
+        const form = event.currentTarget
+
+        const formData = new FormData(form);
+        
+        const loginid = formData.get('loginid')?.toString() || "";
+
+
+        if(loginid === "12345678"){
+
+            userState(true);
             navigate('/dashboard');
         }
     };
 
-    // const handlePage = () => {
-    //     navigate('/dashboard');
-    // }
+   
 
     return (
 
@@ -40,9 +45,33 @@ const LoginPage = () => {
 
         <h2 className="variable-colour text-center mb-4">Login</h2>
 
-        <form className="d-flex flex-column justify-content-center gap-2" onSubmit={handleSubmit(onSubmit)}>
+        <form className="d-flex flex-column justify-content-center gap-2" onSubmit={onSubmit}>
 
-            <div className="d-flex flex-column mb-3">
+            <input className="form-control input-field" name="loginid" type="text" placeholder="type login id here"/>
+
+            <button className="btn variable-colour border-shadow" type="submit">Submit</button> 
+
+            {/* <button className="btn variable-colour border-shadow" type="button" onClick={handlePage}>Development</button>  */}
+
+            <div className="d-flex mt-3">
+
+                <p className="variable-colour">or not signed up yet? <br></br><Link to='/register' className="cursor">sign up here</Link></p>
+                
+            </div>
+        </form>
+
+
+    
+    </div>
+    
+)
+}
+// card d-flex justify-content-center align-items-center p-4 w-auto h-50
+export default LoginPage;
+
+
+
+{/* <div className="d-flex flex-column mb-3">
 
                 <input className="form-control input-field"  
                     {...register("email", {
@@ -68,24 +97,4 @@ const LoginPage = () => {
                 />
                 {errors.password && <div className="error-text fst-italic text-center text-wrap">{errors.password.message}</div>}
 
-            </div>
-
-            <button className="btn variable-colour border-shadow" type="submit">Submit</button> 
-
-            {/* <button className="btn variable-colour border-shadow" type="button" onClick={handlePage}>Development</button>  */}
-
-            <div className="d-flex mt-3">
-
-                <p className="variable-colour">or not signed up yet? <br></br><Link to='/register' className="cursor">sign up here</Link></p>
-                
-            </div>
-        </form>
-
-
-    
-    </div>
-    
-)
-}
-// card d-flex justify-content-center align-items-center p-4 w-auto h-50
-export default LoginPage;
+            </div> */}

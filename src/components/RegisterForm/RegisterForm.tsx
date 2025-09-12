@@ -3,6 +3,8 @@ import { useNavigate, Link } from 'react-router';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import './RegisterForm.css'
 
+const url = 'https://movie-streamer-backend.onrender.com'
+//const url = 'http://localhost:3001';
 
 type RegisterFields = {
     name: string,
@@ -22,9 +24,25 @@ const RegisterForm = () => {
         
         console.log(data);
 
+        sendUserData(data);
+
         alert("An email will be sent to your email address once verification is complete.");
 
         navigate('/');
+    };
+
+
+    const sendUserData = async (data:RegisterFields) => {
+
+        const res = await fetch(`${url}/users/newuser`, {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(data)
+        })
+
+        const result = await res.json();
+
+        console.log(result);
     }
 
 

@@ -4,8 +4,12 @@ import Dashboard from './components/Dashboard/Dashboard.tsx';
 import RegisterForm from './components/RegisterForm/RegisterForm.tsx';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import { Routes, BrowserRouter, Route } from 'react-router';
+import { useState } from 'react';
 
 function App() {
+
+
+  const [user, setUser] = useState<boolean>(false);
 
 
   return (
@@ -16,9 +20,9 @@ function App() {
 
         <Routes>
 
-          <Route path="/" element={<LoginPage/>}/>
+          <Route path="/" element={<LoginPage userState={setUser}/>}/>
           <Route path='/register' element={<RegisterForm/>}/>
-          <Route path='/dashboard' element={<Dashboard/>}/>
+          <Route path='/dashboard' element={<Dashboard userState={user}/>}/>
 
         </Routes>
       
