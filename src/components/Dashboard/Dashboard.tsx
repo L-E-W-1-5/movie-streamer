@@ -200,13 +200,18 @@ const Dashboard = ({userState}:{userState:boolean}) => {
 
                 <div className="dashboard-container h-100 w-100 gap-2">
 
-                   {allMovies.length > 0 &&
+                   
                    
                     <div className="container border-shadow dashboard-movie-container">
 
-                        <MovieList downloadedMovies={allMovies} setMovieUrl={setMovieUrl}/>
+                        {allMovies.length > 0 &&
 
-                    </div>}
+                            <MovieList downloadedMovies={allMovies} setMovieUrl={setMovieUrl}/>
+
+                         }
+
+                   </div>
+
 
                     <div className="container border-shadow dashboard-message-container flex-grow-1">
 
