@@ -1,4 +1,4 @@
-
+import './MoviePlayer.css';
 
 type MovieData = {
     title: string,
@@ -14,8 +14,8 @@ const MoviePlayer = (props:MovieData) => {
             
             <video src={props.url} 
                 controls 
-                width="640" 
-                height="360"  
+                
+                
                 onLoadedData={() => {
                                 console.log('Video loaded');
                                 }}
