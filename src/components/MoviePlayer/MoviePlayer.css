@@ -2,5 +2,5 @@ video {
   max-width: 100%;
   height: auto;
   max-height: 25vh;
-  padding: 0, auto, 0, auto;
+  margin-left: auto;
 }
