@@ -59,7 +59,7 @@ const Dashboard = ({userState}:{userState:boolean}) => {
 
             if(res.success) {
 
-                alert(res.payload[1]?.name);
+                alert(res.payload[0]?.name);
 
                 setAllMovies(res.payload);
             }
