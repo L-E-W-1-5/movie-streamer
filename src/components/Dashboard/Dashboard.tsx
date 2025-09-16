@@ -2,7 +2,7 @@ import './Dashboard.css'
 import MovieList from '../MovieList/MovieList';
 import MessageBoard from '../MessageBoard/MessageBoard';
 import MoviePlayer from '../MoviePlayer/MoviePlayer';
-import { Link } from 'react-router';
+//import { Link } from 'react-router';
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../UserContext';
 
@@ -27,7 +27,7 @@ type MovieDownload = {
 const Dashboard = () => {
 
 
-    const { user } = useContext(UserContext)
+    const { user, setUser } = useContext(UserContext)
 
     const [uploadForm, showUploadForm] = useState<boolean>(false);
 
@@ -163,6 +163,7 @@ const Dashboard = () => {
     };
 
 
+
     return (
         
         <div className="main-dash-container d-flex flex-column justify-content-between">
@@ -176,7 +177,7 @@ const Dashboard = () => {
                     <button className="btn border-shadow variable-colour" onClick={() => showUploadForm(current => !current)}>upload</button>
                 }
 
-                <Link style={{color: "var(--borderShadow)"}} to='/'>Logout</Link>
+                <p className="logout-link" style={{color: "var(--borderShadow)"}} onClick={() => setUser(null)}>Logout</p>
 
             </nav>
 

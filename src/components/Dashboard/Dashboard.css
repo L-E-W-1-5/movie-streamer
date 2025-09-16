@@ -5,6 +5,10 @@
     color: white;
 }
 
+.logout-link{
+    cursor: pointer;
+}
+
 .upload-form{
     background-color: var(--containerColour);
     z-index: 2;
