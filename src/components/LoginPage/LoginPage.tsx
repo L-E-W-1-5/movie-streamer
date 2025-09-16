@@ -1,22 +1,34 @@
 import './LoginPage.css';
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-
+import { UserContext } from '../../UserContext';
 import { Link, useNavigate } from 'react-router';
-import type { FormEvent } from 'react';
+import { type FormEvent, useContext, useEffect } from 'react';
 
 
+//const url = 'http://localhost:3001';
+const url = 'https://movie-streamer-backend.onrender.com'
 
-type userLogin = {
-    userState: React.Dispatch<React.SetStateAction<boolean>>
-}
+// type userLogin = {
+//     userState: React.Dispatch<React.SetStateAction<boolean>>
+// }
 
 
-const LoginPage: React.FC<userLogin> = ({userState}) => {
+const LoginPage = () => {
 
     const navigate = useNavigate();
 
-    
+    const { user, setUser } = useContext(UserContext)
 
+    
+    useEffect(() => {
+
+        if(user?.verified){
+
+            console.log(user)
+            navigate('/dashboard');
+        }
+
+    }, [user, navigate])
 
 
     const onSubmit = (event:FormEvent<HTMLFormElement>) => {
@@ -29,13 +41,43 @@ const LoginPage: React.FC<userLogin> = ({userState}) => {
         
         const loginid = formData.get('loginid')?.toString() || "";
 
+        handleLogin(loginid)
 
-        if(loginid === "12345678"){
+        // if(loginid === "12345678"){
 
-            userState(true);
-            navigate('/dashboard');
-        }
+        //     userState(true);
+        //     navigate('/dashboard');
+        // }
     };
+
+
+    const handleLogin = async (guid: string) => {
+
+        const reply = await fetch(`${url}/users`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({guid})
+        })
+
+        const res = await reply.json();
+
+        console.log(res.payload)
+
+        if(res.status === "error"){
+            alert("login details incorrect");
+            return
+        }
+
+        setUser(res.payload)
+
+        console.log(user)
+
+        // if(user?.verified){
+
+        //     console.log(user)
+        //     navigate('/dashboard');
+        // }
+    }
 
    
 

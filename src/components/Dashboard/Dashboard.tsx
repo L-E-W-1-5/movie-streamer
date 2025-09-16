@@ -3,7 +3,8 @@ import MovieList from '../MovieList/MovieList';
 import MessageBoard from '../MessageBoard/MessageBoard';
 import MoviePlayer from '../MoviePlayer/MoviePlayer';
 import { Link } from 'react-router';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { UserContext } from '../../UserContext';
 
 
 //const url = 'http://localhost:3001';
@@ -23,10 +24,10 @@ type MovieDownload = {
 }
 
 
-const Dashboard = ({userState}:{userState:boolean}) => {
+const Dashboard = () => {
 
 
-    const [admin, setAdmin] = useState<boolean>(true);
+    const { user } = useContext(UserContext)
 
     const [uploadForm, showUploadForm] = useState<boolean>(false);
 
@@ -52,12 +53,12 @@ const Dashboard = ({userState}:{userState:boolean}) => {
 
             const res = await movies.json() as {
                 payload: MovieDownload[];
-                success: boolean;
+                status: string;
             }
 
             
 
-            if(res.success) {
+            if(res.status === "success") {
 
                 alert(res.payload[0]?.name);
 
@@ -68,7 +69,7 @@ const Dashboard = ({userState}:{userState:boolean}) => {
 
         fetchAllMovies();
 
-    }, [userState])
+    }, [user])
 
 
     const handleFileUpload = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -109,7 +110,7 @@ const Dashboard = ({userState}:{userState:boolean}) => {
 
         sendMovie(formData);
 
-        setAdmin(true); //TODO: just to stop the error, replace with proper admin functionality
+        
     };
 
 
@@ -125,7 +126,7 @@ const Dashboard = ({userState}:{userState:boolean}) => {
 
         try{
 
-            const res = await fetch(`${url}/upload`, {
+            const res = await fetch(`${url}/movies`, {
             
                 method: "POST",
 
@@ -147,7 +148,7 @@ const Dashboard = ({userState}:{userState:boolean}) => {
 
             console.log(reply)
 
-            console.log(reply.url, reply.url.length, reply.url.split('').length);
+            
 
             // if(reply.url && reply.url.split('').length > 0){
 
@@ -170,7 +171,7 @@ const Dashboard = ({userState}:{userState:boolean}) => {
 
                 <h2 className="pt-1">LuluFlix</h2>
 
-                {admin &&
+                {user?.admin &&
 
                     <button className="btn border-shadow variable-colour" onClick={() => showUploadForm(current => !current)}>upload</button>
                 }
