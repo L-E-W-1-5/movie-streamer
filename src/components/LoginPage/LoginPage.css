@@ -16,8 +16,9 @@
 }
 
 .input-field{
-    background-color: var(--backgroundColour)!important;
-    border: none!important;
+    /* background-color: var(--backgroundColour)!important; */
+    background-color: rgba(0, 0, 0, 0)!important;
+    /* border: none!important; */
     color: var(--borderShadow)!important;
 }
 

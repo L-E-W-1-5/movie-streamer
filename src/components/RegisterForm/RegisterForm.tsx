@@ -3,6 +3,8 @@ import { useNavigate, Link } from 'react-router';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import './RegisterForm.css'
 
+
+//TODO: url change
 const url = 'https://movie-streamer-backend.onrender.com'
 //const url = 'http://localhost:3001';
 
@@ -57,7 +59,7 @@ const RegisterForm = () => {
                 <div className="mb-3 d-flex flex-column">
 
                     <input
-                        className="form-control input-field"
+                        className="form-control input-field border-shadow"
                         {...register("name", {
                             required: "you must use your full name",
                             validate: {
@@ -74,10 +76,13 @@ const RegisterForm = () => {
                 <div className="mb-3 d-flex flex-column">
 
                     <input
-                        className="form-control input-field"
+                        className="form-control input-field border-shadow"
                         {...register("email", {
                             required: "must enter a valid email",
-                            pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
+                            pattern: {
+                                value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                                message: "invalid email format"
+                            }
                         })}
                         type="text"
                         placeholder="Email Address"  

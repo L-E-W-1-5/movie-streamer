@@ -6,22 +6,23 @@ import MoviePlayer from '../MoviePlayer/MoviePlayer';
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../UserContext';
 
-
+//TODO: url change 
 //const url = 'http://localhost:3001';
 const url = 'https://movie-streamer-backend.onrender.com'
 
 
 type MovieUpload = {
     title: string,
+    genre: string,
     file: File | null
-}
+};
 
 type MovieDownload = {
-    name: string,
+    title: string,
     url: string,
     genre: string,
-    setMovieUrl: React.Dispatch<React.SetStateAction<string>>
-}
+    //setMovieUrl: React.Dispatch<React.SetStateAction<string>>
+};
 
 
 const Dashboard = () => {
@@ -31,9 +32,7 @@ const Dashboard = () => {
 
     const [uploadForm, showUploadForm] = useState<boolean>(false);
 
-    const [movieUpload, setMovieUpload] = useState<MovieUpload>({file: null, title: "" });
-
-    //const [tempUrl, setTempUrl] = useState<string>();
+    const [movieUpload, setMovieUpload] = useState<MovieUpload>({file: null, title: "", genre: "" });
 
     const [allMovies, setAllMovies] = useState<Array<MovieDownload>>([]);
 
@@ -49,27 +48,25 @@ const Dashboard = () => {
             const movies = await fetch(`${url}/movies`, {
 
                 headers: {"Content-Type": "application/json"}
-            })
+            });
 
             const res = await movies.json() as {
                 payload: MovieDownload[];
                 status: string;
-            }
+            };
 
             
 
             if(res.status === "success") {
 
-                alert(res.payload[0]?.name);
-
                 setAllMovies(res.payload);
-            }
+            };
 
-        }
+        };
 
         fetchAllMovies();
 
-    }, [user])
+    }, [user]);
 
 
     const handleFileUpload = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -85,12 +82,25 @@ const Dashboard = () => {
 
         if(e.target.value){
 
-            setMovieUpload(prev => ({...prev, title: e.target.value}))
-        }
+            setMovieUpload(prev => ({...prev, title: e.target.value}));
+        };
+    };
+
+    
+    const handleGenreUpload = (e:React.ChangeEvent<HTMLSelectElement>) => {
+
+        if(e.target.value){
+
+            setMovieUpload(prev => ({...prev, genre: e.target.value}))
+        };
     };
 
 
     const handleSubmit = () => {
+
+        if(!movieUpload.genre){
+            alert("please select a video to upload first");
+        }
 
         if(!movieUpload.file){
             alert("please select a video to upload first");
@@ -106,23 +116,17 @@ const Dashboard = () => {
 
         formData.append('movie', movieUpload.file);
 
-        formData.append('title', movieUpload.title)
+        formData.append('title', movieUpload.title);
+
+        formData.append('genre', movieUpload.genre)
 
         sendMovie(formData);
-
-        
     };
 
 
     const sendMovie = async (formData: FormData) => {
 
-        let reply = {
-
-            payload: "",
-            url: "",
-            key: "",
-            status: ""
-        };
+        let reply
 
         try{
 
@@ -131,35 +135,53 @@ const Dashboard = () => {
                 method: "POST",
 
                 body: formData
-            })
+            });
 
             if(!res.ok){
+
                 const errorText = await res.text();
-                console.error('server error', res.status, errorText)
-            }
+
+                console.error('server error', res.status, errorText);
+
+                showUploadForm(false);
+
+                return;
+            };
 
             reply = await res.json();
+
+             if(reply.status === "error"){
+
+                alert(reply.payload);
+
+                showUploadForm(false);
+
+                return;
+            }
         
         }catch(err){
 
-            console.log("99", err);
+            console.log(err);
+
+            showUploadForm(false);
+
+            return;
         
         }finally{
 
-            console.log(reply)
+            if(reply.status === "success"){
 
-            
+                const newUpload:MovieDownload = {
+                    title: reply.payload.title ,
+                    url: reply.payload.url,
+                    genre: reply.payload.genre
+                };
 
-            // if(reply.url && reply.url.split('').length > 0){
-
-            //     setTempUrl(reply.url);
-            // }
-
-            // console.log("102", reply);
+                setAllMovies(prev => [...prev, newUpload]);
+            };
 
             showUploadForm(false);
         };
-
     };
 
 
@@ -186,7 +208,17 @@ const Dashboard = () => {
 
                                 <input className="btn variable-colour" type="file" name="movieFile" onChange={handleFileUpload}/>
 
-                                <input className="btn variable-colour border-shadow" placeholder="movie title here.." type="text" name="movieTitle" onChange={handleTitleUpload}/>
+                                <input className="btn variable-colour border-shadow input-field" placeholder="movie title here.." type="text" name="movieTitle" onChange={handleTitleUpload}/>
+
+                                <select className="form-select select-element variable-colour border-shadow" value={movieUpload.genre} onChange={handleGenreUpload}>
+                                    <option value="">please select</option>
+                                    <option value="action">Action</option>
+                                    <option value="comedy">Comedy</option>
+                                    <option value="fantasy">Fantasy</option>
+                                    <option value="horror">Horror</option>
+                                    <option value="sci-fi">Sci-Fi</option>
+                                    <option value="thriller">Thriller</option>
+                                </select>
 
                                 <button className="btn border-shadow variable-colour" onClick={handleSubmit} >upload</button>
 
@@ -200,13 +232,10 @@ const Dashboard = () => {
                 
                         </div>}
 
-          
 
             <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center p-3">
 
                 <div className="dashboard-container h-100 w-100 gap-2">
-
-                   
                    
                     <div className="container border-shadow dashboard-movie-container">
 
@@ -218,7 +247,6 @@ const Dashboard = () => {
 
                    </div>
 
-
                     <div className="container border-shadow dashboard-message-container flex-grow-1">
 
                         <MessageBoard/>
@@ -228,8 +256,6 @@ const Dashboard = () => {
                 </div>
 
             </div>
-
-        
 
         </div>
     )

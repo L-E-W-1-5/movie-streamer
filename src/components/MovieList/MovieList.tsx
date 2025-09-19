@@ -9,7 +9,7 @@ import MovieCard from '../MovieCard/MovieCard.tsx';
 // }
 
 type MovieDownload = {
-    name: string,
+    title: string,
     url: string,
     genre: string
     
@@ -23,8 +23,6 @@ type MovieListProps = {
 const MovieList: React.FC<MovieListProps> = ({downloadedMovies, setMovieUrl}) => {
 
 
-//TODO: create the fetch for movies here
-
 
 
     return (
@@ -32,7 +30,7 @@ const MovieList: React.FC<MovieListProps> = ({downloadedMovies, setMovieUrl}) =>
 
             {downloadedMovies.map((film:MovieDownload, x:number) => {
 
-                return <MovieCard key={x} name={film.name} url={film.url} genre={film.genre} setMovieUrl={setMovieUrl}/>
+                return <MovieCard key={x} name={film.title} url={film.url} genre={film.genre} setMovieUrl={setMovieUrl}/>
 
             })}
 

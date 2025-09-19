@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router';
 import { type FormEvent, useContext, useEffect } from 'react';
 
 
+//TODO: url change
 //const url = 'http://localhost:3001';
 const url = 'https://movie-streamer-backend.onrender.com'
 
@@ -61,16 +62,12 @@ const LoginPage = () => {
 
         const res = await reply.json();
 
-        console.log(res.payload)
-
         if(res.status === "error"){
             alert("login details incorrect");
             return
         }
 
         setUser(res.payload)
-
-        console.log(user)
 
         // if(user?.verified){
 
@@ -89,11 +86,9 @@ const LoginPage = () => {
 
         <form className="d-flex flex-column justify-content-center gap-2" onSubmit={onSubmit}>
 
-            <input className="form-control input-field" name="loginid" type="text" placeholder="type login id here"/>
+            <input className="form-control input-field border-shadow" name="loginid" type="text" placeholder="type login id here"/>
 
             <button className="btn variable-colour border-shadow" type="submit">Submit</button> 
-
-            {/* <button className="btn variable-colour border-shadow" type="button" onClick={handlePage}>Development</button>  */}
 
             <div className="d-flex mt-3">
 
@@ -108,7 +103,7 @@ const LoginPage = () => {
     
 )
 }
-// card d-flex justify-content-center align-items-center p-4 w-auto h-50
+
 export default LoginPage;
 
 
