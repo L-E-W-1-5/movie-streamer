@@ -62,6 +62,8 @@ option{
 
     .dashboard-message-container{
         width: 100%;
+        max-height: 45%;
+        
     }
 
     .dashboard-movie-container{

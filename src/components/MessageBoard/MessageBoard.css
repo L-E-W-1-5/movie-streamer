@@ -1,6 +1,7 @@
 .messages-sent{
     flex: 3;
     cursor: default;
+    overflow-y: scroll;
 }
 
 .send-message{

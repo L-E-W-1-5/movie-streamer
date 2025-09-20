@@ -57,14 +57,6 @@ const MessageBoard = () => {
     }, [user])
 
 
-    // const handleMessageChange = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
-
-    //     if(e.target.value){
-
-    //         setMessage(e.target.value);
-    //     };
-    // }
-
 
     const handleEnterPress = (e:React.KeyboardEvent<HTMLTextAreaElement>) => {
 
@@ -88,37 +80,29 @@ const MessageBoard = () => {
 
         if(user){
 
-        result = await fetch(`${url}/messages/send_message`, {
+            result = await fetch(`${url}/messages/send_message`, {
 
-           method: 'POST',
+                method: 'POST',
 
-           headers: {"Content-Type": "application/json"},
+                headers: {"Content-Type": "application/json"},
            
-           body: JSON.stringify({
-                message, 
-                userid: user.id, 
-                username: user.username, 
-                timestamp
-           })
-        });
+                body: JSON.stringify({
+                    message, 
+                    userid: user.id, 
+                    username: user.username, 
+                    timestamp
+                })
+            });
 
-        const res = await result.json() as {
-            payload: MessageUpload;
-            status: string;
+            const res = await result.json() as {
+                payload: MessageUpload;
+                status: string;
+            };
+
+            setAllMessages(prev => [...prev, res.payload])
+
         };
-
-        
-        console.log(res);
-
-        setAllMessages(prev => [...prev, res.payload])
-
-        }
-
-        
-
-
-
-    }
+    };
 
 
 
@@ -126,11 +110,11 @@ const MessageBoard = () => {
 
         <div className="d-flex flex-column h-100 pt-3 pb-3 gap-3">
 
-                <div className="messages-sent input-field textarea-style border-shadow">
+                <div className="messages-sent input-field textarea-style border-shadow p-1">
                    
                     {allMessages.map((message:MessageUpload, index:number) => {
 
-                        return <p key={index}>{message.username.split(' ')[0]}: {message.message} - {message.timestamp}</p>
+                        return <p key={index}>{message.username.split(' ')[0] + ' ' + message.username.split(' ')[1][0]}: {message.message} - {message.timestamp}</p>
 
                     })}
  
