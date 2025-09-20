@@ -25,7 +25,6 @@ const LoginPage = () => {
 
         if(user?.verified){
 
-            console.log(user)
             navigate('/dashboard');
         }
 

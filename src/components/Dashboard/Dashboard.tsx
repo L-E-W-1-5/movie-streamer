@@ -11,6 +11,8 @@ import { UserContext } from '../../UserContext';
 const url = 'https://movie-streamer-backend.onrender.com'
 
 
+
+
 type MovieUpload = {
     title: string,
     genre: string,
@@ -38,6 +40,8 @@ const Dashboard = () => {
 
     const [movieUrl, setMovieUrl] = useState<string>("");
 
+ 
+
     
 
 
@@ -54,15 +58,19 @@ const Dashboard = () => {
                 payload: MovieDownload[];
                 status: string;
             };
-
-            
+    
 
             if(res.status === "success") {
 
                 setAllMovies(res.payload);
+
+                return;
             };
 
+            alert("movies failed to load");
+
         };
+
 
         fetchAllMovies();
 
@@ -75,6 +83,7 @@ const Dashboard = () => {
 
             setMovieUpload(prev => ({...prev, file: e.target.files![0]}));
         };
+
     };
 
 

@@ -2,8 +2,9 @@ import { createContext } from 'react';
 
 
 interface User {
-    name: string,
+    username: string,
     verified: boolean,
+    id: string,
     admin: boolean,
 };
 

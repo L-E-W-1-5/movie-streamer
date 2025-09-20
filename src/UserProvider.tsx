@@ -2,7 +2,8 @@ import React, { useState, type ReactNode } from 'react';
 import { UserContext } from './UserContext'
 
 interface User {
-    name: string,
+    username: string,
+    id: string,
     verified: boolean,
     admin: boolean,
 };
