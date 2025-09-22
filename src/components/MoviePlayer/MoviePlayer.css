@@ -10,7 +10,7 @@ video {
   width: 25%;
   height: auto;
   min-width: 135px;
-  /* border-radius: 0.375rem; */
+  touch-action: none;
   z-index: 2;
 }
 
