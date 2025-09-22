@@ -68,6 +68,8 @@ const LoginPage = () => {
 
         setUser(res.payload)
 
+        //TODO: set loading animation here
+
         // if(user?.verified){
 
         //     console.log(user)

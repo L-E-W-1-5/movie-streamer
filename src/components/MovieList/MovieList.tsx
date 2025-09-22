@@ -17,7 +17,7 @@ type MovieDownload = {
 
 type MovieListProps = {
     downloadedMovies: Array<MovieDownload>,
-    setMovieUrl: React.Dispatch<React.SetStateAction<string>>
+    setMovieUrl: React.Dispatch<React.SetStateAction<MovieDownload>>
 }
 
 const MovieList: React.FC<MovieListProps> = ({downloadedMovies, setMovieUrl}) => {
@@ -30,7 +30,7 @@ const MovieList: React.FC<MovieListProps> = ({downloadedMovies, setMovieUrl}) =>
 
             {downloadedMovies.map((film:MovieDownload, x:number) => {
 
-                return <MovieCard key={x} name={film.title} url={film.url} genre={film.genre} setMovieUrl={setMovieUrl}/>
+                return <MovieCard key={x} film={film} setMovieUrl={setMovieUrl}/>
 
             })}
 

@@ -23,7 +23,6 @@ type MovieDownload = {
     title: string,
     url: string,
     genre: string,
-    //setMovieUrl: React.Dispatch<React.SetStateAction<string>>
 };
 
 
@@ -38,7 +37,7 @@ const Dashboard = () => {
 
     const [allMovies, setAllMovies] = useState<Array<MovieDownload>>([]);
 
-    const [movieUrl, setMovieUrl] = useState<string>("");
+    const [movieUrl, setMovieUrl] = useState<MovieDownload>({title: "", url: "", genre: ""});
 
     const [loading, setLoading] = useState<boolean>(false);
  
@@ -249,16 +248,16 @@ const Dashboard = () => {
             </div>}
 
 
-            {movieUrl && 
+            {movieUrl.title !== "" && 
 
             <div>
                 
-                <MoviePlayer title={movieUpload.title} url={movieUrl} setMovieUrl={setMovieUrl}/>
+                <MoviePlayer film={movieUrl} setMovieUrl={setMovieUrl}/>
                 
             </div>}
 
             
-            {allMovies[0] && 
+            {allMovies[0]?.title && 
 
             <div className="dashboard-container p-3 gap-2 h-100">
                    

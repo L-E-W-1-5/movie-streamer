@@ -1,22 +1,27 @@
 import './MovieCard.css'
 
-
-interface MovieInfo {
-    name: string,
+type MovieDownload = {
+    title: string,
     url: string,
-    genre: string,
-    setMovieUrl: React.Dispatch<React.SetStateAction<string>>
+    genre: string
+    
 }
 
-const MovieCard: React.FC<MovieInfo> = ({name, url, genre, setMovieUrl}) => {
+interface MovieInfo {
+    film:MovieDownload
+    setMovieUrl: React.Dispatch<React.SetStateAction<MovieDownload>>
+}
+
+const MovieCard: React.FC<MovieInfo> = ({film, setMovieUrl}) => {
+
 
     return(
 
-        <div className="movie-card border-shadow card p-2" onClick={() => setMovieUrl(url)}>
+        <div className="movie-card border-shadow card p-2" onClick={() => setMovieUrl(film)}>
 
-            <h3>{name}</h3>
+            <h3>{film.title}</h3>
 
-            <p>{genre}</p>
+            <p>{film.genre}</p>
 
         </div>
     )
