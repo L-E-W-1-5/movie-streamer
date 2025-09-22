@@ -6,6 +6,8 @@
 
 .send-message{
     flex: 1;
+    max-height: 7rem;
+    min-height: 4rem;
 }
 
 .textarea-style{
@@ -14,4 +16,6 @@
     background-color: rgba(0, 0, 0, 0)!important; 
 }
 
-
+.message-boxes{
+    border: 0.1px solid var(--borderShadow)!important;
+}

@@ -1,5 +1,13 @@
 .movie-list-container{
-    
-    height: auto;
-    width: 100%;
+    justify-content: start;
+    align-content: flex-start;
+}
+
+
+@media only screen and (max-width: 1100px){
+
+    .movie-list-container{
+        justify-content: center;
+        
+    }
 }

@@ -40,16 +40,17 @@ const MessageBoard = () => {
 
             console.log(res);
 
-            if(res.status === "success"){
+            if(res.status === "error"){
 
-                console.log(res.status, res.payload);
-
-                setAllMessages(res.payload);
+                alert("messages failed to load");
 
                 return;
             };
 
-            alert("messages failed to load");
+            console.log(res.status, res.payload);
+
+            setAllMessages(res.payload);
+
         };
 
         fetchAllMessages();
@@ -108,14 +109,19 @@ const MessageBoard = () => {
 
     return (
 
-        <div className="d-flex flex-column h-100 pt-3 pb-3 gap-3">
+        <div className="d-flex flex-column h-100 pt-3 pb-3 gap-3 input-field">
 
-                <div className="messages-sent input-field textarea-style border-shadow p-1">
+                <div className="messages-sent">
                    
                     {allMessages.map((message:MessageUpload, index:number) => {
 
-                        return <p key={index}>{message.username.split(' ')[0] + ' ' + message.username.split(' ')[1][0]}: {message.message} - {message.timestamp}</p>
-
+                        return (
+                            <div className="lh-1 message-boxes textarea-style mb-2 p-1" key={index}>
+                                <p><b>{message.username.split(' ')[0] + ' ' + message.username.split(' ')[1][0]}</b> <i>{message.timestamp}</i></p>
+                                <p>{message.message}</p>
+                                
+                            </div>
+                        )
                     })}
  
                 </div>
@@ -127,3 +133,5 @@ const MessageBoard = () => {
 };
 
 export default MessageBoard;
+
+// className="messages-sent input-field textarea-style border-shadow p-1"

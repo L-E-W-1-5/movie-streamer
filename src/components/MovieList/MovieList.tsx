@@ -26,7 +26,7 @@ const MovieList: React.FC<MovieListProps> = ({downloadedMovies, setMovieUrl}) =>
 
 
     return (
-        <div className="movie-list-container d-flex flex-row justify-content-start p-2 gap-2 flex-wrap">
+        <div className="movie-list-container d-flex flex-row flex-wrap p-2 gap-2 w-100">
 
             {downloadedMovies.map((film:MovieDownload, x:number) => {
 

@@ -242,11 +242,9 @@ const Dashboard = () => {
                         </div>}
 
 
-            <div className="h-100 w-100 d-flex flex-column justify-content-center align-items-center p-3">
-
-                <div className="dashboard-container h-100 w-100 gap-2">
+            <div className="dashboard-container p-3 gap-2 h-100">
                    
-                    <div className="container border-shadow dashboard-movie-container">
+                    <div className="dashboard-movie-container border-shadow">
 
                         {allMovies.length > 0 &&
 
@@ -256,13 +254,11 @@ const Dashboard = () => {
 
                    </div>
 
-                    <div className="container border-shadow dashboard-message-container flex-grow-1">
+                    <div className="dashboard-message-container border-shadow p-2">
 
                         <MessageBoard/>
 
                     </div>
-
-                </div>
 
             </div>
 
