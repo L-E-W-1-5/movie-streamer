@@ -2,7 +2,8 @@ import './MoviePlayer.css';
 
 type MovieData = {
     title: string,
-    url: string
+    url: string,
+    setMovieUrl: React.Dispatch<React.SetStateAction<string>>
 }
 
 const MoviePlayer = (props:MovieData) => {

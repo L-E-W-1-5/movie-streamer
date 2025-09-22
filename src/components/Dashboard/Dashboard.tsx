@@ -40,6 +40,7 @@ const Dashboard = () => {
 
     const [movieUrl, setMovieUrl] = useState<string>("");
 
+    const [loading, setLoading] = useState<boolean>(false);
  
 
     
@@ -49,28 +50,38 @@ const Dashboard = () => {
 
         const fetchAllMovies = async () => {
 
-            const movies = await fetch(`${url}/movies`, {
+            setLoading(true);
 
-                headers: {"Content-Type": "application/json"}
-            });
+            try{
 
-            const res = await movies.json() as {
-                payload: MovieDownload[];
-                status: string;
-            };
-    
+                const movies = await fetch(`${url}/movies`, {
 
-            if(res.status === "success") {
+                    headers: {"Content-Type": "application/json"}
+                });
 
-                setAllMovies(res.payload);
+                const res = await movies.json() as {
+                    payload: MovieDownload[];
+                    status: string;
+                };
 
-                return;
-            };
+                if(res.status === "success") {
 
-            alert("movies failed to load");
+                    setAllMovies(res.payload);
+            
+                }else{
 
+                    alert("movies failed to load");
+                };
+        
+            }catch(err){
+
+                console.log(err);
+            
+            }finally{
+                
+                setLoading(false);
+            }
         };
-
 
         fetchAllMovies();
 
@@ -213,54 +224,69 @@ const Dashboard = () => {
             </nav>
 
 
-            {uploadForm && <div className="upload-form container-style border-shadow position-fixed h-auto p-4 gap-3 w-auto d-flex flex-column justify-content-around align-items-center">
+            {uploadForm && 
 
-                                <input className="btn variable-colour" type="file" name="movieFile" onChange={handleFileUpload}/>
+            <div className="upload-form container-style border-shadow position-fixed h-auto p-4 gap-3 w-auto d-flex flex-column justify-content-around align-items-center">
 
-                                <input className="btn variable-colour border-shadow input-field" placeholder="movie title here.." type="text" name="movieTitle" onChange={handleTitleUpload}/>
+                <input className="btn variable-colour" type="file" name="movieFile" onChange={handleFileUpload}/>
 
-                                <select className="form-select select-element variable-colour border-shadow" value={movieUpload.genre} onChange={handleGenreUpload}>
-                                    <option value="">please select</option>
-                                    <option value="action">Action</option>
-                                    <option value="comedy">Comedy</option>
-                                    <option value="fantasy">Fantasy</option>
-                                    <option value="horror">Horror</option>
-                                    <option value="sci-fi">Sci-Fi</option>
-                                    <option value="thriller">Thriller</option>
-                                </select>
+                <input className="btn variable-colour border-shadow input-field" placeholder="movie title here.." type="text" name="movieTitle" onChange={handleTitleUpload}/>
 
-                                <button className="btn border-shadow variable-colour" onClick={handleSubmit} >upload</button>
+                <select className="form-select select-element variable-colour border-shadow" value={movieUpload.genre} onChange={handleGenreUpload}>
+                    <option value="">please select</option>
+                    <option value="action">Action</option>
+                    <option value="comedy">Comedy</option>
+                    <option value="fantasy">Fantasy</option>
+                    <option value="horror">Horror</option>
+                    <option value="sci-fi">Sci-Fi</option>
+                    <option value="thriller">Thriller</option>
+                </select>
 
-                                <button className="btn border-shadow variable-colour" onClick={() => showUploadForm(current => !current)}>close</button>
+                <button className="btn border-shadow variable-colour" onClick={handleSubmit} >upload</button>
 
-                           </div>}
+                <button className="btn border-shadow variable-colour" onClick={() => showUploadForm(current => !current)}>close</button>
 
-            {movieUrl && <div>
+            </div>}
+
+
+            {movieUrl && 
+
+            <div>
                 
-                            <MoviePlayer title={movieUpload.title} url={movieUrl}/>
+                <MoviePlayer title={movieUpload.title} url={movieUrl} setMovieUrl={setMovieUrl}/>
                 
-                        </div>}
+            </div>}
 
+            
+            {allMovies[0] && 
 
             <div className="dashboard-container p-3 gap-2 h-100">
                    
-                    <div className="dashboard-movie-container border-shadow">
+                <div className="dashboard-movie-container border-shadow">
 
-                        {allMovies.length > 0 &&
+                    {allMovies.length > 0 &&
 
-                            <MovieList downloadedMovies={allMovies} setMovieUrl={setMovieUrl}/>
+                        <MovieList downloadedMovies={allMovies} setMovieUrl={setMovieUrl}/>
 
-                         }
+                    }
 
-                   </div>
+                </div>
 
-                    <div className="dashboard-message-container border-shadow p-2">
+                <div className="dashboard-message-container border-shadow p-2">
 
-                        <MessageBoard/>
+                    <MessageBoard/>
 
-                    </div>
+                </div>
 
-            </div>
+            </div>}
+
+            {loading && 
+
+            <div className='loading-animation'>
+                
+                <h1>LOADING...</h1>
+                
+            </div>}
 
         </div>
     )
