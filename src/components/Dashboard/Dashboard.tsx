@@ -7,8 +7,8 @@ import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../UserContext';
 
 //TODO: url change 
-//const url = 'http://localhost:3001';
-const url = 'https://movie-streamer-backend.onrender.com'
+const url = 'http://localhost:3001';
+//const url = 'https://movie-streamer-backend.onrender.com'
 
 
 
@@ -58,7 +58,7 @@ const Dashboard = () => {
 
             try{
 
-                const movies = await fetch(`${url}/movies`, {
+                const res = await fetch(`${url}/movies`, {
 
                     headers: {
                         "Content-Type": "application/json",
@@ -66,18 +66,18 @@ const Dashboard = () => {
                     }
                 });
 
-                const res = await movies.json() as {
+                const movies = await res.json() as {
                     payload: MovieDownload[];
                     status: string;
                 };
 
-                if(res.status === "success") {
+                if(res.ok && movies.status !== "error") {
 
-                    setAllMovies(res.payload);
+                    setAllMovies(movies.payload);
             
                 }else{
 
-                    alert("movies failed to load");
+                    alert(`${movies.status}: ${movies.payload}`);
                 };
         
             }catch(err){
@@ -265,7 +265,6 @@ const Dashboard = () => {
             </div>}
 
             
-            {allMovies[0]?.title && 
 
             <div className="dashboard-container p-3 gap-2 h-100">
                    
@@ -276,7 +275,7 @@ const Dashboard = () => {
                         <MovieList downloadedMovies={allMovies} setMovieUrl={setMovieUrl}/>
 
                     }
-
+                
                 </div>
 
                 <div className="dashboard-message-container border-shadow p-2">
@@ -285,7 +284,7 @@ const Dashboard = () => {
 
                 </div>
 
-            </div>}
+            </div>
 
             {loading && 
 
