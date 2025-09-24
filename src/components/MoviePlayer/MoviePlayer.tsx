@@ -25,7 +25,8 @@ const MoviePlayer: React.FC<MovieInfo> = ({film, setMovieUrl}) => {
 
 
     const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
-
+        e.preventDefault();
+        e.stopPropagation();
         setIsDragging(true);
         const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
         const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY
