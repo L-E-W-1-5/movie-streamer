@@ -5,8 +5,8 @@ import './RegisterForm.css'
 
 
 //TODO: url change
-//const url = 'https://movie-streamer-backend.onrender.com'
-const url = 'http://localhost:3001';
+const url = 'https://movie-streamer-backend.onrender.com'
+//const url = 'http://localhost:3001';
 
 type RegisterFields = {
     name: string,
