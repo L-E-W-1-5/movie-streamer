@@ -77,7 +77,7 @@ const Dashboard = () => {
             
                 }else{
 
-                    alert(`${movies.status}: ${movies.payload}`);
+                    alert(`${movies.status}: failed to get movies or no movies in the database at this time`);//${movies.payload}
                 };
         
             }catch(err){
@@ -155,9 +155,16 @@ const Dashboard = () => {
 
         let reply
 
+        if(!user?.token){
+
+            return;
+        }
+
         try{
 
             const res = await fetch(`${url}/movies`, {
+
+                headers: {"Authorization": `Bearer ${user.token}`},
             
                 method: "POST",
 
