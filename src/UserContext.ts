@@ -6,6 +6,7 @@ interface User {
     verified: boolean,
     id: string,
     admin: boolean,
+    token: string
 };
 
 interface UserContextType {

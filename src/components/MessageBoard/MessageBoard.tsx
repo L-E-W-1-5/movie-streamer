@@ -28,9 +28,17 @@ const MessageBoard = () => {
 
         const fetchAllMessages = async () => {
 
+            if(!user?.token){
+
+                return;
+            }
+
             const allMessages = await fetch(`${url}/messages`, {
 
-                headers: {"Content-Type": "application/json"}
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${user.token}`
+                }
             });
 
             const res = await allMessages.json() as {
@@ -38,7 +46,6 @@ const MessageBoard = () => {
                 status: string;
             };
 
-            console.log(res);
 
             if(res.status === "error"){
 
@@ -47,7 +54,6 @@ const MessageBoard = () => {
                 return;
             };
 
-            console.log(res.status, res.payload);
 
             setAllMessages(res.payload);
 

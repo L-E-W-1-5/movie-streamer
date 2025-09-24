@@ -6,6 +6,7 @@ interface User {
     id: string,
     verified: boolean,
     admin: boolean,
+    token: string
 };
 
 

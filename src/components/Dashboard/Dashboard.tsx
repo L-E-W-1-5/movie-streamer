@@ -51,11 +51,19 @@ const Dashboard = () => {
 
             setLoading(true);
 
+            if(!user?.token){
+
+                return;
+            }
+
             try{
 
                 const movies = await fetch(`${url}/movies`, {
 
-                    headers: {"Content-Type": "application/json"}
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${user.token}`
+                    }
                 });
 
                 const res = await movies.json() as {

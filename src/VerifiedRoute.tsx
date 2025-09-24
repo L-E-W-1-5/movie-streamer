@@ -7,7 +7,7 @@ export const VerifiedRoute = () => {
 
     const { user } = useContext(UserContext);
     
-    if(!user || !user.verified){
+    if(!user || !user.verified || !user.token){
 
         return <Navigate to='/' />
     }

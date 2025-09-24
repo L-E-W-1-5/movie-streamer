@@ -42,12 +42,6 @@ const LoginPage = () => {
         const loginid = formData.get('loginid')?.toString() || "";
 
         handleLogin(loginid)
-
-        // if(loginid === "12345678"){
-
-        //     userState(true);
-        //     navigate('/dashboard');
-        // }
     };
 
 
@@ -69,12 +63,6 @@ const LoginPage = () => {
         setUser(res.payload)
 
         //TODO: set loading animation here
-
-        // if(user?.verified){
-
-        //     console.log(user)
-        //     navigate('/dashboard');
-        // }
     }
 
    
