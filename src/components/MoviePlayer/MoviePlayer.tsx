@@ -18,7 +18,9 @@ interface MovieInfo {
 const MoviePlayer: React.FC<MovieInfo> = ({film, setMovieUrl}) => {
 
    const [position, setPosition] = useState({x: 0, y: 0});
+
    const [isDragging, setIsDragging] = useState(false);
+   
    const [offset, setOffset] = useState({x: 0, y: 0});
 
 
@@ -34,7 +36,7 @@ const MoviePlayer: React.FC<MovieInfo> = ({film, setMovieUrl}) => {
     const handleMouseUp = () => {
 
         setIsDragging(false);
-    }
+    };
 
 
     const handleMouseMove = useCallback ((e: MouseEvent | TouchEvent) => {
@@ -58,6 +60,7 @@ const MoviePlayer: React.FC<MovieInfo> = ({film, setMovieUrl}) => {
         window.addEventListener('touchend', handleMouseUp)
 
         return() => {
+
             window.removeEventListener('mousemove', handleMouseMove)
             window.removeEventListener('mouseup', handleMouseUp)
             window.removeEventListener('touchmove', handleMouseMove)
@@ -81,7 +84,7 @@ const MoviePlayer: React.FC<MovieInfo> = ({film, setMovieUrl}) => {
 
             <div className="player-navbar d-flex flex-row justify-content-between p-2">
 
-                <p>{film.title}</p>
+                <p className="player-header">{film.title}</p>
 
                 <button className="player-close-button border-shadow variable-colour" onClick={() => setMovieUrl({title: "", url: "", genre: ""})}>close</button>
             
