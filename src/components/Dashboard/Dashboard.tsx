@@ -7,8 +7,8 @@ import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../UserContext';
 
 //TODO: url change 
-//const url = 'http://localhost:3001';
-const url = 'https://movie-streamer-backend.onrender.com'
+const url = 'http://localhost:3001';
+//const url = 'https://movie-streamer-backend.onrender.com'
 
 
 

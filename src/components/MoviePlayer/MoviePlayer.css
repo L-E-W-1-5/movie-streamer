@@ -6,6 +6,7 @@ video {
 }
 
 .movie-player-container{
+  background-color: black;
   position: fixed;
   width: 25%;
   height: auto;

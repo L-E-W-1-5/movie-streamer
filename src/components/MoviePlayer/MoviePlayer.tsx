@@ -20,16 +20,22 @@ const MoviePlayer: React.FC<MovieInfo> = ({film, setMovieUrl}) => {
    const [position, setPosition] = useState({x: 0, y: 0});
 
    const [isDragging, setIsDragging] = useState(false);
-   
+
    const [offset, setOffset] = useState({x: 0, y: 0});
 
 
     const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
+
         e.preventDefault();
+
         e.stopPropagation();
+
         setIsDragging(true);
+
         const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
+
         const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY
+
         setOffset({x: clientX - position.x, y: clientY - position.y})
     };
 
@@ -45,6 +51,7 @@ const MoviePlayer: React.FC<MovieInfo> = ({film, setMovieUrl}) => {
         if(isDragging){
 
             const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+
             const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
 
             setPosition({x: clientX - offset.x, y: clientY - offset.y})
@@ -56,15 +63,21 @@ const MoviePlayer: React.FC<MovieInfo> = ({film, setMovieUrl}) => {
     useEffect(() => {
 
         window.addEventListener('mousemove', handleMouseMove)
+
         window.addEventListener('mouseup', handleMouseUp)
+
         window.addEventListener('touchmove', handleMouseMove)
+
         window.addEventListener('touchend', handleMouseUp)
 
         return() => {
 
             window.removeEventListener('mousemove', handleMouseMove)
+
             window.removeEventListener('mouseup', handleMouseUp)
+
             window.removeEventListener('touchmove', handleMouseMove)
+            
             window.removeEventListener('touchend', handleMouseUp)
         }
 
