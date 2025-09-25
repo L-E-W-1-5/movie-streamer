@@ -20,6 +20,7 @@ type MovieUpload = {
 };
 
 type MovieDownload = {
+    id: string,
     title: string,
     url: string,
     genre: string,
@@ -37,7 +38,7 @@ const Dashboard = () => {
 
     const [allMovies, setAllMovies] = useState<Array<MovieDownload>>([]);
 
-    const [movieUrl, setMovieUrl] = useState<MovieDownload>({title: "", url: "", genre: ""});
+    const [movieUrl, setMovieUrl] = useState<MovieDownload>({title: "", url: "", genre: "", id: ""});
 
     const [loading, setLoading] = useState<boolean>(false);
  
@@ -59,6 +60,8 @@ const Dashboard = () => {
             try{
 
                 const res = await fetch(`${url}/movies`, {
+
+                    mode: 'cors',
 
                     headers: {
                         "Content-Type": "application/json",
@@ -206,6 +209,7 @@ const Dashboard = () => {
             if(reply.status === "success"){
 
                 const newUpload:MovieDownload = {
+                    id: reply.payload.id,
                     title: reply.payload.title ,
                     url: reply.payload.url,
                     genre: reply.payload.genre

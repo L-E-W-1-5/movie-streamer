@@ -12,7 +12,7 @@ type MovieDownload = {
     title: string,
     url: string,
     genre: string
-    
+    id: string
 }
 
 type MovieListProps = {

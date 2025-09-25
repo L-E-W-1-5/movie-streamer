@@ -5,7 +5,7 @@ type MovieDownload = {
     title: string,
     url: string,
     genre: string
-    
+    id: string
 }
 
 interface MovieInfo {
@@ -77,7 +77,7 @@ const MoviePlayer: React.FC<MovieInfo> = ({film, setMovieUrl}) => {
             window.removeEventListener('mouseup', handleMouseUp)
 
             window.removeEventListener('touchmove', handleMouseMove)
-            
+
             window.removeEventListener('touchend', handleMouseUp)
         }
 
@@ -100,7 +100,7 @@ const MoviePlayer: React.FC<MovieInfo> = ({film, setMovieUrl}) => {
 
                 <p className="player-header">{film.title}</p>
 
-                <button className="player-close-button border-shadow variable-colour" onClick={() => setMovieUrl({title: "", url: "", genre: ""})}>close</button>
+                <button className="player-close-button border-shadow variable-colour" onClick={() => setMovieUrl({title: "", url: "", genre: "", id: ""})}>close</button>
             
             </div>
 
