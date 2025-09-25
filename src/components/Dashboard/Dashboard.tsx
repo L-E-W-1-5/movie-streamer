@@ -5,6 +5,7 @@ import MoviePlayer from '../MoviePlayer/MoviePlayer';
 //import { Link } from 'react-router';
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../UserContext';
+import AdminForm from '../AdminMenu/AdminMenu';
 
 //TODO: url change 
 //const url = 'http://localhost:3001';
@@ -13,11 +14,11 @@ const url = 'https://movie-streamer-backend.onrender.com'
 
 
 
-type MovieUpload = {
-    title: string,
-    genre: string,
-    file: File | null
-};
+// type MovieUpload = {
+//     title: string,
+//     genre: string,
+//     file: File | null
+// };
 
 type MovieDownload = {
     id: string,
@@ -32,9 +33,9 @@ const Dashboard = () => {
 
     const { user, setUser } = useContext(UserContext)
 
-    const [uploadForm, showUploadForm] = useState<boolean>(false);
+    const [adminForm, showAdminForm] = useState<boolean>(false);
 
-    const [movieUpload, setMovieUpload] = useState<MovieUpload>({file: null, title: "", genre: "" });
+    //const [movieUpload, setMovieUpload] = useState<MovieUpload>({file: null, title: "", genre: "" });
 
     const [allMovies, setAllMovies] = useState<Array<MovieDownload>>([]);
 
@@ -98,129 +99,136 @@ const Dashboard = () => {
     }, [user]);
 
 
-    const handleFileUpload = (e:React.ChangeEvent<HTMLInputElement>) => {
+    // const handleFileUpload = (e:React.ChangeEvent<HTMLInputElement>) => {
 
-        if(e.target.files && e.target.files.length > 0){
+    //     if(e.target.files && e.target.files.length > 0){
 
-            setMovieUpload(prev => ({...prev, file: e.target.files![0]}));
-        };
+    //         setMovieUpload(prev => ({...prev, file: e.target.files![0]}));
+    //     };
 
-    };
+    // };
 
 
-    const handleTitleUpload = (e:React.ChangeEvent<HTMLInputElement>) => {
+    // const handleTitleUpload = (e:React.ChangeEvent<HTMLInputElement>) => {
 
-        if(e.target.value){
+    //     if(e.target.value){
 
-            setMovieUpload(prev => ({...prev, title: e.target.value}));
-        };
-    };
+    //         setMovieUpload(prev => ({...prev, title: e.target.value}));
+    //     };
+    // };
 
     
-    const handleGenreUpload = (e:React.ChangeEvent<HTMLSelectElement>) => {
+    // const handleGenreUpload = (e:React.ChangeEvent<HTMLSelectElement>) => {
 
-        if(e.target.value){
+    //     if(e.target.value){
 
-            setMovieUpload(prev => ({...prev, genre: e.target.value}))
-        };
-    };
-
-
-    const handleSubmit = () => {
-
-        if(!movieUpload.genre){
-            alert("please select a video to upload first");
-        }
-
-        if(!movieUpload.file){
-            alert("please select a video to upload first");
-            return
-        };
-
-        if(!movieUpload.title){
-             alert("please select title first");
-            return
-        };
-
-        const formData = new FormData();
-
-        formData.append('movie', movieUpload.file);
-
-        formData.append('title', movieUpload.title);
-
-        formData.append('genre', movieUpload.genre)
-
-        sendMovie(formData);
-    };
+    //         setMovieUpload(prev => ({...prev, genre: e.target.value}))
+    //     };
+    // };
 
 
-    const sendMovie = async (formData: FormData) => {
+    // const handleSubmit = () => {
 
-        let reply
+    //     if(!movieUpload.genre){
+    //         alert("please select a video to upload first");
+    //     }
 
-        if(!user?.token){
+    //     if(!movieUpload.file){
+    //         alert("please select a video to upload first");
+    //         return
+    //     };
 
-            return;
-        }
+    //     if(!movieUpload.title){
+    //          alert("please select title first");
+    //         return
+    //     };
 
-        try{
+    //     const formData = new FormData();
 
-            const res = await fetch(`${url}/movies`, {
+    //     formData.append('movie', movieUpload.file);
 
-                headers: {"Authorization": `Bearer ${user.token}`},
+    //     formData.append('title', movieUpload.title);
+
+    //     formData.append('genre', movieUpload.genre)
+
+    //     sendMovie(formData);
+    // };
+
+
+    // const sendMovie = async (formData: FormData) => {
+
+    //     let reply
+
+    //     if(!user?.token){
+
+    //         return;
+    //     }
+
+    //     try{
+
+    //         const res = await fetch(`${url}/movies`, {
+
+    //             headers: {"Authorization": `Bearer ${user.token}`},
             
-                method: "POST",
+    //             method: "POST",
 
-                body: formData
-            });
+    //             body: formData
+    //         });
 
-            if(!res.ok){
+    //         if(!res.ok){
 
-                const errorText = await res.text();
+    //             const errorText = await res.text();
 
-                console.error('server error', res.status, errorText);
+    //             console.error('server error', res.status, errorText);
 
-                showUploadForm(false);
+    //             showAdminForm(false);
 
-                return;
-            };
+    //             return;
+    //         };
 
-            reply = await res.json();
+    //         reply = await res.json();
 
-             if(reply.status === "error"){
+    //          if(reply.status === "error"){
 
-                alert(reply.payload);
+    //             alert(reply.payload);
 
-                showUploadForm(false);
+    //             showAdminForm(false);
 
-                return;
-            }
+    //             return;
+    //         }
         
-        }catch(err){
+    //     }catch(err){
 
-            console.log(err);
+    //         console.log(err);
 
-            showUploadForm(false);
+    //         showAdminForm(false);
 
-            return;
+    //         return;
         
-        }finally{
+    //     }finally{
 
-            if(reply.status === "success"){
+    //         if(reply.status === "success"){
 
-                const newUpload:MovieDownload = {
-                    id: reply.payload.id,
-                    title: reply.payload.title ,
-                    url: reply.payload.url,
-                    genre: reply.payload.genre
-                };
+    //             const newUpload:MovieDownload = {
+    //                 id: reply.payload.id,
+    //                 title: reply.payload.title ,
+    //                 url: reply.payload.url,
+    //                 genre: reply.payload.genre
+    //             };
 
-                setAllMovies(prev => [...prev, newUpload]);
-            };
+    //             setAllMovies(prev => [...prev, newUpload]);
+    //         };
 
-            showUploadForm(false);
-        };
-    };
+    //         showAdminForm(false);
+    //     };
+    // };
+
+    const preventClosureOfMenu = (e: React.MouseEvent) => {
+
+        e.stopPropagation();
+
+        showAdminForm(true)
+    }
 
 
 
@@ -234,7 +242,7 @@ const Dashboard = () => {
 
                 {user?.admin &&
 
-                    <button className="btn border-shadow variable-colour" onClick={() => showUploadForm(current => !current)}>upload</button>
+                    <button className="btn border-shadow variable-colour" onClick={preventClosureOfMenu}>upload</button>
                 }
 
                 <p className="logout-link" style={{color: "var(--borderShadow)"}} onClick={() => setUser(null)}>Logout</p>
@@ -242,7 +250,7 @@ const Dashboard = () => {
             </nav>
 
 
-            {uploadForm && 
+            {/* {adminForm && 
 
             <div className="upload-form container-style border-shadow position-fixed h-auto p-4 gap-3 w-auto d-flex flex-column justify-content-around align-items-center">
 
@@ -262,10 +270,13 @@ const Dashboard = () => {
 
                 <button className="btn border-shadow variable-colour" onClick={handleSubmit} >upload</button>
 
-                <button className="btn border-shadow variable-colour" onClick={() => showUploadForm(current => !current)}>close</button>
+                <button className="btn border-shadow variable-colour" onClick={() => showAdminForm(current => !current)}>close</button>
 
-            </div>}
+            </div>} */}
 
+            {adminForm &&
+                <AdminForm showAdminForm={showAdminForm} setAllMovies={setAllMovies} adminForm={adminForm}/>
+            }
 
             {movieUrl.title !== "" && 
 

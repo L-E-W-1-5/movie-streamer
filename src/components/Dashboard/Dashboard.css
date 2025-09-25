@@ -10,17 +10,10 @@
     cursor: pointer;
 }
 
-.upload-form{
-    background-color: var(--containerColour);
-    z-index: 2;
-    margin-top: 10%!important;
-    align-self: center;
-}
-
 .dashboard-nav{
     margin-top: 0%;
     width: 100%;
-    height: 8%;
+    height: 50px;
     min-height: 50px;
     background-color: black;
 }
