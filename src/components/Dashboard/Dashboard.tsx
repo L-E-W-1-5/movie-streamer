@@ -44,8 +44,6 @@ const Dashboard = () => {
     const [loading, setLoading] = useState<boolean>(false);
  
 
-    
-
 
     useEffect(() => {
 
@@ -99,130 +97,6 @@ const Dashboard = () => {
     }, [user]);
 
 
-    // const handleFileUpload = (e:React.ChangeEvent<HTMLInputElement>) => {
-
-    //     if(e.target.files && e.target.files.length > 0){
-
-    //         setMovieUpload(prev => ({...prev, file: e.target.files![0]}));
-    //     };
-
-    // };
-
-
-    // const handleTitleUpload = (e:React.ChangeEvent<HTMLInputElement>) => {
-
-    //     if(e.target.value){
-
-    //         setMovieUpload(prev => ({...prev, title: e.target.value}));
-    //     };
-    // };
-
-    
-    // const handleGenreUpload = (e:React.ChangeEvent<HTMLSelectElement>) => {
-
-    //     if(e.target.value){
-
-    //         setMovieUpload(prev => ({...prev, genre: e.target.value}))
-    //     };
-    // };
-
-
-    // const handleSubmit = () => {
-
-    //     if(!movieUpload.genre){
-    //         alert("please select a video to upload first");
-    //     }
-
-    //     if(!movieUpload.file){
-    //         alert("please select a video to upload first");
-    //         return
-    //     };
-
-    //     if(!movieUpload.title){
-    //          alert("please select title first");
-    //         return
-    //     };
-
-    //     const formData = new FormData();
-
-    //     formData.append('movie', movieUpload.file);
-
-    //     formData.append('title', movieUpload.title);
-
-    //     formData.append('genre', movieUpload.genre)
-
-    //     sendMovie(formData);
-    // };
-
-
-    // const sendMovie = async (formData: FormData) => {
-
-    //     let reply
-
-    //     if(!user?.token){
-
-    //         return;
-    //     }
-
-    //     try{
-
-    //         const res = await fetch(`${url}/movies`, {
-
-    //             headers: {"Authorization": `Bearer ${user.token}`},
-            
-    //             method: "POST",
-
-    //             body: formData
-    //         });
-
-    //         if(!res.ok){
-
-    //             const errorText = await res.text();
-
-    //             console.error('server error', res.status, errorText);
-
-    //             showAdminForm(false);
-
-    //             return;
-    //         };
-
-    //         reply = await res.json();
-
-    //          if(reply.status === "error"){
-
-    //             alert(reply.payload);
-
-    //             showAdminForm(false);
-
-    //             return;
-    //         }
-        
-    //     }catch(err){
-
-    //         console.log(err);
-
-    //         showAdminForm(false);
-
-    //         return;
-        
-    //     }finally{
-
-    //         if(reply.status === "success"){
-
-    //             const newUpload:MovieDownload = {
-    //                 id: reply.payload.id,
-    //                 title: reply.payload.title ,
-    //                 url: reply.payload.url,
-    //                 genre: reply.payload.genre
-    //             };
-
-    //             setAllMovies(prev => [...prev, newUpload]);
-    //         };
-
-    //         showAdminForm(false);
-    //     };
-    // };
-
     const preventClosureOfMenu = (e: React.MouseEvent) => {
 
         e.stopPropagation();
@@ -250,32 +124,9 @@ const Dashboard = () => {
             </nav>
 
 
-            {/* {adminForm && 
-
-            <div className="upload-form container-style border-shadow position-fixed h-auto p-4 gap-3 w-auto d-flex flex-column justify-content-around align-items-center">
-
-                <input className="btn variable-colour" type="file" name="movieFile" onChange={handleFileUpload}/>
-
-                <input className="btn variable-colour border-shadow input-field" placeholder="movie title here.." type="text" name="movieTitle" onChange={handleTitleUpload}/>
-
-                <select className="form-select select-element variable-colour border-shadow" value={movieUpload.genre} onChange={handleGenreUpload}>
-                    <option value="">please select</option>
-                    <option value="action">Action</option>
-                    <option value="comedy">Comedy</option>
-                    <option value="fantasy">Fantasy</option>
-                    <option value="horror">Horror</option>
-                    <option value="sci-fi">Sci-Fi</option>
-                    <option value="thriller">Thriller</option>
-                </select>
-
-                <button className="btn border-shadow variable-colour" onClick={handleSubmit} >upload</button>
-
-                <button className="btn border-shadow variable-colour" onClick={() => showAdminForm(current => !current)}>close</button>
-
-            </div>} */}
-
             {adminForm &&
-                <AdminForm showAdminForm={showAdminForm} setAllMovies={setAllMovies} adminForm={adminForm}/>
+
+                <AdminForm showAdminForm={showAdminForm} setAllMovies={setAllMovies} allMovies={allMovies} adminForm={adminForm}/>
             }
 
             {movieUrl.title !== "" && 

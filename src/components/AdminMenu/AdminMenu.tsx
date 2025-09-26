@@ -1,5 +1,6 @@
 import './AdminMenu.css'
 import MovieUploadForm from '../MovieUploadForm/MovieUploadForm';
+import MovieEditForm from '../MovieEditForm/MovieEditForm';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 type MovieDownload = {
@@ -12,26 +13,30 @@ type MovieDownload = {
 
 type AdminProps = {
     adminForm: boolean;
+    allMovies: MovieDownload[];
     showAdminForm: React.Dispatch<React.SetStateAction<boolean>>;
     setAllMovies: React.Dispatch<React.SetStateAction<MovieDownload[]>>;
 }
 
-const AdminForm: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminForm}) => {
+const AdminForm: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminForm, allMovies}) => {
 
-    const [uploadForm, showUploadForm] = useState(false)
+    const [uploadForm, showUploadForm] = useState(false);
 
-    const menuRef = useRef<HTMLDivElement | null>(null)
+    const [movieEditForm, showMovieEditForm] = useState(false); 
+
+    const menuRef = useRef<HTMLDivElement | null>(null);
 
 
 
     const handleOutsideClick = useCallback ((e: MouseEvent) => {
-console.log(adminForm)
+
         if(!adminForm) return
+
         if(menuRef.current && !menuRef.current.contains(e.target as Node)){
-            console.log('here')
+
 
             showAdminForm(false)
-            console.log(adminForm)
+
         };
 
     }, [showAdminForm, adminForm])
@@ -60,13 +65,19 @@ console.log(adminForm)
     <div ref={menuRef} className="admin-menu-container border-shadow d-flex flex-column p-2">
         
         <button className="admin-menu-button p-2" onClick={() => showUploadForm(current => !current)}>upload movie</button>
-        <button className="admin-menu-button p-2">edit movies</button>
+        <button className="admin-menu-button p-2" onClick={() => showMovieEditForm(current => !current)}>edit movies</button>
         <button className="admin-menu-button p-2">edit accounts</button>
 
        
         {uploadForm &&
 
             <MovieUploadForm setAllMovies={setAllMovies} showUploadForm={showUploadForm}/>
+        }
+
+        {movieEditForm &&
+        
+            <MovieEditForm allMovies={allMovies} showMovieEditForm={showMovieEditForm} setAllMovies={setAllMovies}/>
+        
         }
   
 

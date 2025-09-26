@@ -2,6 +2,7 @@ import './MovieUploadForm.css'
 import { useState, useContext } from "react";
 import { UserContext } from "../../UserContext";
 
+//TODO: url change from development 
 //const url = 'http://localhost:3001';
 const url = 'https://movie-streamer-backend.onrender.com'
 
@@ -172,11 +173,11 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
     return(
         <div className="upload-form border-shadow container-style d-flex flex-column justify-content-center p-3 align-items-center gap-2">
 
-                <input className="btn variable-colour" type="file" name="movieFile" onChange={handleFileUpload}/>
+                <input className="upload-form-element btn variable-colour border-shadow" type="file" name="movieFile" onChange={handleFileUpload}/>
 
-                <input className="btn variable-colour border-shadow input-field" placeholder="movie title here.." type="text" name="movieTitle" onChange={handleTitleUpload}/>
+                <input className="upload-form-element btn variable-colour border-shadow input-field" placeholder="movie title here.." type="text" name="movieTitle" onChange={handleTitleUpload}/>
 
-                <select className="form-select select-element variable-colour border-shadow" value={movieUpload.genre} onChange={handleGenreUpload}>
+                <select className="upload-form-element form-select select-element variable-colour border-shadow" value={movieUpload.genre} onChange={handleGenreUpload}>
                     <option value="">please select</option>
                     <option value="action">Action</option>
                     <option value="comedy">Comedy</option>
@@ -186,9 +187,9 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
                     <option value="thriller">Thriller</option>
                 </select>
 
-                <button className="btn border-shadow variable-colour" onClick={handleSubmit} >upload</button>
+                <button className="upload-form-button btn border-shadow variable-colour" onClick={handleSubmit} >upload</button>
 
-                <button className="btn border-shadow variable-colour" onClick={stopMenuClosure}>close</button>
+                <button className="upload-form-button btn border-shadow variable-colour" onClick={stopMenuClosure}>close</button>
 
         </div>
     )

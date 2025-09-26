@@ -81,17 +81,20 @@ const MessageBoard = () => {
 
     const sendMessage = async (message:string) => {
 
-        let result;
+        let res;
 
         const timestamp = new Date().toLocaleString();
 
         if(user){
 
-            result = await fetch(`${url}/messages/send_message`, {
+            res = await fetch(`${url}/messages/send_message`, {
 
                 method: 'POST',
 
-                headers: {"Content-Type": "application/json"},
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${user.token}`
+                },
            
                 body: JSON.stringify({
                     message, 
@@ -101,12 +104,16 @@ const MessageBoard = () => {
                 })
             });
 
-            const res = await result.json() as {
-                payload: MessageUpload;
-                status: string;
-            };
+            if(res.ok){
 
-            setAllMessages(prev => [...prev, res.payload])
+                const result = await res.json() as {
+                    payload: MessageUpload;
+                    status: string;
+                };
+    
+                setAllMessages(prev => [...prev, result.payload])
+            }
+
 
         };
     };
