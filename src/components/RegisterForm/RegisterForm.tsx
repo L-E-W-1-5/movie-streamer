@@ -5,8 +5,8 @@ import './RegisterForm.css'
 
 
 //TODO: url change
-const url = 'http://localhost:3001';
-//const url = 'https://movie-streamer-backend.onrender.com'
+//const url = 'http://localhost:3001';
+const url = 'https://movie-streamer-backend.onrender.com'
 
 type RegisterFields = {
     name: string,
@@ -23,8 +23,6 @@ const RegisterForm = () => {
 
 
     const onSubmit: SubmitHandler<RegisterFields> = (data) => {
-        
-        console.log(data);
 
         sendUserData(data);
 
@@ -37,17 +35,20 @@ const RegisterForm = () => {
     const sendUserData = async (data:RegisterFields) => {
 
         const res = await fetch(`${url}/users/newuser`, {
+
             method: 'POST',
+
             headers: {'Content-Type':'application/json'},
+
             body: JSON.stringify(data)
-        })
+        });
 
         const result = await res.json();
 
         if(!res.ok || result.status === "error"){
 
             alert(`${res.status}: error creating user`);
-        }
+        };
 
         console.log(result);
     }

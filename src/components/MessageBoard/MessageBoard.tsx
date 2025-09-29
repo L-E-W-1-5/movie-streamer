@@ -3,8 +3,8 @@ import { UserContext } from '../../UserContext';
 import './MessageBoard.css'
 
 //TODO: url change 
-const url = 'http://localhost:3001';
-//const url = 'https://movie-streamer-backend.onrender.com'
+//const url = 'http://localhost:3001';
+const url = 'https://movie-streamer-backend.onrender.com'
 
 
 type MessageUpload = {
