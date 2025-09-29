@@ -4,8 +4,8 @@ import { useContext } from 'react';
 
 
 //TODO: url change 
-//const url = 'http://localhost:3001';
-const url = 'https://movie-streamer-backend.onrender.com'
+const url = 'http://localhost:3001';
+//const url = 'https://movie-streamer-backend.onrender.com'
 
 
 type MovieDownload = {

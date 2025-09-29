@@ -5,8 +5,8 @@ import './RegisterForm.css'
 
 
 //TODO: url change
-//const url = 'http://localhost:3001';
-const url = 'https://movie-streamer-backend.onrender.com'
+const url = 'http://localhost:3001';
+//const url = 'https://movie-streamer-backend.onrender.com'
 
 type RegisterFields = {
     name: string,
@@ -39,7 +39,7 @@ const RegisterForm = () => {
         const res = await fetch(`${url}/users/newuser`, {
             method: 'POST',
             headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({data})
+            body: JSON.stringify(data)
         })
 
         const result = await res.json();

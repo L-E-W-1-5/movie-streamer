@@ -3,8 +3,8 @@ import { useState, useContext } from "react";
 import { UserContext } from "../../UserContext";
 
 //TODO: url change from development 
-//const url = 'http://localhost:3001';
-const url = 'https://movie-streamer-backend.onrender.com'
+const url = 'http://localhost:3001';
+//const url = 'https://movie-streamer-backend.onrender.com'
 
 
 type MovieUpload = {
