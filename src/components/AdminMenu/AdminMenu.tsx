@@ -1,6 +1,7 @@
 import './AdminMenu.css'
 import MovieUploadForm from '../MovieUploadForm/MovieUploadForm';
 import MovieEditForm from '../MovieEditForm/MovieEditForm';
+import UserEditForm from '../UserEditForm/UserEditForm';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 type MovieDownload = {
@@ -23,6 +24,8 @@ const AdminForm: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminFor
     const [uploadForm, showUploadForm] = useState(false);
 
     const [movieEditForm, showMovieEditForm] = useState(false); 
+
+    const [userEditForm, showUserEditForm] = useState(false);
 
     const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -66,7 +69,7 @@ const AdminForm: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminFor
         
         <button className="admin-menu-button p-2" onClick={() => showUploadForm(current => !current)}>upload movie</button>
         <button className="admin-menu-button p-2" onClick={() => showMovieEditForm(current => !current)}>edit movies</button>
-        <button className="admin-menu-button p-2">edit accounts</button>
+        <button className="admin-menu-button p-2" onClick={() => showUserEditForm(current => !current)}>edit accounts</button>
 
        
         {uploadForm &&
@@ -77,7 +80,11 @@ const AdminForm: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminFor
         {movieEditForm &&
         
             <MovieEditForm allMovies={allMovies} showMovieEditForm={showMovieEditForm} setAllMovies={setAllMovies}/>
+        }
+
+        {userEditForm && 
         
+            <UserEditForm showUserEditForm={showUserEditForm} userEditForm={userEditForm}/>
         }
   
 

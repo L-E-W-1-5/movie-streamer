@@ -22,11 +22,11 @@ const RegisterForm = () => {
                 formState: {errors} } = useForm<RegisterFields>();
 
 
-    const onSubmit: SubmitHandler<RegisterFields> = (data) => {
+    const onSubmit: SubmitHandler<RegisterFields> = async (data) => {
 
-        sendUserData(data);
+        const res = await sendUserData(data);
 
-        alert("An email will be sent to your email address once verification is complete.");
+        alert(`${res.payload}`);
 
         navigate('/');
     };
@@ -50,7 +50,7 @@ const RegisterForm = () => {
             alert(`${res.status}: error creating user`);
         };
 
-        console.log(result);
+        return result;
     }
 
 

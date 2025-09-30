@@ -1,0 +1,12 @@
+.edit-form{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    max-height: 75%;
+    transform: translate(-50%, -50%);
+    background-color: black;
+    width: 75%;
+    overflow-y: scroll;
+    height: 75%;
+    flex-wrap: wrap;
+}
