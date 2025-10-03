@@ -101,7 +101,7 @@ const Dashboard = () => {
 
         e.stopPropagation();
 
-        showAdminForm(true)
+        showAdminForm(current => !current)
     }
 
 

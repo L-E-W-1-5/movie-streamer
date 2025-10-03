@@ -9,4 +9,32 @@
     overflow-y: scroll;
     height: 75%;
     flex-wrap: wrap;
+    border-radius: 0.375rem;
+}
+
+.record-container-user{
+    width: 90%;
+    cursor: pointer;
+}
+
+.edit-field-item-user{
+    background-color: black;
+    color: var(--borderShadow);
+    min-width: 20px;
+}
+
+.user-options-menu{
+    position: absolute;
+    background-color: black;
+    z-index: 3;
+}
+
+
+
+
+@media only screen and (max-width: 765px){
+
+    .edit-form{
+        width: 100%;
+    }
 }

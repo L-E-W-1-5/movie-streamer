@@ -28,19 +28,29 @@
     cursor: pointer;
 }
 
-/* .record-container span:nth-child(1){
-    background-color: red!important;
-} */
+.record-container span:nth-child(1){
+    min-width: 30px;
+    max-width: 30px;
+}
 
 .record-container span:nth-child(2){
-    width: 60px;
+    min-width: 150px;
+    max-width: 150px;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
 .record-container span:nth-child(3){
-    width: 80px;
+    min-width: 80px;
+    max-width: 80px;
     white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.record-container span:nth-child(4){
+    max-width: 400px;
+    white-space: nowrap;
+    overflow: hidden;
     text-overflow: ellipsis;
 }
 
@@ -50,4 +60,14 @@
     border: 1px solid black;
     min-width: 20px;
     padding: 5px 10px;
+}
+
+
+
+@media only screen and (max-width: 765px){
+
+    .movie-edit-form{
+        width: 100%;
+        font-size: 0.8rem;
+    }
 }

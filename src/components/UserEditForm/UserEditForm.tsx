@@ -1,6 +1,8 @@
 import './UserEditForm.css'
 import { useContext, useState, useEffect } from 'react'
 import { UserContext } from '../../UserContext'
+import UserView from '../UserView/UserView.js'
+import { type User } from '../../Types/Types.js'
 
 //TODO: url change from development 
 //const url = 'http://localhost:3001';
@@ -18,15 +20,16 @@ const url = 'https://movie-streamer-backend.onrender.com'
 // };
 
 
-type UserEdit = {
-    id: string,
-    name: string,
-    email: string,
-    guid: string,
-    is_verified: boolean,
-    is_admin: boolean,
+// type UserEdit = {
+//     id: string,
+//     name: string,
+//     email: string,
+//     guid: string,
+//     is_verified: boolean,
+//     is_admin: boolean,
 
-};
+// };
+
 
 type UserEditProps = {
 
@@ -38,7 +41,12 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
 
     const { user } = useContext(UserContext);
 
-    const [allUsers, setAllUsers] = useState<UserEdit[]>([]);
+    const [allUsers, setAllUsers] = useState<User[]>([]);
+
+    const [userOptionsMenu, showUserOptionsMenu] = useState<{
+        user: User,
+        position: {top: number; left: number}
+     } | null>(null);
 
 
 
@@ -87,6 +95,41 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
         e.stopPropagation();
 
         showUserEditForm(false);
+    };
+
+     const closeUserEditForm = (e: React.MouseEvent) => {
+
+        e.stopPropagation();
+
+        showUserOptionsMenu(null);
+    };
+
+    const userOptions = (user: User, e: React.MouseEvent) => {
+
+        const containerPosition = e.currentTarget.closest('.edit-form')?.getBoundingClientRect();
+
+        const mouseX = e.clientX;
+
+        const mouseY = e.clientY;
+
+        const scrollContainerLeft = e.currentTarget.closest('.edit-form')?.scrollLeft || 0;
+
+        const scrollContainerTop = e.currentTarget.closest('.edit-form')?.scrollTop || 0;
+
+        const top = mouseY + scrollContainerTop - (containerPosition?.top || 0);
+
+        const left = mouseX + scrollContainerLeft - (containerPosition?.left || 0);
+
+        console.log("scroll container", scrollContainerLeft, scrollContainerTop)
+
+        console.log("mouse position", mouseX, mouseY)
+
+        console.log(top)
+
+        showUserOptionsMenu({ 
+            user, 
+            position: {top, left}
+        });
     }
 
 
@@ -96,23 +139,38 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
 
         <div className="map-container d-flex flex-column justify-content-start align-items-center">
 
-        {allUsers.map((useredit: UserEdit, index: number) => {
+            {allUsers.map((userEdit: User, index: number) => {
 
-            return (
+                return (
 
-            <div key={index} className="record-container d-flex flex-row">
+                <div key={index} className="record-container-user border-shadow container-style d-flex flex-column mb-2 p-2"
+                    onClick={(e) => userOptions(userEdit, e)}
+                >
 
-                <span className="edit-field-item">{useredit.id}</span>
-                <span className="edit-field-item flex-fill">{useredit.name}</span>
-                <span className="edit-field-item flex-fill">{useredit.email}</span>
-                <span style={{"backgroundColor": useredit.is_admin ? 'green' : 'red'}} className="edit-field-item">{`admin: ${useredit.is_admin}`}</span>
-                <span style={{"backgroundColor": useredit.is_verified ? 'green' : 'red'}} className="edit-field-item">{`verified: ${useredit.is_verified}`}</span>
+                    <span className="edit-field-item-user">{userEdit.id}</span>
+                    <span className="edit-field-item-user flex-fill">{userEdit.name}</span>
+                    <span className="edit-field-item-user flex-fill">{userEdit.email}</span>
+                    <span style={{"backgroundColor": userEdit.is_admin ? 'green' : 'red'}} className="edit-field-item-user">{`admin: ${userEdit.is_admin}`}</span>
+                    <span style={{"backgroundColor": userEdit.is_verified ? 'green' : 'red'}} className="edit-field-item-user">{`verified: ${userEdit.is_verified}`}</span>
             
-            </div>
-            )
-        })}
+                </div>
+                )
+            })}
 
         </div>
+
+         {userOptionsMenu &&
+        
+            <div className="user-options-menu border-shadow container-style h-50 w-50 p-3 d-flex flex-column justify-content-around" style={{top: userOptionsMenu.position.top, left: userOptionsMenu.position.left}}>
+  
+                <UserView user={userOptionsMenu.user}/>
+                            
+                <button className="btn border-shadow variable-colour w-25 align-self-center" onClick={closeUserEditForm}>close</button>
+
+            </div>
+        }
+
+       
 
 
         <button className="edit-form-button btn border-shadow variable-colour" onClick={closeForm}>close</button>
