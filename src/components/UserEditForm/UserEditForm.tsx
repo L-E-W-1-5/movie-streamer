@@ -3,6 +3,8 @@ import { useContext, useState, useEffect } from 'react'
 import { UserContext } from '../../UserContext'
 import UserView from '../UserView/UserView.js'
 import { type User } from '../../Types/Types.js'
+import tick from '../../assets/tick1.png' 
+import cross from '../../assets/cross1.png'
 
 //TODO: url change from development 
 //const url = 'http://localhost:3001';
@@ -150,8 +152,9 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
                     <span className="edit-field-item-user">{userEdit.id}</span>
                     <span className="edit-field-item-user flex-fill">{userEdit.name}</span>
                     <span className="edit-field-item-user flex-fill">{userEdit.email}</span>
-                    <span style={{"backgroundColor": userEdit.is_admin ? 'green' : 'red'}} className="edit-field-item-user">{`admin: ${userEdit.is_admin}`}</span>
-                    <span style={{"backgroundColor": userEdit.is_verified ? 'green' : 'red'}} className="edit-field-item-user">{`verified: ${userEdit.is_verified}`}</span>
+                    <span className="edit-field-item-user d-flex flex-row justify-content-between">{`admin: ${userEdit.is_admin}`}<img src={userEdit.is_admin ? tick : cross} width="25px" height="25px"/></span>
+                    <span className="edit-field-item-user d-flex flex-row justify-content-between">{`verified: ${userEdit.is_verified}`}<img src={userEdit.is_verified ? tick : cross} width="25px" height="25px"/></span>
+                    
             
                 </div>
                 )
@@ -161,9 +164,9 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
 
          {userOptionsMenu &&
         
-            <div className="user-options-menu border-shadow container-style h-50 w-50 p-3 d-flex flex-column justify-content-around" style={{top: userOptionsMenu.position.top, left: userOptionsMenu.position.left}}>
+            <div className="user-options-menu border-shadow container-style h-50 w-50 p-3 d-flex flex-column justify-content-around" style={{top: userOptionsMenu.position.top, left: "25%"}}>
   
-                <UserView user={userOptionsMenu.user}/>
+                <UserView userEdit={userOptionsMenu.user}/>
                             
                 <button className="btn border-shadow variable-colour w-25 align-self-center" onClick={closeUserEditForm}>close</button>
 

@@ -27,6 +27,8 @@
     position: absolute;
     background-color: black;
     z-index: 3;
+    min-width: 300px;
+    min-height: 450px;
 }
 
 

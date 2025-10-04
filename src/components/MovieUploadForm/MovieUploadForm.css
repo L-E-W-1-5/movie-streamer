@@ -29,3 +29,11 @@
 select option{
     background-color: black;
 }
+
+
+@media only screen and (max-width: 765px){
+
+    .upload-form{
+        min-width: 80%;
+    }
+}
