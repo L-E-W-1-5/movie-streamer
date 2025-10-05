@@ -136,10 +136,13 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
 
 
     return (
-    <div className="edit-form border-shadow d-flex gap-3 p-3 justify-content-around align-items-center">
+    <div className="edit-form border-shadow d-flex gap-3 justify-content-around align-items-center">
 
+        <div className="map-navbar">
 
-        <div className="map-container d-flex flex-column justify-content-start align-items-center">
+        </div>
+
+        <div className="map-container-user d-flex flex-column justify-content-start align-items-center">
 
             {allUsers.map((userEdit: User, index: number) => {
 

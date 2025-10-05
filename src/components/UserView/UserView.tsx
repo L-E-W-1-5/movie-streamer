@@ -5,8 +5,8 @@ import { UserContext } from '../../UserContext.ts'
 
 
 //TODO: url change from development 
-const url = 'http://localhost:3001';
-//const url = 'https://movie-streamer-backend.onrender.com'
+//const url = 'http://localhost:3001';
+const url = 'https://movie-streamer-backend.onrender.com'
 
 
 const UserView: React.FC<{userEdit: User}> = ({ userEdit }) => {
@@ -15,15 +15,16 @@ const UserView: React.FC<{userEdit: User}> = ({ userEdit }) => {
 
 
 
-    const deleteUser = async () => {
+    const deleteUser = async (route: string) => {
 
-        if(!user?.token) return
-
+        if(!user?.token) return;
+console.log(route)
         try{
 
-            console.log(userEdit)
+            console.log(userEdit);
 
-            const res = await fetch(`${url}/users/delete-user`, {
+            const res = await fetch(`${url}/users/${route}`, {
+
                 method: 'POST',
     
                 headers: {
@@ -38,22 +39,25 @@ const UserView: React.FC<{userEdit: User}> = ({ userEdit }) => {
 
             if(!res.ok || response.status === "error"){
 
-                alert(`error: ${response.payload}`)
+                console.log(response.payload);
+
+                alert(`error: ${response.payload}`);
 
                 return;
 
             }else{
 
-                alert(`user ${response.payload} deleted!`);
+                alert(`${response.payload}`);
             };
-
-
 
         }catch(err){
 
             console.log(err);
-        }
-    }
+        };
+    };
+
+
+
 
     return(
         <div className="d-flex flex-column variable-colour gap-1">
@@ -67,9 +71,9 @@ const UserView: React.FC<{userEdit: User}> = ({ userEdit }) => {
 
             <div className="align-self-center d-flex gap-3 mt-4">
 
-                <button className="btn border-shadow variable-colour">make admin</button>
+                <button className="btn border-shadow variable-colour" onClick={() => deleteUser(`change_admin`)}>admin</button>
                 <button className="btn border-shadow variable-colour">verify</button>
-                <button className="btn border-shadow variable-colour" onClick={deleteUser}>delete</button>
+                <button className="btn border-shadow variable-colour" onClick={() => deleteUser("delete_user")}>delete</button>
 
             </div>
 
