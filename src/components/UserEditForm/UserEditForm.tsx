@@ -46,6 +46,8 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
 
     const [allUsers, setAllUsers] = useState<User[]>([]);
 
+    const [filteredUsers, setFilteredUsers] = useState<User[]>([])
+
     const [userOptionsMenu, showUserOptionsMenu] = useState<{
         user: User,
         position: {top: number; left: number}
@@ -77,6 +79,8 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
             }
 
             setAllUsers(response.payload);
+
+            setFilteredUsers(response.payload);
         };
 
 
@@ -141,13 +145,13 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
 
         <div className="map-navbar">
 
-            <UserNavbar allUsers={allUsers} setAllUsers={setAllUsers}/>
+            <UserNavbar allUsers={allUsers} setFilteredUsers={setFilteredUsers} closeForm={closeForm}/>
 
         </div>
 
         <div className="map-container-user d-flex flex-column justify-content-start align-items-center">
 
-            {allUsers.map((userEdit: User, index: number) => {
+            {filteredUsers.map((userEdit: User, index: number) => {
 
                 return (
 
