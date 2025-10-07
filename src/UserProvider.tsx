@@ -18,7 +18,22 @@ interface UserProviderProps {
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
-  const [user, setUser] = useState<User | null>(null); // user state
+  const [user, setUser] = useState<User | null>(() => {
+
+    const storedUser = sessionStorage.getItem('session_user');
+
+    if(storedUser){
+
+      try{
+
+        return JSON.parse(storedUser);
+      
+      }catch{
+
+        return null;
+      };
+    };
+  }); 
 
   return (
 

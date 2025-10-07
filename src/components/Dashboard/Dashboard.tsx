@@ -102,6 +102,20 @@ const Dashboard = () => {
         e.stopPropagation();
 
         showAdminForm(current => !current)
+    };
+
+
+    const logout = () => {
+
+        const logout = confirm("are you sure you wish to log out?");
+
+        if(logout){
+
+            setUser(null);
+    
+            sessionStorage.removeItem('session_user');
+        }
+
     }
 
 
@@ -119,7 +133,7 @@ const Dashboard = () => {
                     <button className="btn border-shadow variable-colour" onClick={preventClosureOfMenu}>upload</button>
                 }
 
-                <p className="logout-link" style={{color: "var(--borderShadow)"}} onClick={() => setUser(null)}>Logout</p>
+                <p className="logout-link" style={{color: "var(--borderShadow)"}} onClick={logout}>Logout</p>
 
             </nav>
 

@@ -2,6 +2,7 @@ import './UserEditForm.css'
 import { useContext, useState, useEffect } from 'react'
 import { UserContext } from '../../UserContext'
 import UserView from '../UserView/UserView.js'
+import UserNavbar from '../UserNavbar/UserNavbar.js'
 import { type User } from '../../Types/Types.js'
 import tick from '../../assets/tick1.png' 
 import cross from '../../assets/cross1.png'
@@ -76,8 +77,6 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
             }
 
             setAllUsers(response.payload);
-
-            console.log(response.payload);
         };
 
 
@@ -99,12 +98,14 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
         showUserEditForm(false);
     };
 
+
      const closeUserEditForm = (e: React.MouseEvent) => {
 
         e.stopPropagation();
 
         showUserOptionsMenu(null);
     };
+
 
     const userOptions = (user: User, e: React.MouseEvent) => {
 
@@ -122,11 +123,11 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
 
         const left = mouseX + scrollContainerLeft - (containerPosition?.left || 0);
 
-        console.log("scroll container", scrollContainerLeft, scrollContainerTop)
+        // console.log("scroll container", scrollContainerLeft, scrollContainerTop)
 
-        console.log("mouse position", mouseX, mouseY)
+        // console.log("mouse position", mouseX, mouseY)
 
-        console.log(top)
+        // console.log(top)
 
         showUserOptionsMenu({ 
             user, 
@@ -139,6 +140,8 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
     <div className="edit-form border-shadow d-flex gap-3 justify-content-around align-items-center">
 
         <div className="map-navbar">
+
+            <UserNavbar allUsers={allUsers} setAllUsers={setAllUsers}/>
 
         </div>
 

@@ -5,8 +5,8 @@ import { UserContext } from '../../UserContext.ts'
 
 
 //TODO: url change from development 
-//const url = 'http://localhost:3001';
-const url = 'https://movie-streamer-backend.onrender.com'
+const url = 'http://localhost:3001';
+//const url = 'https://movie-streamer-backend.onrender.com'
 
 
 const UserView: React.FC<{userEdit: User}> = ({ userEdit }) => {
@@ -18,10 +18,8 @@ const UserView: React.FC<{userEdit: User}> = ({ userEdit }) => {
     const deleteUser = async (route: string) => {
 
         if(!user?.token) return;
-console.log(route)
-        try{
 
-            console.log(userEdit);
+        try{
 
             const res = await fetch(`${url}/users/${route}`, {
 
@@ -48,6 +46,31 @@ console.log(route)
             }else{
 
                 alert(`${response.payload}`);
+
+                if(response.operation === "admin"){
+
+                    userEdit.is_admin = !userEdit.is_admin;
+
+                    return;
+                }
+
+                if(response.operation === "delete"){
+
+                    userEdit.id = "deleted";
+                    userEdit.name = "deleted";
+                    userEdit.email = "deleted";
+
+                    return;
+
+                }
+
+                if(response.operation === "verification"){
+
+                    userEdit.is_verified = !userEdit.is_verified;
+
+                    return;
+                }
+
             };
 
         }catch(err){
@@ -60,6 +83,7 @@ console.log(route)
 
 
     return(
+        
         <div className="d-flex flex-column variable-colour gap-1">
 
             <span>{userEdit.id}</span>
@@ -72,8 +96,8 @@ console.log(route)
             <div className="align-self-center d-flex gap-3 mt-4">
 
                 <button className="btn border-shadow variable-colour" onClick={() => deleteUser(`change_admin`)}>admin</button>
-                <button className="btn border-shadow variable-colour">verify</button>
-                <button className="btn border-shadow variable-colour" onClick={() => deleteUser("delete_user")}>delete</button>
+                <button className="btn border-shadow variable-colour" onClick={() => deleteUser(`change_verify`)}>verify</button>
+                <button className="btn border-shadow variable-colour" onClick={() => deleteUser(`delete_user`)}>delete</button>
 
             </div>
 
