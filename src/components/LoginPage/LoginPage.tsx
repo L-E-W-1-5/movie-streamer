@@ -6,8 +6,8 @@ import { type FormEvent, useContext, useEffect } from 'react';
 
 
 //TODO: url change
-const url = 'http://localhost:3001';
-//const url = 'https://movie-streamer-backend.onrender.com'
+//const url = 'http://localhost:3001';
+const url = 'https://movie-streamer-backend.onrender.com'
 
 // type userLogin = {
 //     userState: React.Dispatch<React.SetStateAction<boolean>>
@@ -43,16 +43,20 @@ const LoginPage = () => {
         
         const loginid = formData.get('loginid')?.toString() || "";
 
-        handleLogin(loginid)
+        const loginEmail = formData.get('loginEmail')?.toString() || ""
+
+        handleLogin(loginid, loginEmail)
     };
 
 
-    const handleLogin = async (guid: string) => {
+    const handleLogin = async (guid: string, email: string) => {
+
+        console.log(email)
 
         const reply = await fetch(`${url}/users`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({guid})
+            body: JSON.stringify({guid, email})
         })
 
         const res = await reply.json();
@@ -76,6 +80,8 @@ const LoginPage = () => {
         <h2 className="variable-colour text-center mb-4">Login</h2>
 
         <form className="d-flex flex-column justify-content-center gap-2" onSubmit={onSubmit}>
+
+            <input className="form-control input-field border-shadow" name="loginEmail" type="text" placeholder="email address.."/>
 
             <input className="form-control input-field border-shadow" name="loginid" type="text" placeholder="type login id here"/>
 

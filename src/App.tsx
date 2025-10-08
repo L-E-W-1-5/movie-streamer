@@ -24,12 +24,14 @@ function App() {
           <Routes>
 
             <Route path="/" element={<LoginPage/>}/>
-            <Route path='/register' element={<RegisterForm/>}/>
 
-       
-          <Route element={<VerifiedRoute/>}>
-            <Route path='/dashboard' element={<Dashboard/>}/>
-          </Route>
+            <Route path='/register' element={<RegisterForm/>}/>
+     
+            <Route element={<VerifiedRoute/>}>
+
+              <Route path='/dashboard' element={<Dashboard/>}/>
+
+            </Route>
     
           </Routes>
       

@@ -111,6 +111,8 @@ const Dashboard = () => {
 
         if(logout){
 
+            //TODO: create a fetch here to set is_loggedin to false
+
             setUser(null);
     
             sessionStorage.removeItem('session_user');

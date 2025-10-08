@@ -5,8 +5,8 @@ import { UserContext } from '../../UserContext.ts'
 
 
 //TODO: url change from development 
-const url = 'http://localhost:3001';
-//const url = 'https://movie-streamer-backend.onrender.com'
+//const url = 'http://localhost:3001';
+const url = 'https://movie-streamer-backend.onrender.com'
 
 
 const UserView: React.FC<{userEdit: User}> = ({ userEdit }) => {
@@ -83,7 +83,7 @@ const UserView: React.FC<{userEdit: User}> = ({ userEdit }) => {
 
 
     return(
-        
+
         <div className="d-flex flex-column variable-colour gap-1">
 
             <span>{userEdit.id}</span>
