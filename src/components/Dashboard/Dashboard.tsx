@@ -3,22 +3,13 @@ import MovieList from '../MovieList/MovieList';
 import MessageBoard from '../MessageBoard/MessageBoard';
 import MoviePlayer from '../MoviePlayer/MoviePlayer';
 //import { Link } from 'react-router';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { UserContext } from '../../UserContext';
 import AdminForm from '../AdminMenu/AdminMenu';
 
 //TODO: url change 
-//const url = 'http://localhost:3001';
-const url = 'https://movie-streamer-backend.onrender.com'
-
-
-
-
-// type MovieUpload = {
-//     title: string,
-//     genre: string,
-//     file: File | null
-// };
+const url = 'http://localhost:3001';
+//const url = 'https://movie-streamer-backend.onrender.com'
 
 type MovieDownload = {
     id: string,
@@ -35,66 +26,10 @@ const Dashboard = () => {
 
     const [adminForm, showAdminForm] = useState<boolean>(false);
 
-    //const [movieUpload, setMovieUpload] = useState<MovieUpload>({file: null, title: "", genre: "" });
-
     const [allMovies, setAllMovies] = useState<Array<MovieDownload>>([]);
 
     const [movieUrl, setMovieUrl] = useState<MovieDownload>({title: "", url: "", genre: "", id: ""});
 
-    const [loading, setLoading] = useState<boolean>(false);
- 
-
-
-    useEffect(() => {
-
-        const fetchAllMovies = async () => {
-
-            setLoading(true);
-
-            if(!user?.token){
-
-                return;
-            }
-
-            try{
-
-                const res = await fetch(`${url}/movies`, {
-
-                    mode: 'cors',
-
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${user.token}`
-                    }
-                });
-
-                const movies = await res.json() as {
-                    payload: MovieDownload[];
-                    status: string;
-                };
-
-                if(res.ok && movies.status !== "error") {
-
-                    setAllMovies(movies.payload);
-            
-                }else{
-
-                    alert(`${movies.status}: failed to get movies or no movies in the database at this time`);//${movies.payload}
-                };
-        
-            }catch(err){
-
-                console.log(err);
-            
-            }finally{
-                
-                setLoading(false);
-            }
-        };
-
-        fetchAllMovies();
-
-    }, [user]);
 
 
     const preventClosureOfMenu = (e: React.MouseEvent) => {
@@ -105,7 +40,7 @@ const Dashboard = () => {
     };
 
 
-    const logout = () => {
+    const logout = async () => {
 
         const logout = confirm("are you sure you wish to log out?");
 
@@ -113,11 +48,59 @@ const Dashboard = () => {
 
             //TODO: create a fetch here to set is_loggedin to false
 
-            setUser(null);
-    
-            sessionStorage.removeItem('session_user');
+            const isLoggedOut = await setLogout();
+
+            if(isLoggedOut){
+
+                setUser(null);
+        
+                sessionStorage.removeItem('session_user');
+            
+            }else{
+
+                alert("error logging user out");
+            }
+
         }
 
+    }
+
+
+    const setLogout = async () => {
+
+        try{
+
+            const res = await fetch(`${url}/users/user_logout`, {
+
+                method: 'POST',
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({user})
+            })
+
+            const response = await res.json();
+
+            if(response.status !== "error"){
+
+                return true
+            
+            }else{
+
+                return false
+            }
+
+        
+        }catch(err){
+
+            console.log(err)
+
+            alert("could not logout");
+
+            return false
+        }
     }
 
 
@@ -159,12 +142,8 @@ const Dashboard = () => {
                    
                 <div className="dashboard-movie-container border-shadow">
 
-                    {allMovies.length > 0 &&
+                    <MovieList setMovieUrl={setMovieUrl} allMovies={allMovies} setAllMovies={setAllMovies}/>
 
-                        <MovieList downloadedMovies={allMovies} setMovieUrl={setMovieUrl}/>
-
-                    }
-                
                 </div>
 
                 <div className="dashboard-message-container border-shadow p-2">
@@ -175,13 +154,7 @@ const Dashboard = () => {
 
             </div>
 
-            {loading && 
-
-            <div className='loading-animation'>
-                
-                <h1>LOADING...</h1>
-                
-            </div>}
+            
 
         </div>
     )

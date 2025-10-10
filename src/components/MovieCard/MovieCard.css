@@ -1,6 +1,22 @@
+.movie-card-container{
+    cursor: pointer;
+}
+
 .movie-card{
     background-color: rgb(225, 0, 139)!important;
-    cursor: pointer;
-    max-height: 100px;
-    min-width: 120px;
+    min-height: 130px;
+    max-height: 130px;
+    min-width: 200px;
+    max-width: 200px;
+}
+
+.movie-details-container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 40%;
+    background-color: black;
+
 }
