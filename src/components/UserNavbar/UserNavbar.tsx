@@ -1,19 +1,19 @@
 import { useState } from 'react'
 import './UserNavbar.css'
-import { type User } from '../../Types/Types'
+import { type UserEdit } from '../../Types/Types'
 
 
 
 type UserNavbarProps = {
 
-    allUsers: User[],
+    allUsers: UserEdit[],
     //setAllUsers: React.Dispatch<React.SetStateAction<User[]>>
-    setFilteredUsers: React.Dispatch<React.SetStateAction<User[]>>
-    closeForm: (e: React.MouseEvent) => void
+    setFilteredUsers: React.Dispatch<React.SetStateAction<UserEdit[]>>
+    // closeForm: (e: React.MouseEvent) => void
 }
 
 
-const UserNavbar: React.FC<UserNavbarProps> = ({allUsers, closeForm, setFilteredUsers}) => {
+const UserNavbar: React.FC<UserNavbarProps> = ({allUsers, setFilteredUsers}) => {
 
     const [searchUsers, setSearchUsers] = useState("");
 
@@ -25,7 +25,7 @@ const UserNavbar: React.FC<UserNavbarProps> = ({allUsers, closeForm, setFiltered
 
             const sortedUsers = [...allUsers].sort((a, b) => 
 
-                parseInt(a.id) - parseInt(b.id)
+                a.id - b.id
             );
 
             setFilteredUsers(sortedUsers)
@@ -35,7 +35,7 @@ const UserNavbar: React.FC<UserNavbarProps> = ({allUsers, closeForm, setFiltered
 
             const sortedusers = [...allUsers].sort((a, b) => 
             
-                a.name.localeCompare(b.name)
+                a.username.localeCompare(b.username)
             )
 
             setFilteredUsers(sortedusers)
@@ -58,7 +58,7 @@ const UserNavbar: React.FC<UserNavbarProps> = ({allUsers, closeForm, setFiltered
 //e: React.KeyboardEvent<HTMLInputElement>
        // if(e.key !== 'Enter') return
 
-        const filteredUsers = [...allUsers].filter(user => {return user.name.toLowerCase().includes(searchUsers.toLowerCase())})
+        const filteredUsers = [...allUsers].filter(user => {return user.username.toLowerCase().includes(searchUsers.toLowerCase())})
 
         //const filteredUsers = [...allUsers].filter(user => {return user.name.toLowerCase() === searchUsers.toLowerCase()})
 
@@ -83,7 +83,6 @@ const UserNavbar: React.FC<UserNavbarProps> = ({allUsers, closeForm, setFiltered
 
             </select>
 
-            <button className="btn border-shadow variable-colour" onClick={closeForm}>close</button>
 
         </div>
     )

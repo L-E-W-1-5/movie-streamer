@@ -77,7 +77,7 @@ const MovieEditForm: React.FC<MovieEditProps> = ({allMovies, showMovieEditForm, 
 
         <div className="movie-edit-form border-shadow container-style d-flex flex-column justify-content-around align-items-center">
 
-            <div className="map-container d-flex flex-column justify-content-start align-items-center">
+            <div className="map-container d-flex flex-column justify-content-center align-items-center">
             
                 {allMovies.map((movie: MovieDownload, index: number) => {
 

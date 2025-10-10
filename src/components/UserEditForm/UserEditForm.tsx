@@ -3,13 +3,13 @@ import { useContext, useState, useEffect } from 'react'
 import { UserContext } from '../../UserContext'
 import UserView from '../UserView/UserView.js'
 import UserNavbar from '../UserNavbar/UserNavbar.js'
-import { type User } from '../../Types/Types.js'
+import { type UserEdit } from '../../Types/Types.js'
 import tick from '../../assets/tick1.png' 
 import cross from '../../assets/cross1.png'
 
 //TODO: url change from development 
-//const url = 'http://localhost:3001';
-const url = 'https://movie-streamer-backend.onrender.com'
+const url = 'http://localhost:3001';
+//const url = 'https://movie-streamer-backend.onrender.com'
 
 
 
@@ -34,6 +34,8 @@ const url = 'https://movie-streamer-backend.onrender.com'
 // };
 
 
+
+
 type UserEditProps = {
 
     userEditForm: boolean;
@@ -44,12 +46,12 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
 
     const { user } = useContext(UserContext);
 
-    const [allUsers, setAllUsers] = useState<User[]>([]);
+    const [allUsers, setAllUsers] = useState<UserEdit[]>([]);
 
-    const [filteredUsers, setFilteredUsers] = useState<User[]>([])
+    const [filteredUsers, setFilteredUsers] = useState<UserEdit[]>([])
 
     const [userOptionsMenu, showUserOptionsMenu] = useState<{
-        user: User,
+        user: UserEdit,
         position: {top: number; left: number}
      } | null>(null);
 
@@ -69,7 +71,10 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
 
             });
 
-            const response = await res.json();
+            const response = await res.json() as {
+                    payload: UserEdit[];
+                    status: string;
+                };
 
             if(!res.ok || response.status === "error"){
 
@@ -111,22 +116,23 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
     };
 
 
-    const userOptions = (user: User, e: React.MouseEvent) => {
+    const userOptions = (user: UserEdit, e: React.MouseEvent) => {
 
         const containerPosition = e.currentTarget.closest('.edit-form')?.getBoundingClientRect();
 
         const mouseX = e.clientX;
 
-        const mouseY = e.clientY;
+        //const mouseY = e.clientY;
 
         const scrollContainerLeft = e.currentTarget.closest('.edit-form')?.scrollLeft || 0;
 
         const scrollContainerTop = e.currentTarget.closest('.edit-form')?.scrollTop || 0;
 
-        const top = mouseY + scrollContainerTop - (containerPosition?.top || 0);
+        const top = scrollContainerTop - (containerPosition?.top || 0) + 200; //mouseY + (at the start of this line)
 
         const left = mouseX + scrollContainerLeft - (containerPosition?.left || 0);
 
+        
         // console.log("scroll container", scrollContainerLeft, scrollContainerTop)
 
         // console.log("mouse position", mouseX, mouseY)
@@ -145,13 +151,13 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
 
         <div className="map-navbar">
 
-            <UserNavbar allUsers={allUsers} setFilteredUsers={setFilteredUsers} closeForm={closeForm}/>
+            <UserNavbar allUsers={allUsers} setFilteredUsers={setFilteredUsers}/>
 
         </div>
 
         <div className="map-container-user d-flex flex-column justify-content-start align-items-center">
 
-            {filteredUsers.map((userEdit: User, index: number) => {
+            {filteredUsers.map((userEdit: UserEdit, index: number) => {
 
                 return (
 
@@ -160,8 +166,7 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
                 >
 
                     <span className="edit-field-item-user">{userEdit.id}</span>
-                    <span className="edit-field-item-user flex-fill">{userEdit.name}</span>
-                    <span className="edit-field-item-user flex-fill">{userEdit.email}</span>
+                    <span className="edit-field-item-user flex-fill">{userEdit.username}</span>
                     <span className="edit-field-item-user d-flex flex-row justify-content-between">{`admin: ${userEdit.is_admin}`}<img src={userEdit.is_admin ? tick : cross} width="25px" height="25px"/></span>
                     <span className="edit-field-item-user d-flex flex-row justify-content-between">{`verified: ${userEdit.is_verified}`}<img src={userEdit.is_verified ? tick : cross} width="25px" height="25px"/></span>
                     

@@ -1,4 +1,4 @@
-import {type User} from '../../Types/Types.ts'
+import { type UserEdit } from '../../Types/Types.ts'
 import { useContext } from 'react'
 import { UserContext } from '../../UserContext.ts'
 
@@ -9,7 +9,7 @@ import { UserContext } from '../../UserContext.ts'
 const url = 'https://movie-streamer-backend.onrender.com'
 
 
-const UserView: React.FC<{userEdit: User}> = ({ userEdit }) => {
+const UserView: React.FC<{userEdit: UserEdit}> = ({ userEdit }) => {
 
     const { user } = useContext(UserContext);
 
@@ -56,8 +56,8 @@ const UserView: React.FC<{userEdit: User}> = ({ userEdit }) => {
 
                 if(response.operation === "delete"){
 
-                    userEdit.id = "deleted";
-                    userEdit.name = "deleted";
+                    
+                    userEdit.username = "deleted";
                     userEdit.email = "deleted";
 
                     return;
@@ -87,9 +87,12 @@ const UserView: React.FC<{userEdit: User}> = ({ userEdit }) => {
         <div className="d-flex flex-column variable-colour gap-1">
 
             <span>{userEdit.id}</span>
-            <span>{userEdit.name}</span>
-            <span>{userEdit.guid}</span>
-            <span>{userEdit.email}</span>
+            <span>{userEdit.username}</span>
+            <span className="edit-field-item-user flex-fill">{userEdit.email}</span>
+            <span className="edit-field-item-user flex-fill">{userEdit.is_loggedin}</span>
+            <span className="edit-field-item-user flex-fill">{`last login: ${userEdit.last_login}`}</span>
+            <span className="edit-field-item-user flex-fill">{`time created: ${userEdit.time_created}`}</span>
+            <span className="edit-field-item-user flex-fill">{`failed login attempts: ${userEdit.login_attempts}`}</span>
             <span>{`verified: ${userEdit.is_verified}`}</span>
             <span>{`admin: ${userEdit.is_admin}`}</span>
 
