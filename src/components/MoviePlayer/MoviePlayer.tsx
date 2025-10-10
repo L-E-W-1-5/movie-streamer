@@ -1,21 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
 import './MoviePlayer.css';
+import { type MovieUrl } from '../../Types/Types';
 
-type MovieDownload = {
-    title: string,
-    url: string,
-    genre: string
-    id: string
-}
 
 interface MovieInfo {
-    film:MovieDownload
-    setMovieUrl: React.Dispatch<React.SetStateAction<MovieDownload>>
+    signedUrl: MovieUrl,
+    setSignedUrl: React.Dispatch<React.SetStateAction<MovieUrl>>
 }
 
 
 
-const MoviePlayer: React.FC<MovieInfo> = ({film, setMovieUrl}) => {
+const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
 
    const [position, setPosition] = useState({x: 0, y: 0});
 
@@ -98,13 +93,13 @@ const MoviePlayer: React.FC<MovieInfo> = ({film, setMovieUrl}) => {
 
             <div className="player-navbar d-flex flex-row justify-content-between p-2">
 
-                <p className="player-header">{film.title}</p>
+                <p className="player-header">{signedUrl.title}</p>
 
-                <button className="player-close-button border-shadow variable-colour" onClick={() => setMovieUrl({title: "", url: "", genre: "", id: ""})}>close</button>
+                <button className="player-close-button border-shadow variable-colour" onClick={() => setSignedUrl({title: "", url: ""})}>close</button>
             
             </div>
 
-            <video src={film.url} 
+            <video src={signedUrl.url} 
                 controls 
                 
                 

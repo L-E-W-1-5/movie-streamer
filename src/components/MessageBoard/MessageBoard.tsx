@@ -3,8 +3,8 @@ import { UserContext } from '../../UserContext';
 import './MessageBoard.css'
 
 //TODO: url change 
-//const url = 'http://localhost:3001';
-const url = 'https://movie-streamer-backend.onrender.com'
+const url = 'http://localhost:3001';
+//const url = 'https://movie-streamer-backend.onrender.com'
 
 
 type MessageUpload = {
@@ -32,6 +32,8 @@ const MessageBoard = () => {
 
                 return;
             }
+
+            
 
             const allMessages = await fetch(`${url}/messages`, {
 
@@ -110,6 +112,8 @@ const MessageBoard = () => {
                     payload: MessageUpload;
                     status: string;
                 };
+
+                console.log(result)
     
                 setAllMessages(prev => [...prev, result.payload])
             }

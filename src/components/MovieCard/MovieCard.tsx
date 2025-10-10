@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './MovieCard.css'
 import MovieDetails from '../MovieDetails/MovieDetails'
+import { type MovieUrl } from '../../Types/Types'
 
 type MovieDownload = {
     title: string,
@@ -11,10 +12,10 @@ type MovieDownload = {
 
 interface MovieInfo {
     film:MovieDownload
-    setMovieUrl: React.Dispatch<React.SetStateAction<MovieDownload>>
+    setSignedUrl: React.Dispatch<React.SetStateAction<MovieUrl>>
 }
 
-const MovieCard: React.FC<MovieInfo> = ({film, setMovieUrl}) => {
+const MovieCard: React.FC<MovieInfo> = ({film, setSignedUrl}) => {
 
     const [movieDetails, showMovieDetails] = useState<boolean>(false)
 
@@ -49,7 +50,7 @@ const MovieCard: React.FC<MovieInfo> = ({film, setMovieUrl}) => {
             <div className='movie-details-container border-shadow d-flex flex-column justify-content-around align-items-center'>
 
 
-                <MovieDetails film={film} setMovieUrl={setMovieUrl}/>
+                <MovieDetails film={film} setSignedUrl={setSignedUrl}/>
 
 
                 <button className="btn border-shadow variable-colour" onClick={closeMovieDetails}>close</button>

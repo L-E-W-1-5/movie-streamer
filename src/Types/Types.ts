@@ -23,3 +23,9 @@ export type UserEdit = {
     time_created: Date,
     last_login: Date
 }
+
+
+export type MovieUrl = {
+    url: string,
+    title: string
+}

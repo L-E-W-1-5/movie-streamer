@@ -6,6 +6,7 @@ import MoviePlayer from '../MoviePlayer/MoviePlayer';
 import { useState, useContext } from 'react';
 import { UserContext } from '../../UserContext';
 import AdminForm from '../AdminMenu/AdminMenu';
+import { type MovieUrl } from '../../Types/Types';
 
 //TODO: url change 
 const url = 'http://localhost:3001';
@@ -19,6 +20,8 @@ type MovieDownload = {
 };
 
 
+
+
 const Dashboard = () => {
 
 
@@ -28,7 +31,9 @@ const Dashboard = () => {
 
     const [allMovies, setAllMovies] = useState<Array<MovieDownload>>([]);
 
-    const [movieUrl, setMovieUrl] = useState<MovieDownload>({title: "", url: "", genre: "", id: ""});
+    const [signedUrl, setSignedUrl] = useState<MovieUrl>({url: "", title: ""})
+
+    
 
 
 
@@ -128,11 +133,11 @@ const Dashboard = () => {
                 <AdminForm showAdminForm={showAdminForm} setAllMovies={setAllMovies} allMovies={allMovies} adminForm={adminForm}/>
             }
 
-            {movieUrl.title !== "" && 
+            {signedUrl.title !== "" && 
 
             <div>
                 
-                <MoviePlayer film={movieUrl} setMovieUrl={setMovieUrl}/>
+                <MoviePlayer setSignedUrl={setSignedUrl} signedUrl={signedUrl}/>
                 
             </div>}
 
@@ -142,7 +147,7 @@ const Dashboard = () => {
                    
                 <div className="dashboard-movie-container border-shadow">
 
-                    <MovieList setMovieUrl={setMovieUrl} allMovies={allMovies} setAllMovies={setAllMovies}/>
+                    <MovieList allMovies={allMovies} setAllMovies={setAllMovies} setSignedUrl={setSignedUrl}/>
 
                 </div>
 

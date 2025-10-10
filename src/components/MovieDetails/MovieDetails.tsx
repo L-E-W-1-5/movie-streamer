@@ -1,5 +1,6 @@
 import {  useContext } from "react"
 import { UserContext } from "../../UserContext";
+import { type MovieUrl } from "../../Types/Types";
 
 
 
@@ -28,10 +29,10 @@ type MovieDownload = {
 
 interface MovieDetailsProps {
     film:MovieDownload
-    setMovieUrl: React.Dispatch<React.SetStateAction<MovieDownload>>
+    setSignedUrl: React.Dispatch<React.SetStateAction<MovieUrl>>
 }
 
-const MovieDetails:React.FC<MovieDetailsProps> = ({film, setMovieUrl}) => {
+const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl}) => {
 
     const { user } = useContext(UserContext)
 
@@ -56,9 +57,11 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setMovieUrl}) => {
 
             const response = await res.json()
 
-            console.log(response.payload)
+            setSignedUrl({
+                url: response.payload,
+                title: film.title
+            })
 
-            setMovieUrl(response.payload)
         
         }catch(err){
 

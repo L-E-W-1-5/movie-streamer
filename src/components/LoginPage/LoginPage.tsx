@@ -6,12 +6,13 @@ import { type FormEvent, useContext, useEffect } from 'react';
 
 
 //TODO: url change
-//const url = 'http://localhost:3001';
-const url = 'https://movie-streamer-backend.onrender.com'
+const url = 'http://localhost:3001';
+//const url = 'https://movie-streamer-backend.onrender.com'
 
 // type userLogin = {
 //     userState: React.Dispatch<React.SetStateAction<boolean>>
 // }
+
 
 
 const LoginPage = () => {
@@ -51,22 +52,20 @@ const LoginPage = () => {
 
     const handleLogin = async (guid: string, email: string) => {
 
-        console.log(email)
-
-        const reply = await fetch(`${url}/users`, {
+        const res = await fetch(`${url}/users`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({guid, email})
         })
 
-        const res = await reply.json();
+        const response = await res.json();
 
-        if(res.status === "error"){
+        if(response.status === "error"){
             alert("login details incorrect");
             return
         }
 
-        setUser(res.payload)
+        setUser(response.payload)
 
         //TODO: set loading animation here
     }
@@ -92,6 +91,8 @@ const LoginPage = () => {
                 <p className="variable-colour">or not signed up yet? <br></br><Link to='/register' className="cursor">sign up here</Link></p>
                 
             </div>
+
+
         </form>
 
 

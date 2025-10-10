@@ -3,6 +3,7 @@ import './MovieList.css';
 import MovieCard from '../MovieCard/MovieCard.tsx';
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../UserContext.ts';
+import { type MovieUrl } from '../../Types/Types.ts';
 
 //TODO: url change 
 const url = 'http://localhost:3001';
@@ -19,11 +20,11 @@ type MovieDownload = {
 
 type MovieListProps = {
     allMovies: Array<MovieDownload>,
-    setMovieUrl: React.Dispatch<React.SetStateAction<MovieDownload>>
     setAllMovies: React.Dispatch<React.SetStateAction<MovieDownload[]>>
+    setSignedUrl: React.Dispatch<React.SetStateAction<MovieUrl>>
 }
 
-const MovieList: React.FC<MovieListProps> = ({setMovieUrl, allMovies, setAllMovies }) => {
+const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSignedUrl }) => {
 
     const { user } = useContext(UserContext)
 
@@ -90,7 +91,7 @@ const MovieList: React.FC<MovieListProps> = ({setMovieUrl, allMovies, setAllMovi
 
                     {allMovies.map((film:MovieDownload, x:number) => {
 
-                        return <MovieCard key={x} film={film} setMovieUrl={setMovieUrl}/>
+                        return <MovieCard key={x} film={film} setSignedUrl={setSignedUrl}/>
 
                     })}
 
