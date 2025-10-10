@@ -6,9 +6,10 @@ import UserNavbar from '../UserNavbar/UserNavbar.js'
 import { type UserEdit } from '../../Types/Types.js'
 import tick from '../../assets/tick1.png' 
 import cross from '../../assets/cross1.png'
+import { url } from '../../Url';
 
 //TODO: url change from development 
-const url = 'http://localhost:3001';
+//const url = 'http://localhost:3001';
 //const url = 'https://movie-streamer-backend.onrender.com'
 
 

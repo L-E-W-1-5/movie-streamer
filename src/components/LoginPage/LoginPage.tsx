@@ -3,10 +3,11 @@ import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { UserContext } from '../../UserContext';
 import { Link, useNavigate } from 'react-router';
 import { type FormEvent, useContext, useEffect } from 'react';
+import { url } from '../../Url';
 
 
 //TODO: url change
-const url = 'http://localhost:3001';
+//const url = 'http://localhost:3001';
 //const url = 'https://movie-streamer-backend.onrender.com'
 
 // type userLogin = {

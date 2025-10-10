@@ -1,28 +1,45 @@
 import './MovieUploadForm.css'
 import { useState, useContext } from "react";
 import { UserContext } from "../../UserContext";
+import { type MovieDownloadNew } from '../../Types/Types';
+import { url } from '../../Url';
 
 //TODO: url change from development 
 //const url = 'http://localhost:3001';
-const url = 'https://movie-streamer-backend.onrender.com'
+//const url = 'https://movie-streamer-backend.onrender.com'
 
 
 type MovieUpload = {
     title: string,
     genre: string,
+    description: string | null,
+    length: string | null,
+    year: number | null,
     file: File | null
 };
 
-type MovieDownload = {
-    id: string,
-    title: string,
-    url: string,
-    genre: string,
-};
+const initialMovie: MovieUpload = {
+    title: '',
+    genre: '',
+    description: null,
+    length: null,
+    year: null,
+    file: null
+}
+
+// type MovieDownload = {
+//     id: number,
+//     title: string,
+//     description: string | null,
+//     length: string | null,
+//     year: number | null,
+//     genre: string | null,
+//     timestamp: Date 
+// };
 
 type UploadFormProps = {
     showUploadForm: React.Dispatch<React.SetStateAction<boolean>>
-    setAllMovies: React.Dispatch<React.SetStateAction<MovieDownload[]>>
+    setAllMovies: React.Dispatch<React.SetStateAction<MovieDownloadNew[]>>
 }
 
 
@@ -32,7 +49,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
 
     const { user } = useContext(UserContext);
 
-    const [movieUpload, setMovieUpload] = useState<MovieUpload>({file: null, title: "", genre: "" });
+    const [movieUpload, setMovieUpload] = useState<MovieUpload>(initialMovie);
 
 
 
@@ -46,29 +63,34 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
     };
 
 
-    const handleTitleUpload = (e:React.ChangeEvent<HTMLInputElement>) => {
 
-        if(e.target.value){
+    function handleChanges<T extends HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement> (e: React.ChangeEvent<T>){
 
-            setMovieUpload(prev => ({...prev, title: e.target.value}));
-        };
-    };
+        const { id } = e.target;
 
-    
-    const handleGenreUpload = (e:React.ChangeEvent<HTMLSelectElement>) => {
+        switch(id){
+            case "description":
+            setMovieUpload(prev => ({...prev, description: e.target.value}))
+            break;
 
-        if(e.target.value){
+            case "title":
+            setMovieUpload(prev => ({...prev, title: e.target.value}))
+            break;
 
+            case "genre":
             setMovieUpload(prev => ({...prev, genre: e.target.value}))
-        };
-    };
+            break;
+
+            case "year":
+            setMovieUpload(prev => ({...prev, year: parseInt(e.target.value)}))
+            break;
+        }
+    }
 
 
     const handleSubmit = () => {
 
-        if(!movieUpload.genre){
-            alert("please select a video to upload first");
-        }
+        console.log(movieUpload)
 
         if(!movieUpload.file){
             alert("please select a video to upload first");
@@ -80,13 +102,33 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
             return
         };
 
+        if(!movieUpload.year){
+
+            alert("no description")
+        }
+
+       
+
         const formData = new FormData();
 
         formData.append('movie', movieUpload.file);
 
         formData.append('title', movieUpload.title);
 
-        formData.append('genre', movieUpload.genre)
+        if(movieUpload.genre){
+
+            formData.append('genre', movieUpload.genre);
+        }
+
+        if(movieUpload.description){
+
+            formData.append('description', movieUpload.description)
+        }
+
+        if(movieUpload.year){
+
+            formData.append('year', movieUpload.year.toString())
+        }
 
         sendMovie(formData);
     };
@@ -146,11 +188,15 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
 
             if(reply.status === "success"){
 
-                const newUpload:MovieDownload = {
+                const newUpload:MovieDownloadNew = {
                     id: reply.payload.id,
                     title: reply.payload.title ,
-                    url: reply.payload.url,
-                    genre: reply.payload.genre
+                    genre: reply.payload.genre,
+                    description: reply.description,
+                    year: reply.year,
+                    length: reply.length,
+                    timestamp: reply.timestamp,
+                    times_played: reply.times_played
                 };
 
                 setAllMovies(prev => [...prev, newUpload]);
@@ -175,9 +221,9 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
 
                 <input className="upload-form-element btn variable-colour border-shadow" type="file" name="movieFile" onChange={handleFileUpload}/>
 
-                <input className="upload-form-element btn variable-colour border-shadow input-field" placeholder="movie title here.." type="text" name="movieTitle" onChange={handleTitleUpload}/>
+                <input id="title" className="upload-form-element btn variable-colour border-shadow input-field" placeholder="movie title here.." type="text" name="movieTitle" onChange={handleChanges}/>
 
-                <select className="upload-form-element form-select select-element variable-colour border-shadow" value={movieUpload.genre} onChange={handleGenreUpload}>
+                <select id="genre" className="upload-form-element form-select select-element variable-colour border-shadow" value={movieUpload.genre} onChange={handleChanges}>
                     <option value="">please select</option>
                     <option value="action">Action</option>
                     <option value="comedy">Comedy</option>
@@ -186,6 +232,10 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
                     <option value="sci-fi">Sci-Fi</option>
                     <option value="thriller">Thriller</option>
                 </select>
+
+                <input id="year" type="number" placeholder="movie year" onChange={handleChanges}/>
+
+                <textarea id="description" placeholder="enter description here" onChange={handleChanges}/>
 
                 <button className="upload-form-button btn border-shadow variable-colour" onClick={handleSubmit} >upload</button>
 

@@ -1,20 +1,20 @@
 import {  useContext } from "react"
 import { UserContext } from "../../UserContext";
-import { type MovieUrl } from "../../Types/Types";
-
+import { type MovieUrl, type MovieDownloadNew } from "../../Types/Types";
+import { url } from '../../Url';
 
 
 
 //TODO: url change 
-const url = 'http://localhost:3001';
+//const url = 'http://localhost:3001';
 //const url = 'https://movie-streamer-backend.onrender.com'
 
-type MovieDownload = {
-    title: string,
-    url: string,
-    genre: string
-    id: string
-}
+// type MovieDownload = {
+//     title: string,
+//     url: string,
+//     genre: string
+//     id: string
+// }
 
 // type NewMovieDownload = {   
 //     id: number, 
@@ -28,7 +28,7 @@ type MovieDownload = {
 // }
 
 interface MovieDetailsProps {
-    film:MovieDownload
+    film: MovieDownloadNew
     setSignedUrl: React.Dispatch<React.SetStateAction<MovieUrl>>
 }
 
@@ -83,12 +83,14 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl}) => {
         
         <div className="d-flex flex-column justify-content-between align-items-center h-100 w-100">
 
-            <h3>{film.title}</h3>
+            <h3>{`${film.title} - ${film.year}`}</h3>
 
             <h4>{film.genre}</h4>
 
+            <p>{film.description}</p>
 
-            <button onClick={changeUrl}>Play</button>
+
+            <button className="btn border-shadow variable-colour mb-3" onClick={changeUrl}>Play</button>
 
         </div>
 

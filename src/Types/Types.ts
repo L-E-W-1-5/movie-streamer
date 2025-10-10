@@ -24,6 +24,17 @@ export type UserEdit = {
     last_login: Date
 }
 
+export type MovieDownloadNew = {
+    id: number,
+    title: string,
+    description: string | null,
+    length: string | null,
+    year: number | null,
+    genre: string | null,
+    timestamp: Date,
+    times_played: number
+};
+
 
 export type MovieUrl = {
     url: string,

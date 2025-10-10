@@ -1,30 +1,30 @@
 import './MovieEditForm.css'
-import { UserContext } from '../../UserContext';
-import { useContext } from 'react';
+import { useState } from 'react';
+import MovieEditDetails from '../MovieEditDetails/MovieEditDetails'
+import { type MovieDownloadNew } from '../../Types/Types';
 
 
-//TODO: url change 
-//const url = 'http://localhost:3001';
-const url = 'https://movie-streamer-backend.onrender.com'
 
 
-type MovieDownload = {
-    id: string,
-    title: string,
-    url: string,
-    genre: string,
-};
+
+// type MovieDownload = {
+//     id: string,
+//     title: string,
+//     url: string,
+//     genre: string,
+// };
 
 type MovieEditProps = {
-    allMovies: MovieDownload[];
+    allMovies: MovieDownloadNew[];
     showMovieEditForm: React.Dispatch<React.SetStateAction<boolean>>
-    setAllMovies: React.Dispatch<React.SetStateAction<MovieDownload[]>>;
+    setAllMovies: React.Dispatch<React.SetStateAction<MovieDownloadNew[]>>;
 }
 
 const MovieEditForm: React.FC<MovieEditProps> = ({allMovies, showMovieEditForm, setAllMovies}) => {
 
+    const [movieDetails, showMovieDetails] = useState<MovieDownloadNew | null>(null);
 
-    const { user } = useContext(UserContext);
+   
 
     const stopMenuClosure = (e: React.MouseEvent) => {
 
@@ -33,45 +33,13 @@ const MovieEditForm: React.FC<MovieEditProps> = ({allMovies, showMovieEditForm, 
         showMovieEditForm(false);
     }
 
-    const handleMovieOptions = async (movie: MovieDownload) => {
 
-        const confirmed = window.confirm("are you sure you wish to delete this movie?");
+    const setMovieDetails = (movie: MovieDownloadNew) => {
 
-        if(!confirmed) return;
-
-        if(!user?.token) return;
-
-        try{
-
-            const res = await fetch(`${url}/movies/delete_movie`, {
-
-                method: 'POST',
-
-                headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${user.token}`
-                },
-
-                body: JSON.stringify({movie})
-
-            });
-
-
-            if(res.ok){
-
-                const result = await res.json();
-
-                console.log(result);
-
-                setAllMovies(prevMovies => prevMovies.filter(m => m.id !== movie.id))
-            }
-
-
-        }catch(err){
-
-            console.log(err);
-        }
+        showMovieDetails(movie)
     }
+
+ 
 
     return(
 
@@ -79,20 +47,36 @@ const MovieEditForm: React.FC<MovieEditProps> = ({allMovies, showMovieEditForm, 
 
             <div className="map-container d-flex flex-column justify-content-center align-items-center">
             
-                {allMovies.map((movie: MovieDownload, index: number) => {
+                {allMovies.map((movie: MovieDownloadNew, index: number) => {
 
                     return (
 
-                        <div key={index} className="record-container d-flex flex-row" onClick={() => handleMovieOptions(movie)}>
+                    
+
+                        <div key={index} className="record-container d-flex flex-row" onClick={() => setMovieDetails(movie)}>
 
                             <span className="edit-field-item">{movie.id}</span>
                             <span className="edit-field-item">{movie.title}</span>
                             <span className="edit-field-item">{movie.genre}</span>
-                            <span className="edit-field-item flex-fill">{movie.url}</span>
+                            <span className="edit-field-item flex-fill">{`${movie.timestamp}`}</span>
 
                         </div>
+
+                        
+                    
+
                     )
                 })}
+
+                {movieDetails &&
+                    
+                    <div className="movie-edit-container border-shadow container-style">
+
+                        <MovieEditDetails movie={movieDetails} setAllMovies={setAllMovies} showMovieDetails={showMovieDetails}/>
+
+                    </div>
+
+                }
 
             </div>
 

@@ -1,17 +1,17 @@
 import { useState } from 'react'
 import './MovieCard.css'
 import MovieDetails from '../MovieDetails/MovieDetails'
-import { type MovieUrl } from '../../Types/Types'
+import { type MovieUrl, type MovieDownloadNew } from '../../Types/Types'
 
-type MovieDownload = {
-    title: string,
-    url: string,
-    genre: string
-    id: string
-}
+// type MovieDownload = {
+//     title: string,
+//     url: string,
+//     genre: string
+//     id: string
+// }
 
 interface MovieInfo {
-    film:MovieDownload
+    film: MovieDownloadNew
     setSignedUrl: React.Dispatch<React.SetStateAction<MovieUrl>>
 }
 
@@ -47,13 +47,13 @@ const MovieCard: React.FC<MovieInfo> = ({film, setSignedUrl}) => {
 
         {movieDetails && 
         
-            <div className='movie-details-container border-shadow d-flex flex-column justify-content-around align-items-center'>
+            <div className='movie-details-container container-style border-shadow d-flex flex-column justify-content-around align-items-center'>
 
 
                 <MovieDetails film={film} setSignedUrl={setSignedUrl}/>
 
 
-                <button className="btn border-shadow variable-colour" onClick={closeMovieDetails}>close</button>
+                <button className="btn border-shadow variable-colour mb-2" onClick={closeMovieDetails}>close</button>
 
             </div>
         

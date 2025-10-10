@@ -3,20 +3,21 @@ import MovieUploadForm from '../MovieUploadForm/MovieUploadForm';
 import MovieEditForm from '../MovieEditForm/MovieEditForm';
 import UserEditForm from '../UserEditForm/UserEditForm';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { type MovieDownloadNew } from '../../Types/Types';
 
-type MovieDownload = {
-    id: string,
-    title: string,
-    url: string,
-    genre: string,
-};
+// type MovieDownload = {
+//     id: string,
+//     title: string,
+//     url: string,
+//     genre: string,
+// };
 
 
 type AdminProps = {
     adminForm: boolean;
-    allMovies: MovieDownload[];
+    allMovies: MovieDownloadNew[];
     showAdminForm: React.Dispatch<React.SetStateAction<boolean>>;
-    setAllMovies: React.Dispatch<React.SetStateAction<MovieDownload[]>>;
+    setAllMovies: React.Dispatch<React.SetStateAction<MovieDownloadNew[]>>;
 }
 
 const AdminForm: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminForm, allMovies}) => {

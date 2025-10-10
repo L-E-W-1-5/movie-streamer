@@ -3,24 +3,25 @@ import './MovieList.css';
 import MovieCard from '../MovieCard/MovieCard.tsx';
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../UserContext.ts';
-import { type MovieUrl } from '../../Types/Types.ts';
+import { type MovieUrl, type MovieDownloadNew } from '../../Types/Types.ts';
+import { url } from '../../Url';
 
 //TODO: url change 
-const url = 'http://localhost:3001';
+//const url = 'http://localhost:3001';
 //const url = 'https://movie-streamer-backend.onrender.com'
 
 
 
-type MovieDownload = {
-    title: string,
-    url: string,
-    genre: string
-    id: string
-}
+// type MovieDownload = {
+//     title: string,
+//     url: string,
+//     genre: string
+//     id: string
+// }
 
 type MovieListProps = {
-    allMovies: Array<MovieDownload>,
-    setAllMovies: React.Dispatch<React.SetStateAction<MovieDownload[]>>
+    allMovies: Array<MovieDownloadNew>,
+    setAllMovies: React.Dispatch<React.SetStateAction<MovieDownloadNew[]>>
     setSignedUrl: React.Dispatch<React.SetStateAction<MovieUrl>>
 }
 
@@ -54,7 +55,7 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
                 });
 
                 const movies = await res.json() as {
-                    payload: MovieDownload[];
+                    payload: MovieDownloadNew[];
                     status: string;
                 };
 
@@ -89,7 +90,7 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
             {allMovies && 
                 <>
 
-                    {allMovies.map((film:MovieDownload, x:number) => {
+                    {allMovies.map((film:MovieDownloadNew, x:number) => {
 
                         return <MovieCard key={x} film={film} setSignedUrl={setSignedUrl}/>
 

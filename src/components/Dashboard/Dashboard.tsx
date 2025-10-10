@@ -6,18 +6,19 @@ import MoviePlayer from '../MoviePlayer/MoviePlayer';
 import { useState, useContext } from 'react';
 import { UserContext } from '../../UserContext';
 import AdminForm from '../AdminMenu/AdminMenu';
-import { type MovieUrl } from '../../Types/Types';
+import { type MovieUrl, type MovieDownloadNew } from '../../Types/Types';
+import { url } from '../../Url';
 
 //TODO: url change 
-const url = 'http://localhost:3001';
+//const url = 'http://localhost:3001';
 //const url = 'https://movie-streamer-backend.onrender.com'
 
-type MovieDownload = {
-    id: string,
-    title: string,
-    url: string,
-    genre: string,
-};
+// type MovieDownload = {
+//     id: string,
+//     title: string,
+//     url: string,
+//     genre: string,
+// };
 
 
 
@@ -29,7 +30,7 @@ const Dashboard = () => {
 
     const [adminForm, showAdminForm] = useState<boolean>(false);
 
-    const [allMovies, setAllMovies] = useState<Array<MovieDownload>>([]);
+    const [allMovies, setAllMovies] = useState<Array<MovieDownloadNew>>([]);
 
     const [signedUrl, setSignedUrl] = useState<MovieUrl>({url: "", title: ""})
 

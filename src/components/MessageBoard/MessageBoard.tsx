@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../UserContext';
 import './MessageBoard.css'
+import { url } from '../../Url';
 
 //TODO: url change 
-const url = 'http://localhost:3001';
+//const url = 'http://localhost:3001';
 //const url = 'https://movie-streamer-backend.onrender.com'
 
 

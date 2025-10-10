@@ -1,12 +1,12 @@
-
 import { useNavigate, Link } from 'react-router';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import './RegisterForm.css'
+import { url } from '../../Url';
 
 
 //TODO: url change
 //const url = 'http://localhost:3001';
-const url = 'https://movie-streamer-backend.onrender.com'
+//const url = 'https://movie-streamer-backend.onrender.com'
 
 type RegisterFields = {
     name: string,
