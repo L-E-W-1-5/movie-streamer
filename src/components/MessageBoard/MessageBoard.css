@@ -18,4 +18,5 @@
 
 .message-boxes{
     border: 0.1px solid var(--borderShadow)!important;
+    color: rgb(255, 255, 255);
 }

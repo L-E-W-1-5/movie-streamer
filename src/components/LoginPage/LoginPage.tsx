@@ -2,13 +2,10 @@ import './LoginPage.css';
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { UserContext } from '../../UserContext';
 import { Link, useNavigate } from 'react-router';
-import { type FormEvent, useContext, useEffect } from 'react';
+import { type FormEvent, useContext, useEffect, useState } from 'react';
 import { url } from '../../Url';
 
 
-//TODO: url change
-//const url = 'http://localhost:3001';
-//const url = 'https://movie-streamer-backend.onrender.com'
 
 // type userLogin = {
 //     userState: React.Dispatch<React.SetStateAction<boolean>>
@@ -21,6 +18,8 @@ const LoginPage = () => {
     const navigate = useNavigate();
 
     const { user, setUser } = useContext(UserContext)
+
+    const [loading, setLoading] = useState(false);
 
     
     useEffect(() => {
@@ -53,22 +52,62 @@ const LoginPage = () => {
 
     const handleLogin = async (guid: string, email: string) => {
 
-        const res = await fetch(`${url}/users`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({guid, email})
-        })
+        const pattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
 
-        const response = await res.json();
+        if(!guid || !email){
 
-        if(response.status === "error"){
-            alert("login details incorrect");
-            return
+            alert("must input both fields");
+
+            return;
+        };
+
+        if(guid.length < 10){
+
+            alert("password length must be 10 letters or over");
+
+            return;
         }
 
-        setUser(response.payload)
+        if(!pattern.test(email)){
 
-        //TODO: set loading animation here
+            alert("invalid email format");
+
+            return;
+        }
+
+        setLoading(true);
+
+        try{
+
+            const res = await fetch(`${url}/users`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({guid, email})
+            })
+
+            const response = await res.json();
+    
+            if(response.status === "error"){
+
+                alert("login details incorrect");
+
+                return;
+            }
+    
+            setUser(response.payload)
+
+        }catch(err){
+
+            console.log(err);
+
+            alert(err)
+        
+        }finally{
+
+            setLoading(false);
+        }
+
+        //TODO: create loading animation
     }
 
    
@@ -96,7 +135,15 @@ const LoginPage = () => {
 
         </form>
 
+        {loading && 
+        
+            <div className="login-loading-animation">
 
+                <h1>Loading...</h1>
+
+            </div>
+        
+        }
     
     </div>
     

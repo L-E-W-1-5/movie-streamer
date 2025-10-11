@@ -5,10 +5,6 @@ import { url } from '../../Url';
 
 
 
-//TODO: url change 
-//const url = 'http://localhost:3001';
-//const url = 'https://movie-streamer-backend.onrender.com'
-
 // type MovieDownload = {
 //     title: string,
 //     url: string,
@@ -29,10 +25,11 @@ import { url } from '../../Url';
 
 interface MovieDetailsProps {
     film: MovieDownloadNew
+    closeDetails: React.Dispatch<React.SetStateAction<boolean>>
     setSignedUrl: React.Dispatch<React.SetStateAction<MovieUrl>>
 }
 
-const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl}) => {
+const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl, closeDetails}) => {
 
     const { user } = useContext(UserContext)
 
@@ -77,11 +74,18 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl}) => {
         getMovie()
     }
 
+     const closeMovieDetails = (e: React.MouseEvent<HTMLButtonElement>) => {
+
+        e.stopPropagation();
+
+        closeDetails(false)
+    }
+
 
 
     return(
         
-        <div className="d-flex flex-column justify-content-between align-items-center h-100 w-100">
+        <div className="d-flex flex-column justify-content-between align-items-center h-100 w-100 p-4">
 
             <h3>{`${film.title} - ${film.year}`}</h3>
 
@@ -89,8 +93,16 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl}) => {
 
             <p>{film.description}</p>
 
+            <p>{film.length ? `length: ${film.length}` : ""}</p>
 
-            <button className="btn border-shadow variable-colour mb-3" onClick={changeUrl}>Play</button>
+            <div className="d-flex gap-4">
+
+                <button className="btn border-shadow variable-colour mb-3" onClick={changeUrl}>Play</button>
+
+                <button className="btn border-shadow variable-colour mb-3" onClick={closeMovieDetails}>close</button>
+            
+            </div>
+
 
         </div>
 

@@ -48,8 +48,6 @@ const UserNavbar: React.FC<UserNavbarProps> = ({allUsers, setFilteredUsers}) => 
 
         const value = e.target.value;
 
-
-
         setSearchUsers(value);
 
     }
@@ -61,8 +59,6 @@ const UserNavbar: React.FC<UserNavbarProps> = ({allUsers, setFilteredUsers}) => 
         const filteredUsers = [...allUsers].filter(user => {return user.username.toLowerCase().includes(searchUsers.toLowerCase())})
 
         //const filteredUsers = [...allUsers].filter(user => {return user.name.toLowerCase() === searchUsers.toLowerCase()})
-
-         console.log(filteredUsers)
 
         setFilteredUsers(filteredUsers)
     }

@@ -3,10 +3,6 @@ import { UserContext } from '../../UserContext';
 import './MessageBoard.css'
 import { url } from '../../Url';
 
-//TODO: url change 
-//const url = 'http://localhost:3001';
-//const url = 'https://movie-streamer-backend.onrender.com'
-
 
 type MessageUpload = {
     username: string,
@@ -32,11 +28,9 @@ const MessageBoard = () => {
             if(!user?.token){
 
                 return;
-            }
+            }   
 
-            
-
-            const allMessages = await fetch(`${url}/messages`, {
+            const res = await fetch(`${url}/messages`, {
 
                 headers: {
                     "Content-Type": "application/json",
@@ -44,13 +38,13 @@ const MessageBoard = () => {
                 }
             });
 
-            const res = await allMessages.json() as {
+            const allMessages = await res.json() as {
                 payload: MessageUpload[];
                 status: string;
             };
 
 
-            if(res.status === "error"){
+            if(allMessages.status === "error"){
 
                 alert("messages failed to load");
 
@@ -58,7 +52,7 @@ const MessageBoard = () => {
             };
 
 
-            setAllMessages(res.payload);
+            setAllMessages(allMessages.payload);
 
         };
 
@@ -113,8 +107,6 @@ const MessageBoard = () => {
                     payload: MessageUpload;
                     status: string;
                 };
-
-                console.log(result)
     
                 setAllMessages(prev => [...prev, result.payload])
             }

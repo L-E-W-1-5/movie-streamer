@@ -8,10 +8,8 @@ import { UserContext } from '../../UserContext';
 import AdminForm from '../AdminMenu/AdminMenu';
 import { type MovieUrl, type MovieDownloadNew } from '../../Types/Types';
 import { url } from '../../Url';
+//import Burger from '../../assets/burger-bar.png'
 
-//TODO: url change 
-//const url = 'http://localhost:3001';
-//const url = 'https://movie-streamer-backend.onrender.com'
 
 // type MovieDownload = {
 //     id: string,
@@ -51,8 +49,6 @@ const Dashboard = () => {
         const logout = confirm("are you sure you wish to log out?");
 
         if(logout){
-
-            //TODO: create a fetch here to set is_loggedin to false
 
             const isLoggedOut = await setLogout();
 
@@ -121,10 +117,10 @@ const Dashboard = () => {
 
                 {user?.admin &&
 
-                    <button className="btn border-shadow variable-colour" onClick={preventClosureOfMenu}>upload</button>
+                    <button className="admin-nav-button " onClick={preventClosureOfMenu}></button>
                 }
 
-                <p className="logout-link" style={{color: "var(--borderShadow)"}} onClick={logout}>Logout</p>
+                <p className="logout-link mt-3" style={{color: "var(--borderShadow)"}} onClick={logout}>Logout</p>
 
             </nav>
 

@@ -1,6 +1,7 @@
 .movie-list-container{
     justify-content: start;
     align-content: flex-start;
+    height: 100%;
 }
 
 

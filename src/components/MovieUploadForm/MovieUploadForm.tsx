@@ -4,9 +4,6 @@ import { UserContext } from "../../UserContext";
 import { type MovieDownloadNew } from '../../Types/Types';
 import { url } from '../../Url';
 
-//TODO: url change from development 
-//const url = 'http://localhost:3001';
-//const url = 'https://movie-streamer-backend.onrender.com'
 
 
 type MovieUpload = {
@@ -190,13 +187,14 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
 
                 const newUpload:MovieDownloadNew = {
                     id: reply.payload.id,
-                    title: reply.payload.title ,
+                    title: reply.payload.title,
+                    key: reply.payload.key,
                     genre: reply.payload.genre,
-                    description: reply.description,
-                    year: reply.year,
-                    length: reply.length,
-                    timestamp: reply.timestamp,
-                    times_played: reply.times_played
+                    description: reply.payload.description,
+                    year: reply.payload.year,
+                    length: reply.payload.length,
+                    timestamp: reply.payload.timestamp,
+                    times_played: reply.payload.times_played
                 };
 
                 setAllMovies(prev => [...prev, newUpload]);

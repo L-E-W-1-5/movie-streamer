@@ -6,10 +6,6 @@ import { UserContext } from '../../UserContext.ts';
 import { type MovieUrl, type MovieDownloadNew } from '../../Types/Types.ts';
 import { url } from '../../Url';
 
-//TODO: url change 
-//const url = 'http://localhost:3001';
-//const url = 'https://movie-streamer-backend.onrender.com'
-
 
 
 // type MovieDownload = {
@@ -60,6 +56,8 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
                 };
 
                 if(res.ok && movies.status !== "error") {
+
+                    console.log(movies.payload)
 
                     setAllMovies(movies.payload);
             

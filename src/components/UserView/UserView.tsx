@@ -4,10 +4,6 @@ import { UserContext } from '../../UserContext.ts'
 import { url } from '../../Url';
 
 
-//TODO: url change from development 
-//const url = 'http://localhost:3001';
-//const url = 'https://movie-streamer-backend.onrender.com'
-
 
 const UserView: React.FC<{userEdit: UserEdit}> = ({ userEdit }) => {
 

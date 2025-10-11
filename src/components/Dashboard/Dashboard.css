@@ -8,6 +8,7 @@
 
 .logout-link{
     cursor: pointer;
+    align-self: center;
 }
 
 .dashboard-nav{
@@ -45,6 +46,18 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.admin-nav-button{
+    height: 35px;
+    width: 35px; 
+    background-image: url('../../assets/burger-bar.png');
+    background-size: contain; /* make sure icon fits inside */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--borderShadow);
+    border: none;
+    border-radius: 10px;;
 }
 
 

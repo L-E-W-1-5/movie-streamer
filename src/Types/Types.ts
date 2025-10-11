@@ -24,9 +24,10 @@ export type UserEdit = {
     last_login: Date
 }
 
-export type MovieDownloadNew = {
+export interface MovieDownloadNew {
     id: number,
     title: string,
+    key: string,
     description: string | null,
     length: string | null,
     year: number | null,

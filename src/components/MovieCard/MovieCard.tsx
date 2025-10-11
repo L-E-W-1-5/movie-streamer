@@ -21,15 +21,6 @@ const MovieCard: React.FC<MovieInfo> = ({film, setSignedUrl}) => {
 
 
 
-    const closeMovieDetails = (e: React.MouseEvent<HTMLButtonElement>) => {
-
-        e.stopPropagation();
-
-        showMovieDetails(false)
-
-    }
-
-
     return(
 
         <>
@@ -39,7 +30,7 @@ const MovieCard: React.FC<MovieInfo> = ({film, setSignedUrl}) => {
             <div className="movie-card border-shadow card p-2">
             </div>
 
-            <h3>{film.title}</h3>
+            <h3 className="movie-card-title">{film.title}</h3>
 
             <p>{film.genre}</p>
 
@@ -50,10 +41,8 @@ const MovieCard: React.FC<MovieInfo> = ({film, setSignedUrl}) => {
             <div className='movie-details-container container-style border-shadow d-flex flex-column justify-content-around align-items-center'>
 
 
-                <MovieDetails film={film} setSignedUrl={setSignedUrl}/>
+                <MovieDetails film={film} setSignedUrl={setSignedUrl} closeDetails={showMovieDetails}/>
 
-
-                <button className="btn border-shadow variable-colour mb-2" onClick={closeMovieDetails}>close</button>
 
             </div>
         
