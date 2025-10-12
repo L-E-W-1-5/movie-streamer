@@ -16,7 +16,7 @@
 
 .map-container-user{
     width: 90%;
-
+    /* overflow-y: scroll; */
 }
 
 .map-navbar{

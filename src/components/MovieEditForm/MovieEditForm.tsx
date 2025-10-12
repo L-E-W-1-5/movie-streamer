@@ -45,7 +45,7 @@ const MovieEditForm: React.FC<MovieEditProps> = ({allMovies, showMovieEditForm, 
 
         <div className="movie-edit-form border-shadow container-style d-flex flex-column justify-content-around align-items-center">
 
-            <div className="map-container d-flex flex-column justify-content-center align-items-center">
+            <div className="map-container d-flex flex-column justify-content-center align-items-center gap-1">
             
                 {allMovies.map((movie: MovieDownloadNew, index: number) => {
 
@@ -53,7 +53,7 @@ const MovieEditForm: React.FC<MovieEditProps> = ({allMovies, showMovieEditForm, 
 
                     
 
-                        <div key={index} className="record-container d-flex flex-row" onClick={() => setMovieDetails(movie)}>
+                        <div key={index} className="record-container" onClick={() => setMovieDetails(movie)}>
 
                             <span className="edit-field-item">{movie.id}</span>
                             <span className="edit-field-item">{movie.title}</span>
@@ -83,6 +83,8 @@ const MovieEditForm: React.FC<MovieEditProps> = ({allMovies, showMovieEditForm, 
             <button className="edit-form-button btn border-shadow variable-colour" onClick={stopMenuClosure}>close</button>
 
         </div>
+
+
     )
 }
 

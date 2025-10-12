@@ -145,7 +145,7 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
 
 
     return (
-    <div className="edit-form border-shadow d-flex gap-3 justify-content-around align-items-center">
+    <div className="edit-form border-shadow d-flex gap-3 justify-content-around align-items-start">
 
         <div className="map-navbar">
 
