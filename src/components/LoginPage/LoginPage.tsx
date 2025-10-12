@@ -4,6 +4,7 @@ import { UserContext } from '../../UserContext';
 import { Link, useNavigate } from 'react-router';
 import { type FormEvent, useContext, useEffect, useState } from 'react';
 import { url } from '../../Url';
+//import { type User } from '../../Types/Types';
 
 
 
@@ -24,6 +25,20 @@ const LoginPage = () => {
     
     useEffect(() => {
 
+        
+        if(!user){
+            
+            const sessionData = sessionStorage.getItem('session_user');
+
+            if(sessionData){
+
+                const userLoad = JSON.parse(sessionData)
+    
+                setUser(userLoad)
+            }
+
+        }
+
         if(user?.token){
 
             sessionStorage.setItem('session_user', JSON.stringify(user))
@@ -31,7 +46,7 @@ const LoginPage = () => {
             navigate('/dashboard');
         }
 
-    }, [user, navigate])
+    }, [user, navigate, setUser])
 
 
     const onSubmit = (event:FormEvent<HTMLFormElement>) => {
@@ -89,12 +104,16 @@ const LoginPage = () => {
     
             if(response.status === "error"){
 
-                alert("login details incorrect");
+                alert(response.payload);
 
                 return;
             }
+
+            if(response.status === "success"){
+
+                setUser(response.payload)
+            }
     
-            setUser(response.payload)
 
         }catch(err){
 

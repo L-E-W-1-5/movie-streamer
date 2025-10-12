@@ -2,6 +2,7 @@ import {  useContext } from "react"
 import { UserContext } from "../../UserContext";
 import { type MovieUrl, type MovieDownloadNew } from "../../Types/Types";
 import { url } from '../../Url';
+import './MovieDetails.css'
 
 
 
@@ -85,7 +86,7 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl, closeDeta
 
     return(
         
-        <div className="d-flex flex-column justify-content-between align-items-center h-100 w-100 p-4">
+        <div className="movie-play-container d-flex flex-column justify-content-between align-items-center h-100 w-100 p-4">
 
             <h3>{`${film.title} - ${film.year}`}</h3>
 

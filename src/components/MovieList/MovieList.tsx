@@ -57,8 +57,6 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
 
                 if(res.ok && movies.status !== "error") {
 
-                    console.log(movies.payload)
-
                     setAllMovies(movies.payload);
             
                 }else{

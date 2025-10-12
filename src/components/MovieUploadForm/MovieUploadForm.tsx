@@ -81,6 +81,10 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
             case "year":
             setMovieUpload(prev => ({...prev, year: parseInt(e.target.value)}))
             break;
+
+            case "length":
+            setMovieUpload(prev => ({...prev, length: e.target.value}))
+            break;
         }
     }
 
@@ -99,10 +103,10 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
             return
         };
 
-        if(!movieUpload.year){
+        // if(!movieUpload.year){
 
-            alert("no description")
-        }
+        //     alert("no description")
+        // }
 
        
 
@@ -125,6 +129,11 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
         if(movieUpload.year){
 
             formData.append('year', movieUpload.year.toString())
+        }
+
+        if(movieUpload.length){
+
+            formData.append('length', movieUpload.length)
         }
 
         sendMovie(formData);
@@ -164,7 +173,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
 
             reply = await res.json();
 
-             if(reply.status === "error"){
+            if(reply.status === "error"){
 
                 alert(reply.payload);
 
@@ -198,6 +207,8 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
                 };
 
                 setAllMovies(prev => [...prev, newUpload]);
+
+                alert("movie uploaded successfully");
             };
 
             showUploadForm(false);
@@ -234,6 +245,8 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
                 <input id="year" type="number" placeholder="movie year" onChange={handleChanges}/>
 
                 <textarea id="description" placeholder="enter description here" onChange={handleChanges}/>
+
+                <input id="length" type="text" placeholder="movie length" onChange={handleChanges}/>
 
                 <button className="upload-form-button btn border-shadow variable-colour" onClick={handleSubmit} >upload</button>
 

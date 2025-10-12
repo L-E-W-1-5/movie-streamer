@@ -37,41 +37,19 @@
 }
 
 .login-loading-animation{
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 200px;
-    height: 200px;
-    color: white;
-}
-
-
-
-/* .dynamic-border{
-    border: 3px solid blue;
-
-    animation: border-wiggle 4s infinite,
-     moving-border 2s infinite alternate;
+    background-color: rgba(0, 0, 0, 0.674);
     
+    border-radius: 0.375rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
-
-@keyframes moving-border {
-    0% {
-        border-color: chartreuse;
-    }
-    50% {
-        border-color: red;
-    }
-    100% {
-        border-color: rgb(7, 31, 216);
-    }
-}
-
-
-@keyframes border-wiggle {
-    0%, 100% {border-width: 2px;}
-    50% {border-width: 8px;}
-} */

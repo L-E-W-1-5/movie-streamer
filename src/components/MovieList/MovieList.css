@@ -1,6 +1,9 @@
 .movie-list-container{
     justify-content: start;
     align-content: flex-start;
+    /* height: 100%; */
+    overflow-y: scroll;
+    flex-wrap: wrap;
     height: 100%;
 }
 

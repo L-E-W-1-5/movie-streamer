@@ -5,6 +5,7 @@ import { url } from '../../Url';
 
 
 type MessageUpload = {
+    id: number,
     username: string,
     userid: string,
     timestamp: string,
@@ -115,6 +116,45 @@ const MessageBoard = () => {
         };
     };
 
+    const deleteMessage = async (msg:MessageUpload) => {
+
+        console.log(msg?.message)
+
+        try{
+
+            const res = await fetch(`${url}/messages/delete_message`, {
+
+                method: 'POST',
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `Bearer ${user?.token}`
+                },
+
+                body: JSON.stringify({msg})
+            });
+
+            const response = await res.json()
+
+            console.log(response.payload.id)
+
+            if(res.ok && response.status === "success"){
+
+                setAllMessages(prevMsgs => prevMsgs.filter(msg => msg.id !== response.payload.id))
+
+                alert("message deleted");
+            
+            }else{
+
+                alert("failed to delete message");
+            }
+        
+        }catch(err){
+
+            console.log(err);
+        }
+    }
+
 
 
     return (
@@ -123,12 +163,13 @@ const MessageBoard = () => {
 
                 <div className="messages-sent">
                    
-                    {allMessages.map((message:MessageUpload, index:number) => {
+                    {allMessages.map((msg:MessageUpload, index:number) => {
 
                         return (
-                            <div className="lh-1 message-boxes textarea-style mb-2 p-1" key={index}>
-                                <p><b>{message.username.split(' ')[0] + ' ' + message.username.split(' ')[1][0]}</b> <i>{message.timestamp}</i></p>
-                                <p>{message.message}</p>
+                            <div className="message-boxes d-flex flex-column lh-1 textarea-style mb-2 p-1" key={index}>
+                                
+                                <p className="d-flex flex-row justify-content-between"><b>{msg.username.split(' ')[0] + ' ' + msg.username.split(' ')[1][0]}</b><i>{msg.timestamp}</i>{user?.admin && <button className="message-box-delete align-self-end" onClick={() => deleteMessage(msg)}></button>}</p>
+                                <p>{msg.message}</p>
                                 
                             </div>
                         )

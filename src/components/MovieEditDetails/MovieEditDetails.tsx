@@ -66,12 +66,10 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
     
             });
     
+            const response = await res.json();
     
-            if(res.ok){
+            if(res.ok && response.status === "success"){
     
-                const result = await res.json();
-    
-                console.log(result);
     
                 setAllMovies(prevMovies => prevMovies.filter(m => m.id !== movie.id))
             }
@@ -162,13 +160,13 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
 
             if(res.ok && response.status === "success"){
 
-                console.log(response);
-
                 setAllMovies(prevMovies => {
                     return prevMovies.map(movie => 
                         movie.id === edit.id ? {...movie, ...edit} : movie
                     )
                 })
+
+                alert("movie updated successfully");
             }
 
         }catch(err){

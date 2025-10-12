@@ -30,9 +30,14 @@ const MovieCard: React.FC<MovieInfo> = ({film, setSignedUrl}) => {
             <div className="movie-card border-shadow card p-2">
             </div>
 
-            <h3 className="movie-card-title">{film.title}</h3>
+            <div className="movie-card-headings">
 
-            <p>{film.genre}</p>
+                <h3 className="movie-card-title">{film.title}</h3>
+
+                {/* <p>{film.genre}</p> */}
+
+            </div>
+
 
         </div>
 

@@ -12,7 +12,8 @@ video {
   height: auto;
   min-width: 135px;
   touch-action: none;
-  z-index: 2;
+  z-index: 8;
+  border-radius: .375rem;;
 }
 
 .player-close-button{
