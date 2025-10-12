@@ -1,0 +1,23 @@
+.user-options-menu{
+    position: absolute;
+    max-width: 150px;
+    height: 130px;
+    right: 0.2%;
+    top: 6%;
+}
+
+.user-options-button{
+    width: 60%;
+    align-self: center;
+}
+
+.password-change-container{
+    background-color: black;
+    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 200px;
+    width: 200px;
+}

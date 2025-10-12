@@ -2,6 +2,7 @@ import './Dashboard.css'
 import MovieList from '../MovieList/MovieList';
 import MessageBoard from '../MessageBoard/MessageBoard';
 import MoviePlayer from '../MoviePlayer/MoviePlayer';
+import UserOptions from '../UserOptions/UserOptions';
 //import { Link } from 'react-router';
 import { useState, useContext } from 'react';
 import { UserContext } from '../../UserContext';
@@ -32,6 +33,8 @@ const Dashboard = () => {
 
     const [signedUrl, setSignedUrl] = useState<MovieUrl>({url: "", title: ""})
 
+    const [userOptions, setUserOptions] = useState<boolean>(false);
+
     
 
 
@@ -41,6 +44,13 @@ const Dashboard = () => {
         e.stopPropagation();
 
         showAdminForm(current => !current)
+    };
+
+    const openUserMenu = (e: React.MouseEvent) => {
+
+        e.stopPropagation();
+
+        setUserOptions(current => !current)
     };
 
 
@@ -117,10 +127,12 @@ const Dashboard = () => {
 
                 {user?.admin &&
 
-                    <button className="admin-nav-button " onClick={preventClosureOfMenu}></button>
+                    <button className="admin-nav-button" onClick={preventClosureOfMenu}></button>
                 }
 
                 <p className="logout-link mt-3" style={{color: "var(--borderShadow)"}} onClick={logout}>Logout</p>
+
+                <button onClick={openUserMenu}>menu</button>
 
             </nav>
 
@@ -128,6 +140,11 @@ const Dashboard = () => {
             {adminForm &&
 
                 <AdminForm showAdminForm={showAdminForm} setAllMovies={setAllMovies} allMovies={allMovies} adminForm={adminForm}/>
+            }
+
+            {userOptions && 
+            
+                <UserOptions/>
             }
 
             {signedUrl.title !== "" && 
