@@ -74,6 +74,11 @@ const UserOptions = () => {
 
             alert("password changed")
         }
+    };
+
+    const closeForm = () => {
+
+        setPassword(false);
     }
 
 
@@ -81,7 +86,7 @@ const UserOptions = () => {
 
     <>
 
-        <div className="user-options-menu border-shadow d-flex flex-column justify-content-around">
+        <div className="user-nav-menu border-shadow d-flex flex-column justify-content-around">
 
             <button className="user-options-button btn variable-colour border-shadow">logout</button>
             <button className="user-options-button btn variable-colour border-shadow" onClick={() => setPassword(true)}>change password</button>
@@ -98,7 +103,9 @@ const UserOptions = () => {
 
                     <input type="text" value={passwordCheck} onChange={passwordValidate}/>
 
-                    <button onClick={sendPassword} >change</button>
+                    <button onClick={sendPassword}>change</button>
+
+                    <button onClick={closeForm}>close</button>
 
                 </label>
 
