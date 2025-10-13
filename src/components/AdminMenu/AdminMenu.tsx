@@ -4,6 +4,7 @@ import MovieEditForm from '../MovieEditForm/MovieEditForm';
 import UserEditForm from '../UserEditForm/UserEditForm';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { type MovieDownloadNew } from '../../Types/Types';
+import PasswordChange from '../PasswordChange/PasswordChange';
 
 
 
@@ -19,11 +20,13 @@ type AdminProps = {
 const AdminMenu: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminForm, allMovies, logout}) => {
 
     
-    const [uploadForm, showUploadForm] = useState(false);
+    const [uploadForm, showUploadForm] = useState<boolean>(false);
 
-    const [movieEditForm, showMovieEditForm] = useState(false); 
+    const [movieEditForm, showMovieEditForm] = useState<boolean>(false); 
 
-    const [userEditForm, showUserEditForm] = useState(false);
+    const [userEditForm, showUserEditForm] = useState<boolean>(false);
+
+    const [passwordForm, showPasswordForm] = useState<boolean>(false)
 
     const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -63,12 +66,15 @@ const AdminMenu: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminFor
 
     return (
 
+    <>
+
     <div ref={menuRef} className="admin-menu-container border-shadow d-flex flex-column p-2">
 
         
             <button className="admin-menu-button p-2" onClick={() => showUploadForm(current => !current)}>upload movie</button>
             <button className="admin-menu-button p-2" onClick={() => showMovieEditForm(current => !current)}>edit movies</button>
             <button className="admin-menu-button p-2" onClick={() => showUserEditForm(current => !current)}>edit accounts</button>
+            <button className="admin-menu-button p-2" onClick={() => showPasswordForm(current => !current)}>change password</button>
             <button className="admin-menu-button p-2" onClick={logout}>logout</button>
             
         
@@ -87,9 +93,16 @@ const AdminMenu: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminFor
         
             <UserEditForm showUserEditForm={showUserEditForm} userEditForm={userEditForm}/>
         }
+
   
 
     </div>
+
+        {passwordForm &&
+        
+            <PasswordChange setPasswordForm={showPasswordForm}/>
+        }
+    </>
     )
 }
 

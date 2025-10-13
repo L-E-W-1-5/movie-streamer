@@ -14,9 +14,6 @@ const PasswordChange: React.FC<PasswordProps> = ({setPasswordForm}) => {
 
     const { user } = useContext(UserContext);
 
-
-    
-
     const [newPassword, setNewPassword] = useState<string>("");
 
     const [passwordCheck, setPasswordCheck] = useState<string>("");
@@ -38,7 +35,15 @@ const PasswordChange: React.FC<PasswordProps> = ({setPasswordForm}) => {
     };
 
 
-    const sendPassword = async () => {
+    const stopProp = (e: React.MouseEvent<HTMLInputElement>) =>{
+
+        e.stopPropagation();
+    }
+
+
+    const sendPassword = async (e: React.MouseEvent<HTMLButtonElement>) => {
+
+        e.stopPropagation();
 
         const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{10,}$/;
 
@@ -104,13 +109,13 @@ const PasswordChange: React.FC<PasswordProps> = ({setPasswordForm}) => {
 
             <label>new password: 
 
-                <input className="password-input border-shadow p-1" type="password" value={newPassword} onChange={changePassword}/>
+                <input className="password-input border-shadow p-1" type="text" value={newPassword} onClick={stopProp} onChange={changePassword}/>
 
             </label>
 
             <label>repeat new password: 
 
-                <input className="password-input border-shadow p-1" type="password" value={passwordCheck} onChange={passwordValidate}/>
+                <input className="password-input border-shadow p-1" type="text" value={passwordCheck} onClick={stopProp} onChange={passwordValidate}/>
 
             </label>
 

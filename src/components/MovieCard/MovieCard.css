@@ -58,6 +58,10 @@
         width: 31.5%;
         min-width: 100px;
     }
+
+    .movie-details-container{
+        width: 95%;
+    }
 }
 
 @media only screen and (max-height: 550px){

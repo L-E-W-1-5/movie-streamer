@@ -37,21 +37,6 @@ const UserOptions: React.FC<UserOptionsProps> = ({ logout }) => {
 
         {passwordForm &&
 
-            // <div className="password-change-container border-shadow d-flex flex-column justify-content-around">
-
-            //     <label>new password
-
-            //         <input type="text" value={newPassword} onChange={changePassword}/>
-
-            //         <input type="text" value={passwordCheck} onChange={passwordValidate}/>
-
-            //         <button onClick={sendPassword}>change</button>
-
-            //         <button onClick={closeForm}>close</button>
-
-            //     </label>
-
-            // </div>
 
             <PasswordChange setPasswordForm={setPasswordForm}/>
         }
