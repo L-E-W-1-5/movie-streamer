@@ -5,12 +5,7 @@ import UserEditForm from '../UserEditForm/UserEditForm';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { type MovieDownloadNew } from '../../Types/Types';
 
-// type MovieDownload = {
-//     id: string,
-//     title: string,
-//     url: string,
-//     genre: string,
-// };
+
 
 
 type AdminProps = {
@@ -18,10 +13,12 @@ type AdminProps = {
     allMovies: MovieDownloadNew[];
     showAdminForm: React.Dispatch<React.SetStateAction<boolean>>;
     setAllMovies: React.Dispatch<React.SetStateAction<MovieDownloadNew[]>>;
+    logout: () => void;
 }
 
-const AdminForm: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminForm, allMovies}) => {
+const AdminMenu: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminForm, allMovies, logout}) => {
 
+    
     const [uploadForm, showUploadForm] = useState(false);
 
     const [movieEditForm, showMovieEditForm] = useState(false); 
@@ -67,11 +64,14 @@ const AdminForm: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminFor
     return (
 
     <div ref={menuRef} className="admin-menu-container border-shadow d-flex flex-column p-2">
-        
-        <button className="admin-menu-button p-2" onClick={() => showUploadForm(current => !current)}>upload movie</button>
-        <button className="admin-menu-button p-2" onClick={() => showMovieEditForm(current => !current)}>edit movies</button>
-        <button className="admin-menu-button p-2" onClick={() => showUserEditForm(current => !current)}>edit accounts</button>
 
+        
+            <button className="admin-menu-button p-2" onClick={() => showUploadForm(current => !current)}>upload movie</button>
+            <button className="admin-menu-button p-2" onClick={() => showMovieEditForm(current => !current)}>edit movies</button>
+            <button className="admin-menu-button p-2" onClick={() => showUserEditForm(current => !current)}>edit accounts</button>
+            <button className="admin-menu-button p-2" onClick={logout}>logout</button>
+            
+        
        
         {uploadForm &&
 
@@ -93,4 +93,4 @@ const AdminForm: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminFor
     )
 }
 
-export default AdminForm
+export default AdminMenu

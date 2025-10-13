@@ -185,7 +185,7 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
             {!editForm &&
             <>
                 
-                <h4>{movie.title}</h4>
+                <h4 className="mt-4">{movie.title}</h4>
                 <span>{movie.genre}</span>
                 <span>{movie.description}</span>
                 <span>{`year of movie: ${movie.year}`}</span>
@@ -193,7 +193,7 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
                 <span>{`number of times played: ${movie.times_played}`}</span>
                 <span>{movie.length ? `length of movie: ${movie.length}` : ""}</span>
 
-                <div className="d-flex flex-row gap-5">
+                <div className="d-flex flex-row gap-5 mb-4 mt-4">
 
                     <button className="btn border-shadow variable-colour" onClick={handleDelete}>delete</button>
 
@@ -215,11 +215,11 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
                         <div className="first-column d-flex flex-column justify-content-around align-items-end">
 
                             <label>title: 
-                                <input id="title" defaultValue={movie.title} onChange={changeNewEdit}/>
+                                <input id="title" className="movie-edit-details-element btn variable-colour border-shadow" defaultValue={movie.title} onChange={changeNewEdit}/>
                             </label>
 
                             <label>genre: 
-                                <select id="genre" defaultValue={movie.genre ? movie.genre : ""} onChange={changeNewEdit}>
+                                <select id="genre" className="movie-edit-details-element first-column form-select select-element variable-colour border-shadow" defaultValue={movie.genre ? movie.genre : ""} onChange={changeNewEdit}>
                                     <option value="">please select</option>
                                     <option value="action">Action</option>
                                     <option value="comedy">Comedy</option>
@@ -231,11 +231,11 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
                             </label>
 
                             <label>year: 
-                                <input id="year" type="number" defaultValue={movie.year ? movie.year : ""} onChange={changeNewEdit}/>
+                                <input id="year" className="movie-edit-details-element btn variable-colour border-shadow" type="number" defaultValue={movie.year ? movie.year : ""} onChange={changeNewEdit}/>
                             </label>
 
                             <label>length
-                                <input id="length" type="text" defaultValue={movie.length ? movie.length : ""} onChange={changeNewEdit}/>
+                                <input id="length" className="movie-edit-details-element btn variable-colour border-shadow" type="text" defaultValue={movie.length ? movie.length : ""} onChange={changeNewEdit}/>
                             </label>
 
                         </div>
@@ -243,7 +243,7 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
                         <div className="second-column h-100">
 
                             <label>description: 
-                                <textarea id="description" className="edit-details-textarea" defaultValue={movie.description ? movie.description : ""} onChange={changeNewEdit}/>
+                                <textarea id="description" className="edit-details-textarea variable-colour border-shadow input-field" defaultValue={movie.description ? movie.description : ""} onChange={changeNewEdit}/>
                             </label>
 
                         </div>

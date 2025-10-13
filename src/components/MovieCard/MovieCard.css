@@ -3,6 +3,8 @@
     width: 20%;
     /* height: 30%;   */
     min-height: 150px;
+    min-width: 130px;
+    max-width: 200px;
 }
 
 .movie-card{
@@ -53,7 +55,8 @@
     } */
 
     .movie-card-container{
-        width: 30%;
+        width: 31.5%;
+        min-width: 100px;
     }
 }
 
@@ -61,5 +64,9 @@
 
     .movie-details-container{
         height: 75%;
+    }
+
+    .movie-card-container{
+        width: 30%;
     }
 }

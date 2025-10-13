@@ -1,115 +1,59 @@
 import './UserOptions.css'
-import { url } from '../../Url'
-import { useState, useContext } from 'react'
-import { UserContext } from '../../UserContext'
+//import { url } from '../../Url'
+import { useState } from 'react'
+//import { UserContext } from '../../UserContext'
+import PasswordChange from '../PasswordChange/PasswordChange'
 
 
+type UserOptionsProps = {
+    logout: () => void
+}
 
 
-const UserOptions = () => {
+const UserOptions: React.FC<UserOptionsProps> = ({ logout }) => {
 
-    const { user } = useContext(UserContext)
+    //const { user } = useContext(UserContext)
 
-    const [password, setPassword] = useState<boolean>(false);
-
-    const [newPassword, setNewPassword] = useState<string>("");
-
-    const [passwordCheck, setPasswordCheck] = useState<string>("");
+    const [passwordForm, setPasswordForm] = useState<boolean>(false);
 
 
-    const changePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // const closeForm = () => {
 
-        e.preventDefault();
-
-        console.log(newPassword)
-
-        setNewPassword(e.target.value)
-    }
-
-    const passwordValidate = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-        e.preventDefault();
-
-        console.log(passwordCheck);
-
-        setPasswordCheck(e.target.value);
-    }
-
-    const sendPassword = async () => {
-
-        if(newPassword !== passwordCheck){
-
-            alert('passwords dont match')
-
-            return;
-        }
-
-        if(newPassword.length < 10){
-
-            alert('password must be at least 10 letters long');
-
-            return
-        }
-        
-
-
-        const res = await fetch(`${url}/users/change_password`, {
-
-            method: 'POST',
-
-            headers: {
-                "Content-Type": "application/json",
-                "authorization": `Bearer ${user?.token}`
-            },
-
-            body: JSON.stringify({
-                newPassword,
-                user
-            })
-        })
-
-        const response = await res.json()
-
-        if(res.ok && response.status === "success"){
-
-            alert("password changed")
-        }
-    };
-
-    const closeForm = () => {
-
-        setPassword(false);
-    }
+    //     setPasswordForm(false);
+    // }
 
 
     return(
 
     <>
 
-        <div className="user-nav-menu border-shadow d-flex flex-column justify-content-around">
+        <div className="user-nav-menu border-shadow d-flex flex-column p-2">
 
-            <button className="user-options-button btn variable-colour border-shadow">logout</button>
-            <button className="user-options-button btn variable-colour border-shadow" onClick={() => setPassword(true)}>change password</button>
+            <button className="user-options-button p-2" onClick={logout}>logout</button>
+
+            <button className="user-options-button p-2" onClick={() => setPasswordForm(true)}>change password</button>
         
         </div>
 
-        {password &&
+        {passwordForm &&
 
-            <div className="password-change-container border-shadow d-flex flex-column justify-content-around">
+            // <div className="password-change-container border-shadow d-flex flex-column justify-content-around">
 
-                <label>new password
+            //     <label>new password
 
-                    <input type="text" value={newPassword} onChange={changePassword}/>
+            //         <input type="text" value={newPassword} onChange={changePassword}/>
 
-                    <input type="text" value={passwordCheck} onChange={passwordValidate}/>
+            //         <input type="text" value={passwordCheck} onChange={passwordValidate}/>
 
-                    <button onClick={sendPassword}>change</button>
+            //         <button onClick={sendPassword}>change</button>
 
-                    <button onClick={closeForm}>close</button>
+            //         <button onClick={closeForm}>close</button>
 
-                </label>
+            //     </label>
 
-            </div>
+            // </div>
+
+            <PasswordChange setPasswordForm={setPasswordForm}/>
         }
 
     </>

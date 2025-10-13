@@ -3,29 +3,19 @@ import MovieList from '../MovieList/MovieList';
 import MessageBoard from '../MessageBoard/MessageBoard';
 import MoviePlayer from '../MoviePlayer/MoviePlayer';
 import UserOptions from '../UserOptions/UserOptions';
-//import { Link } from 'react-router';
-import { useState, useContext } from 'react';
-import { UserContext } from '../../UserContext';
-import AdminForm from '../AdminMenu/AdminMenu';
+import DashNavbar from '../DashNavbar/DashNavbar';
+import { useContext, useState } from 'react';
+import AdminMenu from '../AdminMenu/AdminMenu';
 import { type MovieUrl, type MovieDownloadNew } from '../../Types/Types';
+import { UserContext } from '../../UserContext';
 import { url } from '../../Url';
-//import Burger from '../../assets/burger-bar.png'
-
-
-// type MovieDownload = {
-//     id: string,
-//     title: string,
-//     url: string,
-//     genre: string,
-// };
 
 
 
 
 const Dashboard = () => {
 
-
-    const { user, setUser } = useContext(UserContext)
+    const { user, setUser } = useContext(UserContext) 
 
     const [adminForm, showAdminForm] = useState<boolean>(false);
 
@@ -34,24 +24,6 @@ const Dashboard = () => {
     const [signedUrl, setSignedUrl] = useState<MovieUrl>({url: "", title: ""})
 
     const [userOptions, setUserOptions] = useState<boolean>(false);
-
-    
-
-
-
-    const preventClosureOfMenu = (e: React.MouseEvent) => {
-
-        e.stopPropagation();
-
-        showAdminForm(current => !current)
-    };
-
-    const openUserMenu = (e: React.MouseEvent) => {
-
-        e.stopPropagation();
-
-        setUserOptions(current => !current)
-    };
 
 
     const logout = async () => {
@@ -73,47 +45,46 @@ const Dashboard = () => {
                 alert("error logging user out");
             }
 
-        }
-
-    }
+        };
+    };
 
 
     const setLogout = async () => {
-
+    
         try{
-
+    
             const res = await fetch(`${url}/users/user_logout`, {
-
+    
                 method: 'POST',
-
+    
                 headers: {
                     "Content-Type": "application/json"
                 },
-
+    
                 body: JSON.stringify({user})
             })
-
+    
             const response = await res.json();
-
+    
             if(response.status !== "error"){
-
+    
                 return true
-            
+                
             }else{
-
+    
                 return false
             }
-
-        
+    
+            
         }catch(err){
-
+    
             console.log(err)
-
+    
             alert("could not logout");
-
+    
             return false
-        }
-    }
+        };
+    };
 
 
 
@@ -121,30 +92,18 @@ const Dashboard = () => {
         
         <div className="main-dash-container d-flex flex-column justify-content-between">
             
-            <nav className="dashboard-nav p-2 d-flex flex-row justify-content-between align-items-center">
 
-                <h2 className="pt-1">LuluFlix</h2>
-
-                {user?.admin &&
-
-                    <button className="admin-nav-button" onClick={preventClosureOfMenu}></button>
-                }
-
-                <p className="logout-link mt-3" style={{color: "var(--borderShadow)"}} onClick={logout}>Logout</p>
-
-                <button onClick={openUserMenu}>menu</button>
-
-            </nav>
+            <DashNavbar showUserOptions={setUserOptions} showAdminForm={showAdminForm}/>
 
 
             {adminForm &&
 
-                <AdminForm showAdminForm={showAdminForm} setAllMovies={setAllMovies} allMovies={allMovies} adminForm={adminForm}/>
+                <AdminMenu showAdminForm={showAdminForm} setAllMovies={setAllMovies} allMovies={allMovies} adminForm={adminForm} logout={logout} />
             }
 
             {userOptions && 
             
-                <UserOptions/>
+                <UserOptions logout={logout}/>
             }
 
             {signedUrl.title !== "" && 
@@ -180,4 +139,3 @@ const Dashboard = () => {
 }
 
 export default Dashboard;
-//0.375rem

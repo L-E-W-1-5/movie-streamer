@@ -4,15 +4,29 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: black;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .upload-form-element{
     width: 90%;
+    height: 40px;
 }
 
-.upload-form-button{
-    width: 30%;
+.upload-form-textarea{
+    height: 90%;
+    grid-row: 1 /span 5;
+    border-radius: 0.375rem;
 }
+
+.upload-form-buttons{
+    width: 30%;
+    height: 45px;
+    grid-column: 1 / span 2;
+    justify-self: center; 
+}
+
+
 
 .upload-form-button:hover{
     background-color: var(--borderShadow);

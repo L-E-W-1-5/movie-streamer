@@ -139,9 +139,9 @@ const LoginPage = () => {
 
         <form className="d-flex flex-column justify-content-center gap-2" onSubmit={onSubmit}>
 
-            <input className="form-control input-field border-shadow" name="loginEmail" type="text" placeholder="email address.."/>
+            <input className="form-control input-field border-shadow" name="loginEmail" type="text" placeholder="email address"/>
 
-            <input className="form-control input-field border-shadow" name="loginid" type="text" placeholder="type login id here"/>
+            <input className="form-control input-field border-shadow" name="loginid" type="password" placeholder="password"/>
 
             <button className="btn variable-colour border-shadow" type="submit">Submit</button> 
 

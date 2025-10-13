@@ -226,13 +226,13 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
 
 
     return(
-        <div className="upload-form border-shadow container-style d-flex flex-column justify-content-center p-3 align-items-center gap-2">
+        <div className="upload-form border-shadow container-style p-3 gap-2">
 
-                <input className="upload-form-element btn variable-colour border-shadow" type="file" name="movieFile" onChange={handleFileUpload}/>
+                <input className="upload-form-element first-column btn variable-colour border-shadow" type="file" name="movieFile" onChange={handleFileUpload}/>
 
-                <input id="title" className="upload-form-element btn variable-colour border-shadow input-field" placeholder="movie title here.." type="text" name="movieTitle" onChange={handleChanges}/>
+                <input id="title" className="upload-form-element first-column btn variable-colour border-shadow input-field" placeholder="movie title here.." type="text" name="movieTitle" onChange={handleChanges}/>
 
-                <select id="genre" className="upload-form-element form-select select-element variable-colour border-shadow" value={movieUpload.genre} onChange={handleChanges}>
+                <select id="genre" className="upload-form-element first-column form-select select-element variable-colour border-shadow" value={movieUpload.genre} onChange={handleChanges}>
                     <option value="">please select</option>
                     <option value="action">Action</option>
                     <option value="comedy">Comedy</option>
@@ -242,15 +242,19 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
                     <option value="thriller">Thriller</option>
                 </select>
 
-                <input id="year" type="number" placeholder="movie year" onChange={handleChanges}/>
+                <input id="year" className="upload-form-element first-column btn variable-colour border-shadow input-field" type="number" placeholder="movie year" onChange={handleChanges}/>
 
-                <textarea id="description" placeholder="enter description here" onChange={handleChanges}/>
+                <textarea id="description" className="upload-form-element upload-form-textarea second-column variable-colour border-shadow input-field" placeholder="enter description here" onChange={handleChanges}/>
 
-                <input id="length" type="text" placeholder="movie length" onChange={handleChanges}/>
+                <input id="length" className="upload-form-element first-column btn variable-colour border-shadow input-field" type="text" placeholder="movie length" onChange={handleChanges}/>
 
-                <button className="upload-form-button btn border-shadow variable-colour" onClick={handleSubmit} >upload</button>
+                <div className="d-flex flex-row gap-5 align-self-center upload-form-buttons">
+                
+                    <button className="upload-form-button btn border-shadow variable-colour" onClick={handleSubmit} >upload</button>
 
-                <button className="upload-form-button btn border-shadow variable-colour" onClick={stopMenuClosure}>close</button>
+                    <button className="upload-form-button btn border-shadow variable-colour" onClick={stopMenuClosure}>close</button>
+
+                </div>
 
         </div>
     )

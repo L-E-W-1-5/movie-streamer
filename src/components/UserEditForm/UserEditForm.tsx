@@ -11,29 +11,6 @@ import { url } from '../../Url';
 
 
 
-// type User {
-//     id: string,
-//     username: string,
-//     email: string,
-//     verified: boolean,
-//     admin: boolean,
-//     token: string
-// };
-
-
-// type UserEdit = {
-//     id: string,
-//     name: string,
-//     email: string,
-//     guid: string,
-//     is_verified: boolean,
-//     is_admin: boolean,
-
-// };
-
-
-
-
 type UserEditProps = {
 
     userEditForm: boolean;
