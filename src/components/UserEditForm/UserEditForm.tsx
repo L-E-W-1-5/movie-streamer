@@ -122,7 +122,7 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
 
 
     return (
-    <div className="edit-form border-shadow d-flex gap-3 justify-content-around align-items-start">
+    <div className="edit-form border-shadow d-flex gap-3 justify-content-between align-items-center">
 
         <div className="map-navbar">
 
@@ -158,15 +158,12 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
   
                 <UserView userEdit={userOptionsMenu.user}/>
                             
-                <button className="btn border-shadow variable-colour w-25 align-self-center" onClick={closeUserEditForm}>close</button>
+                <button className="button-style border-shadow align-self-center" onClick={closeUserEditForm}>close</button>
 
             </div>
         }
 
-       
-
-
-        <button className="edit-form-button btn border-shadow variable-colour" onClick={closeForm}>close</button>
+        <button className="button-style border-shadow" onClick={closeForm}>close</button>
 
     </div>
 

@@ -118,7 +118,10 @@ const MessageBoard = () => {
 
     const deleteMessage = async (msg:MessageUpload) => {
 
-        console.log(msg?.message)
+        if(!confirm("are you sure you wish to delete this message?")){
+
+            return;
+        }
 
         try{
 

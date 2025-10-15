@@ -26,3 +26,16 @@
  
 }
 
+.button-style{
+  background: black;
+  color: var(--borderShadow);
+  border-radius: 0.375rem;
+  height: 35px;
+  min-width: 70px;
+}
+
+.button-style:hover{
+  background-color: var(--borderShadow);
+  color: white;
+}
+

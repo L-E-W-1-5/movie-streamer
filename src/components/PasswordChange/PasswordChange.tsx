@@ -109,19 +109,19 @@ const PasswordChange: React.FC<PasswordProps> = ({setPasswordForm}) => {
 
             <label>new password: 
 
-                <input className="password-input border-shadow p-1" type="text" value={newPassword} onClick={stopProp} onChange={changePassword}/>
+                <input className="password-input border-shadow p-1" type="password" value={newPassword} onClick={stopProp} onChange={changePassword}/>
 
             </label>
 
-            <label>repeat new password: 
+            <label>repeat password: 
 
-                <input className="password-input border-shadow p-1" type="text" value={passwordCheck} onClick={stopProp} onChange={passwordValidate}/>
+                <input className="password-input border-shadow p-1" type="password" value={passwordCheck} onClick={stopProp} onChange={passwordValidate}/>
 
             </label>
 
-            <button className="password-button border-shadow" onClick={sendPassword}>change</button>
+            <button className="button-style border-shadow align-self-center" onClick={sendPassword}>change</button>
 
-            <button className="password-button border-shadow" onClick={() => setPasswordForm(false)}>close</button>
+            <button className="button-style border-shadow align-self-center" onClick={() => setPasswordForm(false)}>close</button>
 
 
         </div>

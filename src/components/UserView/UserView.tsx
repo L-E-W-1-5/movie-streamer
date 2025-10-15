@@ -94,9 +94,9 @@ const UserView: React.FC<{userEdit: UserEdit}> = ({ userEdit }) => {
 
             <div className="align-self-center d-flex gap-3 mt-4">
 
-                <button className="btn border-shadow variable-colour" onClick={() => deleteUser(`change_admin`)}>admin</button>
-                <button className="btn border-shadow variable-colour" onClick={() => deleteUser(`change_verify`)}>verify</button>
-                <button className="btn border-shadow variable-colour" onClick={() => deleteUser(`delete_user`)}>delete</button>
+                <button className="button-style border-shadow" onClick={() => deleteUser(`change_admin`)}>admin</button>
+                <button className="button-style border-shadow" onClick={() => deleteUser(`change_verify`)}>verify</button>
+                <button className="button-style border-shadow" onClick={() => deleteUser(`delete_user`)}>delete</button>
 
             </div>
 

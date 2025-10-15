@@ -195,11 +195,11 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
 
                 <div className="d-flex flex-row gap-5 mb-4 mt-4">
 
-                    <button className="btn border-shadow variable-colour" onClick={handleDelete}>delete</button>
+                    <button className="button-style border-shadow" onClick={handleDelete}>delete</button>
 
-                    <button className="btn border-shadow variable-colour" onClick={handleEditOptions}>edit</button>
+                    <button className="button-style border-shadow" onClick={handleEditOptions}>edit</button>
 
-                    <button className="btn border-shadow variable-colour" onClick={closeForm}>close</button>
+                    <button className="button-style border-shadow" onClick={closeForm}>close</button>
             
                 </div>
 
@@ -250,9 +250,9 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
 
                         <div className="form-grid-button-container d-flex gap-3">
 
-                            <button className="btn variable-colour border-shadow align-self-center" onClick={closeEdit}>close</button>
+                            <button className="button-style border-shadow align-self-center" onClick={updateMovieDetails}>update</button>
 
-                            <button className="btn variable-colour border-shadow align-self-center" onClick={updateMovieDetails}>update</button>
+                            <button className="button-style border-shadow align-self-center" onClick={closeEdit}>close</button>
 
                         </div>
 

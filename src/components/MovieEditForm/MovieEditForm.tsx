@@ -80,7 +80,7 @@ const MovieEditForm: React.FC<MovieEditProps> = ({allMovies, showMovieEditForm, 
 
             </div>
 
-            <button className="edit-form-button btn border-shadow variable-colour" onClick={stopMenuClosure}>close</button>
+            <button className="button-style border-shadow" onClick={stopMenuClosure}>close</button>
 
         </div>
 

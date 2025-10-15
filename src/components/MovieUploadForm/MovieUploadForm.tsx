@@ -248,11 +248,11 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
 
                 <input id="length" className="upload-form-element first-column btn variable-colour border-shadow input-field" type="text" placeholder="movie length" onChange={handleChanges}/>
 
-                <div className="d-flex flex-row gap-5 align-self-center upload-form-buttons">
+                <div className="d-flex flex-row gap-5 align-self-center upload-form-buttons mt-3">
                 
-                    <button className="upload-form-button btn border-shadow variable-colour" onClick={handleSubmit} >upload</button>
+                    <button className="upload-form-button button-style border-shadow" onClick={handleSubmit} >upload</button>
 
-                    <button className="upload-form-button btn border-shadow variable-colour" onClick={stopMenuClosure}>close</button>
+                    <button className="upload-form-button button-style border-shadow" onClick={stopMenuClosure}>close</button>
 
                 </div>
 

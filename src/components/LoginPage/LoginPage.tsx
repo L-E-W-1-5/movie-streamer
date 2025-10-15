@@ -141,7 +141,7 @@ const LoginPage = () => {
 
             <input className="form-control input-field border-shadow" name="loginEmail" type="text" placeholder="email address"/>
 
-            <input className="form-control input-field border-shadow" name="loginid" type="text" placeholder="password"/>
+            <input className="form-control input-field border-shadow" name="loginid" type="password" placeholder="password"/>
 
             <button className="btn variable-colour border-shadow" type="submit">Submit</button> 
 
