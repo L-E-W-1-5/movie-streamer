@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 import './MoviePlayer.css';
 import { type MovieUrl } from '../../Types/Types';
+import Hls from 'hls.js'
 
 
 interface MovieInfo {
@@ -14,9 +15,13 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
 
    const [position, setPosition] = useState({x: 0, y: 0});
 
+   const [offset, setOffset] = useState({x: 0, y: 0});
+   
    const [isDragging, setIsDragging] = useState(false);
 
-   const [offset, setOffset] = useState({x: 0, y: 0});
+   const videoRef = useRef<HTMLVideoElement | null>(null);
+
+   const hlsRef = useRef<Hls | null>(null);
 
 
     const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
@@ -79,6 +84,82 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
     }, [handleMouseMove])
 
 
+    useEffect(() => {
+
+        const video = videoRef.current;
+
+        if(!video) return
+
+        if (hlsRef.current){
+
+            hlsRef.current.destroy();
+
+            hlsRef.current = null;
+        }
+
+        if(!signedUrl.url) return;
+
+        const handleCanPlay = () => {
+
+            video.play()
+            
+            .catch(e => console.error("Playback Prevented", e));
+        };
+
+        // video.removeEventListener('canplay', handleCanPlay);
+
+        if(!signedUrl.url.endsWith('.m3u8')){
+
+            video.src = signedUrl.url;
+
+            return;
+        }
+
+
+        if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        // Native support
+
+            video.src = signedUrl.url;
+        }
+
+        if (Hls.isSupported()){
+
+            const hls = new Hls();
+
+            hlsRef.current = hls;
+
+            hls.attachMedia(video);
+
+            hls.on(Hls.Events.MANIFEST_PARSED, () => {
+
+                
+            });
+
+            hls.loadSource(signedUrl.url);
+
+
+        }else{
+
+            video.src = signedUrl.url;
+        }
+
+        video.addEventListener('canplay', handleCanPlay);
+
+        return () => {
+
+            if(hlsRef.current){
+            
+                hlsRef.current.destroy();
+      
+                hlsRef.current = null;
+            }
+
+            video.removeEventListener('canplay', handleCanPlay);
+        };
+
+    }, [signedUrl])
+
+
     return(
 
         <div id="video-drag" className="movie-player-container border-shadow"
@@ -99,9 +180,11 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
             
             </div>
 
-            <video src={signedUrl.url} 
+            <video 
+                ref={videoRef}
+
                 controls 
-                
+                preload='metadata'
                 
                 onLoadedData={() => {
                                 console.log('Video loaded');
