@@ -6,13 +6,16 @@ import { url } from '../../Url';
 
 
 
+
+
 type MovieUpload = {
     title: string,
     genre: string,
     description: string | null,
     length: string | null,
     year: number | null,
-    file: File | null
+    file: File | null,
+    folder?: File[]
 };
 
 const initialMovie: MovieUpload = {
@@ -21,8 +24,10 @@ const initialMovie: MovieUpload = {
     description: null,
     length: null,
     year: null,
-    file: null
+    file: null,
+    folder: []
 }
+
 
 // type MovieDownload = {
 //     id: number,
@@ -51,6 +56,17 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
 
 
     const handleFileUpload = (e:React.ChangeEvent<HTMLInputElement>) => {
+
+        console.log("60", e);
+
+        if(e.target.files && e.target.files.length > 1){
+
+            const filesArray = Array.from(e.target.files);
+
+            setMovieUpload(prev => ({...prev, folder: filesArray}));
+
+            return;
+        };
 
         if(e.target.files && e.target.files.length > 0){
 
@@ -89,11 +105,9 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
     }
 
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
 
-        console.log(movieUpload)
-
-        if(!movieUpload.file){
+        if(!movieUpload.file && !movieUpload.folder){
             alert("please select a video to upload first");
             return
         };
@@ -103,17 +117,25 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
             return
         };
 
-        // if(!movieUpload.year){
-
-        //     alert("no description")
-        // }
-
-       
 
         const formData = new FormData();
 
-        formData.append('movie', movieUpload.file);
+        
+        if(movieUpload.folder && movieUpload.folder.length > 0){
+            
+            movieUpload.folder.forEach((file) => {
+                
+                formData.append('hls_files[]', file, file.webkitRelativePath || file.name);
+                
+                console.log(file);
+            })
+            
+        }else{
 
+            if(movieUpload.file) formData.append('movie', movieUpload.file);    
+        };
+
+        
         formData.append('title', movieUpload.title);
 
         if(movieUpload.genre){
@@ -136,29 +158,83 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
             formData.append('length', movieUpload.length)
         }
 
-        sendMovie(formData);
+        if(formData.has('movie')){
+
+            console.log("single movie")
+
+            const res = await sendSingleMovie(formData);
+
+            if(res instanceof Response){
+
+                checkResponse(res);
+
+            }else{
+
+                alert("Error, correct response not received from server")
+            }
+                
+        }
+        else{
+
+            console.log("hls movie")
+
+            const res = await sendHLS(formData);
+            
+            if(res instanceof Response){
+                
+                checkResponse(res);
+                
+            }else{
+                
+                alert("Error, correct response not received from server")
+            }
+        }
     };
 
 
-    const sendMovie = async (formData: FormData) => {
+    const sendHLS = async (formData: FormData) => {
+
+        if(!user?.token) return;
+
+        const res = await fetch(`${url}/movies/hls`, {
+
+            headers: {"Authorization": `Bearer ${user.token}`},
+            
+            method: "POST",
+
+            body: formData
+        });
+
+        return res;
+            
+    }
+
+    const sendSingleMovie = async (formData: FormData) => {
+
+        if(!user?.token) return;
+
+        const res = await fetch(`${url}/movies`, {
+
+            headers: {"Authorization": `Bearer ${user.token}`},
+            
+            method: "POST",
+
+            body: formData
+        });
+
+        return res;
+    }
+
+
+    const checkResponse = async (res: Response) => {
 
         let reply
 
-        if(!user?.token){
+        if(!user?.token) return;
 
-            return;
-        }
+        console.log(res);
 
         try{
-
-            const res = await fetch(`${url}/movies`, {
-
-                headers: {"Authorization": `Bearer ${user.token}`},
-            
-                method: "POST",
-
-                body: formData
-            });
 
             if(!res.ok){
 
@@ -166,10 +242,9 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
 
                 console.error('server error', res.status, errorText);
 
-                showUploadForm(false);
-
                 return;
-            };
+
+            }
 
             reply = await res.json();
 
@@ -177,24 +252,13 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
 
                 alert(reply.payload);
 
-                showUploadForm(false);
-
                 return;
             }
         
-        }catch(err){
 
-            console.log(err);
+            if(reply && reply.status === "success"){
 
-            showUploadForm(false);
-
-            return;
-        
-        }finally{
-
-            if(reply.status === "success"){
-
-                const newUpload:MovieDownloadNew = {
+                const newUpload: MovieDownloadNew = {
                     id: reply.payload.id,
                     title: reply.payload.title,
                     key: reply.payload.key,
@@ -206,13 +270,23 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
                     times_played: reply.payload.times_played
                 };
 
-                setAllMovies(prev => [...prev, newUpload]);
+            setAllMovies(prev => [...prev, newUpload]);
 
-                alert("movie uploaded successfully");
+            alert("movie uploaded successfully");
+
             };
 
+        }catch(err){
+
+            console.log(err);
+
+            return;
+        
+        }finally{
+
             showUploadForm(false);
-        };
+        }
+       
     };
 
 
@@ -228,9 +302,23 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
     return(
         <div className="upload-form border-shadow container-style p-3 gap-2">
 
-                <input className="upload-form-element first-column btn variable-colour border-shadow" type="file" name="movieFile" onChange={handleFileUpload}/>
+                <input 
+                    className="upload-form-element first-column btn variable-colour border-shadow" 
+                    type="file" 
+                    name="movieFile" 
+                    multiple   
+                    {...({ webkitdirectory: true } as React.InputHTMLAttributes<HTMLInputElement>)}
+                    onChange={handleFileUpload}
+                />
 
-                <input id="title" className="upload-form-element first-column btn variable-colour border-shadow input-field" placeholder="movie title here.." type="text" name="movieTitle" onChange={handleChanges}/>
+                <input 
+                    id="title" 
+                    className="upload-form-element first-column btn variable-colour border-shadow input-field" 
+                    placeholder="movie title here.." 
+                    type="text" 
+                    name="movieTitle" 
+                    onChange={handleChanges}
+                />
 
                 <select id="genre" className="upload-form-element first-column form-select select-element variable-colour border-shadow" value={movieUpload.genre} onChange={handleChanges}>
                     <option value="">please select</option>
