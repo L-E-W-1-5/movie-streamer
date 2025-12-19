@@ -248,6 +248,8 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
 
             reply = await res.json();
 
+            console.log("251", reply)
+
             if(reply.status === "error"){
 
                 alert(reply.payload);

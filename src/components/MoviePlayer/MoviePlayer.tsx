@@ -108,7 +108,11 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
 
         // video.removeEventListener('canplay', handleCanPlay);
 
-        if(!signedUrl.url.endsWith('.m3u8')){
+        console.log(signedUrl);
+
+        if(!signedUrl.url.includes('.m3u8')){
+
+            console.log("includes(.m3u8)")
 
             video.src = signedUrl.url;
 
@@ -119,10 +123,14 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
         if (video.canPlayType('application/vnd.apple.mpegurl')) {
         // Native support
 
+        console.log("canPlay - native support")
+
             video.src = signedUrl.url;
         }
 
         if (Hls.isSupported()){
+
+            console.log("HLS.isSupported")
 
             const hls = new Hls();
 
