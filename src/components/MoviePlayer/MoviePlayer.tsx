@@ -88,6 +88,8 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
 
         const video = videoRef.current;
 
+        //console.log(signedUrl.url)
+
         if(!video) return
 
         if (hlsRef.current){
@@ -108,11 +110,13 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
 
         // video.removeEventListener('canplay', handleCanPlay);
 
-        console.log(signedUrl);
+        console.log(typeof(signedUrl.url));
 
-        if(!signedUrl.url.includes('.m3u8')){
+        console.log(signedUrl.type);
 
-            console.log("includes(.m3u8)")
+        if(!signedUrl.type.includes('.mpegurl')){
+
+            console.log("content type", signedUrl.type)
 
             video.src = signedUrl.url;
 
@@ -140,10 +144,14 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
 
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
 
-                
+                video.play()
             });
 
-            hls.loadSource(signedUrl.url);
+           // const playlistBlob = new Blob([m3u8PlaylistString], { type: 'application/x-mpegURL' });
+
+            hls.loadSource(URL.createObjectURL(new Blob([signedUrl.url], {type: 'application/x-mpegURL'})))
+
+            //hls.loadSource(signedUrl.url);
 
 
         }else{
@@ -184,7 +192,7 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
 
                 <p className="player-header">{signedUrl.title}</p>
 
-                <button className="player-close-button border-shadow variable-colour" onClick={() => setSignedUrl({title: "", url: ""})}>close</button>
+                <button className="player-close-button border-shadow variable-colour" onClick={() => setSignedUrl({title: "", url: "", type: ""})}>close</button>
             
             </div>
 

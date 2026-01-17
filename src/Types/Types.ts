@@ -39,5 +39,6 @@ export interface MovieDownloadNew {
 
 export type MovieUrl = {
     url: string,
+    type: string,
     title: string
 }

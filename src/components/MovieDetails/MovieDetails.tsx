@@ -53,12 +53,49 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl, closeDeta
                 body: JSON.stringify({film})
             })
 
-            const response = await res.json()
 
-            setSignedUrl({
-                url: response.payload,
-                title: film.title
-            })
+            // const response = await res.json();
+    
+            //     console.log(response);
+    
+            //     setSignedUrl({
+            //         url: response.payload,
+            //         title: film.title
+            //     })
+
+            //     return
+
+            const contentType = res.headers.get('Content-Type') || '';
+
+            console.log(contentType)
+
+            if (contentType.includes('application/json')){
+
+                const response = await res.json();
+    
+                console.log(response);
+    
+                setSignedUrl({
+                    url: response.url,
+                    type: contentType,
+                    title: film.title
+                })
+            
+            } else{
+
+                const response = await res.text();
+
+                console.log(response)
+
+                setSignedUrl({
+
+                    url: response,
+                    type: contentType,
+                    title: film.title
+
+                }) 
+            }
+
 
         
         }catch(err){

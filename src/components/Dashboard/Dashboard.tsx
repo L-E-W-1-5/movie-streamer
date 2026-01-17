@@ -21,7 +21,7 @@ const Dashboard = () => {
 
     const [allMovies, setAllMovies] = useState<Array<MovieDownloadNew>>([]);
 
-    const [signedUrl, setSignedUrl] = useState<MovieUrl>({url: "", title: ""})
+    const [signedUrl, setSignedUrl] = useState<MovieUrl>({url: "", type: "", title: ""})
 
     const [userOptions, setUserOptions] = useState<boolean>(false);
 
