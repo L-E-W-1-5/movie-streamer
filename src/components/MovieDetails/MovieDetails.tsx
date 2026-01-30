@@ -65,38 +65,43 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl, closeDeta
 
             //     return
 
+            if(res.status !== 200){
+
+                alert("problem retreiving media from server");
+
+                return;
+            }
+
             const contentType = res.headers.get('Content-Type') || '';
 
             console.log(contentType)
 
-            if (contentType.includes('application/json')){
+            // if (contentType.includes('application/json')){
 
-                const response = await res.json();
+            //     const response = await res.json();
     
-                console.log(response);
+            //     console.log(response);
     
-                setSignedUrl({
-                    url: response.url,
-                    type: contentType,
-                    title: film.title
-                })
+            //     setSignedUrl({
+            //         url: response.url,
+            //         type: contentType,
+            //         title: film.title
+            //     })
             
-            } else{
+            // } else{
 
-                const response = await res.text();
+            const response = await res.text();
 
-                console.log(response)
+            console.log(response)
 
-                setSignedUrl({
+            setSignedUrl({
 
-                    url: response,
-                    type: contentType,
-                    title: film.title
+                url: response,
+                type: contentType,
+                title: film.title
 
-                }) 
-            }
-
-
+            }) 
+            
         
         }catch(err){
 
@@ -107,7 +112,7 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl, closeDeta
 
     const changeUrl = () => {
 
-        //setMovieUrl(film)
+        console.log(film)
 
         getMovie()
     }

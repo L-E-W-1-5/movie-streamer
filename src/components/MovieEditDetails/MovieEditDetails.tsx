@@ -70,7 +70,8 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
     
             if(res.ok && response.status === "success"){
     
-    
+                console.log(response)
+
                 setAllMovies(prevMovies => prevMovies.filter(m => m.id !== movie.id))
             }
     
@@ -192,6 +193,7 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
                 <span>{`date of upload: ${movie.timestamp}`}</span>
                 <span>{`number of times played: ${movie.times_played}`}</span>
                 <span>{movie.length ? `length of movie: ${movie.length}` : ""}</span>
+                <span>{movie.key}</span>
 
                 <div className="d-flex flex-row gap-5 mb-4 mt-4">
 
