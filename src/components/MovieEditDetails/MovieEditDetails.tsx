@@ -181,7 +181,7 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
 
     return(
 
-        <div className="d-flex flex-column justify-content-around align-items-center h-100 w-100">
+        <div className="movie-record d-flex flex-column justify-content-around align-items-center h-100 w-100">
             
             {!editForm &&
             <>

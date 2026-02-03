@@ -53,7 +53,7 @@ const MovieEditForm: React.FC<MovieEditProps> = ({allMovies, showMovieEditForm, 
 
                     
 
-                        <div key={index} className="record-container" onClick={() => setMovieDetails(movie)}>
+                        <div key={index} className="record-container border-shadow p-2 mb-2" onClick={() => setMovieDetails(movie)}>
 
                             <span className="edit-field-item">{movie.id}</span>
                             <span className="edit-field-item">{movie.title}</span>

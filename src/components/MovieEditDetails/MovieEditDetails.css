@@ -5,6 +5,10 @@
     width: 100%;
 }
 
+.movie-record{
+    color: var(--borderShadow)
+}
+
 .form-grid{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
