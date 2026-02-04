@@ -2,9 +2,11 @@ import './AdminMenu.css'
 import MovieUploadForm from '../MovieUploadForm/MovieUploadForm';
 import MovieEditForm from '../MovieEditForm/MovieEditForm';
 import UserEditForm from '../UserEditForm/UserEditForm';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, useContext } from 'react';
 import { type MovieDownloadNew } from '../../Types/Types';
 import PasswordChange from '../PasswordChange/PasswordChange';
+import { UserContext } from '../../UserContext';
+
 
 
 
@@ -19,16 +21,12 @@ type AdminProps = {
 
 const AdminMenu: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminForm, allMovies, logout}) => {
 
-    
-    const [uploadForm, showUploadForm] = useState<boolean>(false);
 
-    const [movieEditForm, showMovieEditForm] = useState<boolean>(false); 
-
-    const [userEditForm, showUserEditForm] = useState<boolean>(false);
-
-    const [passwordForm, showPasswordForm] = useState<boolean>(false)
+    const [openForm, setOpenForm] = useState<string | null>(null);
 
     const menuRef = useRef<HTMLDivElement | null>(null);
+
+    const { user } = useContext(UserContext)
 
 
 
@@ -51,6 +49,7 @@ const AdminMenu: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminFor
         if(adminForm){
 
             document.addEventListener('click', handleOutsideClick);
+            
         }else{
 
             document.removeEventListener('click', handleOutsideClick);
@@ -64,43 +63,74 @@ const AdminMenu: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminFor
     }, [adminForm, handleOutsideClick])
 
 
+    const formOpen = (form: string, e: React.MouseEvent) => {
+
+        e.stopPropagation();
+
+        switch(form){
+
+            case 'users':   
+                setOpenForm('users');
+            break;
+            
+            case 'upload':               
+                setOpenForm('upload');
+            break;
+
+            case 'movie':
+                setOpenForm('movie');
+            break;
+
+            case 'password':
+                setOpenForm('password');
+            break;
+        }
+    }
+
+   
+
+
     return (
 
     <>
 
     <div ref={menuRef} className="admin-menu-container border-shadow d-flex flex-column p-2">
 
-        
-            <button className="admin-menu-button p-2" onClick={() => showUploadForm(current => !current)}>upload movie</button>
-            <button className="admin-menu-button p-2" onClick={() => showMovieEditForm(current => !current)}>edit movies</button>
-            <button className="admin-menu-button p-2" onClick={() => showUserEditForm(current => !current)}>edit accounts</button>
-            <button className="admin-menu-button p-2" onClick={() => showPasswordForm(current => !current)}>change password</button>
+        {user?.admin && 
+            <>
+                <button className="admin-menu-button p-2" onClick={(e) => formOpen('upload', e)}>upload movie</button>
+                <button className="admin-menu-button p-2" onClick={(e) => formOpen('movie', e)}>edit movies</button>
+                <button className="admin-menu-button p-2" onClick={(e) => formOpen('users', e)}>edit accounts</button>
+            </>
+        }
+
+            <button className="admin-menu-button p-2" onClick={(e) => formOpen('password', e)}>change password</button>
             <button className="admin-menu-button p-2" onClick={logout}>logout</button>
             
         
        
-        {uploadForm &&
+        {openForm === 'upload' &&
 
-            <MovieUploadForm setAllMovies={setAllMovies} showUploadForm={showUploadForm}/>
+            <MovieUploadForm setOpenForm={setOpenForm} setAllMovies={setAllMovies}/>
         }
 
-        {movieEditForm &&
+        {openForm === 'movie' &&
         
-            <MovieEditForm allMovies={allMovies} showMovieEditForm={showMovieEditForm} setAllMovies={setAllMovies}/>
+            <MovieEditForm setOpenForm={setOpenForm} allMovies={allMovies} setAllMovies={setAllMovies}/>
         }
 
-        {userEditForm && 
+        {openForm === 'users' && 
         
-            <UserEditForm showUserEditForm={showUserEditForm} userEditForm={userEditForm}/>
+            <UserEditForm openForm={openForm} setOpenForm={setOpenForm}/>
         }
 
   
 
     </div>
 
-        {passwordForm &&
+        {openForm === 'password' &&
         
-            <PasswordChange setPasswordForm={showPasswordForm}/>
+            <PasswordChange setOpenForm={setOpenForm}/>
         }
     </>
     )

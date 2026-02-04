@@ -1,5 +1,5 @@
 import './UserEditForm.css'
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useState, useEffect, useRef } from 'react'
 import { UserContext } from '../../UserContext'
 import UserView from '../UserView/UserView.js'
 import UserNavbar from '../UserNavbar/UserNavbar.js'
@@ -14,10 +14,12 @@ import { url } from '../../Url';
 type UserEditProps = {
 
     userEditForm: boolean;
-    showUserEditForm: React.Dispatch<React.SetStateAction<boolean>>;
+    //showUserEditForm: React.Dispatch<React.SetStateAction<boolean>>;
+    openForm: string | null;
+    setOpenForm: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }) => {
+const UserEditForm: React.FC<UserEditProps> = ({ openForm, setOpenForm }) => {
 
     const { user } = useContext(UserContext);
 
@@ -27,8 +29,43 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
 
     const [userOptionsMenu, showUserOptionsMenu] = useState<{
         user: UserEdit,
-        position: {top: number; left: number}
+        position: {top: number;}
      } | null>(null);
+
+     const editFormRef = useRef<HTMLDivElement | null>(null);
+
+
+    
+
+
+    // useEffect(() => {
+
+    //     console.log(userEditForm)
+
+    //     const handleOutsideClick =  (e: MouseEvent) => {
+
+    //         console.log("here")
+
+    //         if(!userEditForm) return
+
+    //         if(editFormRef.current && !editFormRef.current.contains(e.target as Node)){
+
+    //             showUserEditForm(false);         
+    //         }
+    //     }
+
+    //     if(userEditForm){
+
+    //         document.addEventListener('click', handleOutsideClick)
+    //     }
+
+    //     return () => {
+
+    //         document.removeEventListener('click', handleOutsideClick)
+    //     };
+
+
+    // }, [userEditForm, showUserEditForm])
 
 
 
@@ -72,14 +109,15 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
         }
 
 
-    }, [userEditForm, user])
+    }, [openForm, user])
 
 
     const closeForm = (e: React.MouseEvent) => {
 
         e.stopPropagation();
 
-        showUserEditForm(false);
+        setOpenForm(null)
+        //showUserEditForm(false);
     };
 
 
@@ -95,35 +133,20 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
 
         const containerPosition = e.currentTarget.closest('.edit-form')?.getBoundingClientRect();
 
-        const mouseX = e.clientX;
-
-        //const mouseY = e.clientY;
-
-        const scrollContainerLeft = e.currentTarget.closest('.edit-form')?.scrollLeft || 0;
-
         const scrollContainerTop = e.currentTarget.closest('.edit-form')?.scrollTop || 0;
 
         const top = scrollContainerTop - (containerPosition?.top || 0) + 200; //mouseY + (at the start of this line)
 
-        const left = mouseX + scrollContainerLeft - (containerPosition?.left || 0);
-
-        
-        // console.log("scroll container", scrollContainerLeft, scrollContainerTop)
-
-        // console.log("mouse position", mouseX, mouseY)
-
-        // console.log(top)
-
         showUserOptionsMenu({ 
             user, 
-            position: {top, left}
+            position: { top }
         });
     }
 
 
     return (
         
-    <div className="edit-form border-shadow d-flex gap-3 justify-content-between align-items-center">
+    <div className="edit-form border-shadow d-flex gap-3 justify-content-between align-items-center" ref={editFormRef}>
 
         <div className="map-navbar">
 
@@ -155,7 +178,7 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
 
          {userOptionsMenu &&
         
-            <div className="user-options-menu border-shadow container-style h-50 w-50 p-3 d-flex flex-column justify-content-around" style={{top: userOptionsMenu.position.top, left: "25%"}}>
+            <div className="user-options-menu border-shadow container-style h-50 w-50 p-3 d-flex flex-column justify-content-around" style={{top: userOptionsMenu.position.top}}>
   
                 <UserView userEdit={userOptionsMenu.user}/>
                             
@@ -172,5 +195,3 @@ const UserEditForm: React.FC<UserEditProps> = ({showUserEditForm, userEditForm }
 };
 
 export default UserEditForm;
-
-// container-style d-flex flex-row justify-content-center pt-5 align-items-center gap-2

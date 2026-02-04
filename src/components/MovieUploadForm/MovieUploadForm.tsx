@@ -40,14 +40,15 @@ const initialMovie: MovieUpload = {
 // };
 
 type UploadFormProps = {
-    showUploadForm: React.Dispatch<React.SetStateAction<boolean>>
+   // showUploadForm: React.Dispatch<React.SetStateAction<boolean>>
     setAllMovies: React.Dispatch<React.SetStateAction<MovieDownloadNew[]>>
+    setOpenForm: React.Dispatch<React.SetStateAction<string | null>>
 }
 
 
 
 
-const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadForm}) => {
+const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies }) => {
 
     const { user } = useContext(UserContext);
 
@@ -286,7 +287,8 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
         
         }finally{
 
-            showUploadForm(false);
+            setOpenForm(null)
+            //showUploadForm(false);
         }
        
     };
@@ -296,7 +298,9 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({setAllMovies, showUploadFor
 
         e.stopPropagation()
 
-        showUploadForm(false);
+        setOpenForm(null)
+
+        //showUploadForm(false);
     }
 
 

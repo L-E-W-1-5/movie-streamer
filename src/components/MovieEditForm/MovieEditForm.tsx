@@ -16,11 +16,12 @@ import { type MovieDownloadNew } from '../../Types/Types';
 
 type MovieEditProps = {
     allMovies: MovieDownloadNew[];
-    showMovieEditForm: React.Dispatch<React.SetStateAction<boolean>>
+    //showMovieEditForm: React.Dispatch<React.SetStateAction<boolean>>
     setAllMovies: React.Dispatch<React.SetStateAction<MovieDownloadNew[]>>;
+    setOpenForm: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-const MovieEditForm: React.FC<MovieEditProps> = ({allMovies, showMovieEditForm, setAllMovies}) => {
+const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAllMovies}) => {
 
     const [movieDetails, showMovieDetails] = useState<MovieDownloadNew | null>(null);
 
@@ -30,7 +31,9 @@ const MovieEditForm: React.FC<MovieEditProps> = ({allMovies, showMovieEditForm, 
 
         e.stopPropagation()
 
-        showMovieEditForm(false);
+        setOpenForm(null)
+
+        //showMovieEditForm(false);
     }
 
 

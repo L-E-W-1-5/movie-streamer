@@ -1,7 +1,3 @@
-import { useContext } from "react";
-import { UserContext } from "../../UserContext";
-
-
 
 
 type UserOptionsProps = {
@@ -10,24 +6,13 @@ type UserOptionsProps = {
 }
 
 
-const DashNavbar: React.FC<UserOptionsProps> = ({ showUserOptions, showAdminForm }) => {
-
-    const { user } = useContext(UserContext);
-
-
+const DashNavbar: React.FC<UserOptionsProps> = ({ showAdminForm }) => {
 
     const preventClosureOfMenu = (e: React.MouseEvent) => {
 
         e.stopPropagation();
 
-        if(user?.admin){
-
-            showAdminForm(current => !current);
-        
-        }else{
-
-            showUserOptions(current => !current);
-        }
+        showAdminForm(current => !current);
 
     };
 

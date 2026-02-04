@@ -6,11 +6,12 @@ import './PasswordChange.css';
 
 type PasswordProps = {
 
-    setPasswordForm: React.Dispatch<React.SetStateAction<boolean>>
+   // setPasswordForm: React.Dispatch<React.SetStateAction<boolean>>
+    setOpenForm: React.Dispatch<React.SetStateAction<string | null>>
 }
 
 
-const PasswordChange: React.FC<PasswordProps> = ({setPasswordForm}) => {
+const PasswordChange: React.FC<PasswordProps> = ({ setOpenForm }) => {
 
     const { user } = useContext(UserContext);
 
@@ -94,13 +95,21 @@ const PasswordChange: React.FC<PasswordProps> = ({setPasswordForm}) => {
 
             setPasswordCheck("");
 
-            setPasswordForm(false);
+            setOpenForm(null);
         
         }else{
 
             alert("password could not be changed, please try again")
         }
     };
+
+
+    const closeForm = (e: React.MouseEvent) => {
+
+        e.stopPropagation();
+
+        setOpenForm(null)
+    }
 
 
     return(
@@ -121,7 +130,7 @@ const PasswordChange: React.FC<PasswordProps> = ({setPasswordForm}) => {
 
             <button className="button-style border-shadow align-self-center" onClick={sendPassword}>change</button>
 
-            <button className="button-style border-shadow align-self-center" onClick={() => setPasswordForm(false)}>close</button>
+            <button className="button-style border-shadow align-self-center" onClick={closeForm}>close</button>
 
 
         </div>
