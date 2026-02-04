@@ -1,5 +1,5 @@
 import './UserEditForm.css'
-import { useContext, useState, useEffect, useRef } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { UserContext } from '../../UserContext'
 import UserView from '../UserView/UserView.js'
 import UserNavbar from '../UserNavbar/UserNavbar.js'
@@ -13,8 +13,6 @@ import { url } from '../../Url';
 
 type UserEditProps = {
 
-    userEditForm: boolean;
-    //showUserEditForm: React.Dispatch<React.SetStateAction<boolean>>;
     openForm: string | null;
     setOpenForm: React.Dispatch<React.SetStateAction<string | null>>;
 }
@@ -32,40 +30,6 @@ const UserEditForm: React.FC<UserEditProps> = ({ openForm, setOpenForm }) => {
         position: {top: number;}
      } | null>(null);
 
-     const editFormRef = useRef<HTMLDivElement | null>(null);
-
-
-    
-
-
-    // useEffect(() => {
-
-    //     console.log(userEditForm)
-
-    //     const handleOutsideClick =  (e: MouseEvent) => {
-
-    //         console.log("here")
-
-    //         if(!userEditForm) return
-
-    //         if(editFormRef.current && !editFormRef.current.contains(e.target as Node)){
-
-    //             showUserEditForm(false);         
-    //         }
-    //     }
-
-    //     if(userEditForm){
-
-    //         document.addEventListener('click', handleOutsideClick)
-    //     }
-
-    //     return () => {
-
-    //         document.removeEventListener('click', handleOutsideClick)
-    //     };
-
-
-    // }, [userEditForm, showUserEditForm])
 
 
 
@@ -117,7 +81,6 @@ const UserEditForm: React.FC<UserEditProps> = ({ openForm, setOpenForm }) => {
         e.stopPropagation();
 
         setOpenForm(null)
-        //showUserEditForm(false);
     };
 
 
@@ -146,7 +109,7 @@ const UserEditForm: React.FC<UserEditProps> = ({ openForm, setOpenForm }) => {
 
     return (
         
-    <div className="edit-form border-shadow d-flex gap-3 justify-content-between align-items-center" ref={editFormRef}>
+    <div className="edit-form border-shadow d-flex gap-3 justify-content-between align-items-center">
 
         <div className="map-navbar">
 
