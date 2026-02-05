@@ -2,7 +2,6 @@ import './Dashboard.css'
 import MovieList from '../MovieList/MovieList';
 import MessageBoard from '../MessageBoard/MessageBoard';
 import MoviePlayer from '../MoviePlayer/MoviePlayer';
-import UserOptions from '../UserOptions/UserOptions';
 import DashNavbar from '../DashNavbar/DashNavbar';
 import { useContext, useState } from 'react';
 import AdminMenu from '../AdminMenu/AdminMenu';
@@ -23,7 +22,8 @@ const Dashboard = () => {
 
     const [signedUrl, setSignedUrl] = useState<MovieUrl>({url: "", type: "", title: ""})
 
-    const [userOptions, setUserOptions] = useState<boolean>(false);
+    const [messageSlide, setMessageSlide] = useState<boolean>(false); 
+
 
 
     const logout = async () => {
@@ -93,7 +93,7 @@ const Dashboard = () => {
         <div className="main-dash-container d-flex flex-column justify-content-between">
             
 
-            <DashNavbar showUserOptions={setUserOptions} showAdminForm={showAdminForm}/>
+            <DashNavbar showAdminForm={showAdminForm}/>
 
 
             {adminForm &&
@@ -101,10 +101,7 @@ const Dashboard = () => {
                 <AdminMenu showAdminForm={showAdminForm} setAllMovies={setAllMovies} allMovies={allMovies} adminForm={adminForm} logout={logout} />
             }
 
-            {userOptions && 
             
-                <UserOptions logout={logout}/>
-            }
 
             {signedUrl.title !== "" && 
 
@@ -118,17 +115,17 @@ const Dashboard = () => {
 
             <div className="dashboard-container p-3 gap-2 h-100">
                    
-                <div className="dashboard-movie-container border-shadow">
+                <>
 
-                    <MovieList allMovies={allMovies} setAllMovies={setAllMovies} setSignedUrl={setSignedUrl}/>
+                    <MovieList allMovies={allMovies} setAllMovies={setAllMovies} setSignedUrl={setSignedUrl} messageSlide={messageSlide}/>
 
-                </div>
+                </>
 
-                <div className="dashboard-message-container border-shadow p-2">
+                <>
 
-                    <MessageBoard/>
+                    <MessageBoard setMessageSlide={setMessageSlide}/>
 
-                </div>
+                </>
 
             </div>
 

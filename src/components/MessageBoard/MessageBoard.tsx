@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 import { UserContext } from '../../UserContext';
 import './MessageBoard.css'
 import { url } from '../../Url';
@@ -12,13 +12,21 @@ type MessageUpload = {
     message: string
 }
 
-const MessageBoard = () => {
+type MessageBoardProps = {
+    setMessageSlide: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
 
     const { user } = useContext(UserContext);
 
     const [allMessages, setAllMessages] = useState<Array<MessageUpload>>([]);
 
     const [message, setMessage] = useState<string>('');
+
+    const [messageBox, setMessageBox] = useState<string>("30")
+
+    const messageBoard = useRef<HTMLDivElement>(null)
 
 
 
@@ -159,10 +167,59 @@ const MessageBoard = () => {
     }
 
 
+    const expandMessageBox = () => {
+
+        //messageBox, setMessageBox
+        const screenWidth = window.screen.width;
+
+        console.log(messageBox)
+
+        const messageWidth = messageBox.match(/\d+/g)
+
+        console.log(messageWidth![0]);
+
+        if(Number(messageWidth![0]) < 50){
+
+            if(messageBoard.current){
+
+                messageBoard.current.style.setProperty("display", "flex", "important")
+            }
+
+            if(screenWidth < 500){
+
+                setMessageBox("100%")
+
+                setMessageSlide(true);
+            }
+            else{
+
+                setMessageBox("300px")
+            }
+
+            //setMessageBox(330);
+        }
+        else{
+ 
+            setMessageBox("30px")
+
+            setMessageSlide(false);
+
+            if(messageBoard.current){
+
+                messageBoard.current.style.setProperty("display", "none", "important")
+            }
+        }
+    }
+
+
 
     return (
+        <div className="dashboard-message-container border-shadow" 
+            style={{maxWidth: messageBox}} 
+        >
+            <div className="message-expand-bar mr-2" onClick={expandMessageBox}><h4 className="text-rotate">messages</h4></div>
 
-        <div className="d-flex flex-column h-100 pt-3 pb-3 gap-3 input-field">
+            <div className="message-list-container d-flex flex-column h-100 p-2 gap-3 input-field" ref={messageBoard}>
 
                 <div className="messages-sent">
                    
@@ -181,6 +238,8 @@ const MessageBoard = () => {
                 </div>
 
                 <textarea className="send-message input-field textarea-style border-shadow" value={message} placeholder="type your message here.." onChange={(e) => {setMessage(e.target.value)}} onKeyDown={handleEnterPress}></textarea>
+
+            </div>
 
         </div>
     )

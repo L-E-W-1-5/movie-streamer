@@ -16,12 +16,13 @@ import { url } from '../../Url';
 // }
 
 type MovieListProps = {
-    allMovies: Array<MovieDownloadNew>,
-    setAllMovies: React.Dispatch<React.SetStateAction<MovieDownloadNew[]>>
-    setSignedUrl: React.Dispatch<React.SetStateAction<MovieUrl>>
+    allMovies: Array<MovieDownloadNew>;
+    setAllMovies: React.Dispatch<React.SetStateAction<MovieDownloadNew[]>>;
+    setSignedUrl: React.Dispatch<React.SetStateAction<MovieUrl>>;
+    messageSlide: boolean;
 }
 
-const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSignedUrl }) => {
+const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSignedUrl, messageSlide }) => {
 
     const { user } = useContext(UserContext)
 
@@ -80,21 +81,22 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
 
 
     return (
-        <>
+
+        <div className="dashboard-movie-container border-shadow" style={{display: messageSlide ? "none" : "block"}}>
+
             <div className="movie-list-container d-flex flex-row flex-wrap p-2 gap-2 w-100">
 
-            {allMovies && 
-                <>
+                {allMovies && 
+                    <>
 
-                    {allMovies.map((film:MovieDownloadNew, x:number) => {
+                        {allMovies.map((film:MovieDownloadNew, x:number) => {
 
-                        return <MovieCard key={x} film={film} setSignedUrl={setSignedUrl}/>
+                            return <MovieCard key={x} film={film} setSignedUrl={setSignedUrl}/>
 
-                    })}
+                        })}
 
-                </>
-            }  
-
+                    </>
+                }  
 
             </div>
 
@@ -107,7 +109,7 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
                 
             </div>}
 
-        </>
+        </div>
     )
 };
 

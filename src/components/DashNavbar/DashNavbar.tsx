@@ -1,7 +1,7 @@
 
 
 type UserOptionsProps = {
-    showUserOptions: React.Dispatch<React.SetStateAction<boolean>>
+
     showAdminForm: React.Dispatch<React.SetStateAction<boolean>>
 }
 
