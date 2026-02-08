@@ -9,10 +9,10 @@
 
 .message-expand-bar{
     height: 100%;
-    width: 25px;
+    width: 30px;
     min-width: 25px;
     /* background-color: var(--borderShadow); */
-    z-index: 5;
+    /* z-index: 5; */
     display: flex;
     justify-content: center;
     align-items: center;

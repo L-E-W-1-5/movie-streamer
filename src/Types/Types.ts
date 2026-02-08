@@ -33,8 +33,16 @@ export interface MovieDownloadNew {
     year: number | null,
     genre: string | null,
     timestamp: Date,
-    times_played: number
+    times_played: number,
+    images: Array<MovieImage> | null
 };
+
+export type MovieImage = {
+    id: number,
+    filename: string,
+    mime_type: string,
+    buffer: string
+}
 
 
 export type MovieUrl = {

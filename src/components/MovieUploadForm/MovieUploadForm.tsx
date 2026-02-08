@@ -15,7 +15,8 @@ type MovieUpload = {
     length: string | null,
     year: number | null,
     file: File | null,
-    folder?: File[]
+    folder?: File[],
+    images: File[]
 };
 
 const initialMovie: MovieUpload = {
@@ -25,7 +26,8 @@ const initialMovie: MovieUpload = {
     length: null,
     year: null,
     file: null,
-    folder: []
+    folder: [],
+    images: []
 }
 
 
@@ -56,9 +58,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
 
 
-    const handleFileUpload = (e:React.ChangeEvent<HTMLInputElement>) => {
-
-        console.log("60", e);
+    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
 
         if(e.target.files && e.target.files.length > 1){
 
@@ -75,6 +75,19 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
         };
 
     };
+
+
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+        console.log(e.target.files)
+
+        if(e.target.files){
+
+            const filesArray = Array.from(e.target.files);
+
+            setMovieUpload(prev => ({...prev, images: filesArray}))
+        }
+    }
 
 
 
@@ -107,6 +120,8 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
 
     const handleSubmit = async () => {
+
+        console.log(movieUpload)
 
         if(!movieUpload.file && !movieUpload.folder){
             alert("please select a video to upload first");
@@ -159,6 +174,15 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
             formData.append('length', movieUpload.length)
         }
 
+        if(movieUpload.images && movieUpload.images.length > 0){
+
+            movieUpload.images.forEach((image) => {
+
+                formData.append('images[]', image, image.name)
+            })
+
+        }
+
         if(formData.has('movie')){
 
             console.log("single movie")
@@ -195,6 +219,8 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
     const sendHLS = async (formData: FormData) => {
 
+        console.log("hls")
+
         if(!user?.token) return;
 
         const res = await fetch(`${url}/movies/hls`, {
@@ -211,6 +237,8 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
     }
 
     const sendSingleMovie = async (formData: FormData) => {
+
+        console.log(movieUpload)
 
         if(!user?.token) return;
 
@@ -249,7 +277,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
             reply = await res.json();
 
-            console.log("251", reply)
+            console.log("276", reply)
 
             if(reply.status === "error"){
 
@@ -270,7 +298,8 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
                     year: reply.payload.year,
                     length: reply.payload.length,
                     timestamp: reply.payload.timestamp,
-                    times_played: reply.payload.times_played
+                    times_played: reply.payload.times_played,
+                    images: reply.payload.images
                 };
 
             setAllMovies(prev => [...prev, newUpload]);
@@ -341,6 +370,16 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
                 <textarea id="description" className="upload-form-element upload-form-textarea second-column variable-colour border-shadow input-field" placeholder="enter description here" onChange={handleChanges}/>
 
                 <input id="length" className="upload-form-element first-column btn variable-colour border-shadow input-field" type="text" placeholder="movie length" onChange={handleChanges}/>
+
+                <input
+                    className="images"
+                    type="file"
+                    name="movieImages"
+                    multiple
+                    {...({ webkitdirectory: true } as React.InputHTMLAttributes<HTMLInputElement>)}
+                    onChange={handleImageUpload}
+                />
+                
 
                 <div className="d-flex flex-row gap-5 align-self-center upload-form-buttons mt-3">
                 

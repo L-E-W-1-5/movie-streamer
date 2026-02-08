@@ -24,13 +24,18 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
 
     const [message, setMessage] = useState<string>('');
 
-    const [messageBox, setMessageBox] = useState<string>("30")
+    const [messageBox, setMessageBox] = useState<string>("30px")
 
     const messageBoard = useRef<HTMLDivElement>(null)
 
 
 
     useEffect(() => {
+
+        if(messageBoard.current){
+
+            messageBoard.current.style.setProperty("display", "none", "important")
+        }
 
         const fetchAllMessages = async () => {
 
@@ -169,14 +174,9 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
 
     const expandMessageBox = () => {
 
-        //messageBox, setMessageBox
         const screenWidth = window.screen.width;
 
-        console.log(messageBox)
-
         const messageWidth = messageBox.match(/\d+/g)
-
-        console.log(messageWidth![0]);
 
         if(Number(messageWidth![0]) < 50){
 
