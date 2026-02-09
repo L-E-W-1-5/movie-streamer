@@ -34,7 +34,7 @@ export interface MovieDownloadNew {
     genre: string | null,
     timestamp: Date,
     times_played: number,
-    images: Array<MovieImage> | null
+    images?: Array<MovieImage> | null
 };
 
 export type MovieImage = {
