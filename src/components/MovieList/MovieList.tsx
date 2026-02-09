@@ -28,7 +28,9 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
 
     const [loading, setLoading] = useState<boolean>(false);
 
+    console.log(messageSlide)
       useEffect(() => {
+
 
         const fetchAllMovies = async () => {
 
