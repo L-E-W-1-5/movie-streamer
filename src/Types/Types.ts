@@ -41,7 +41,7 @@ export type MovieImage = {
     id: number,
     filename: string,
     mime_type: string,
-    buffer: string
+    url: string
 }
 
 
