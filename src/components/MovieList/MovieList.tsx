@@ -28,7 +28,7 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
 
     const [loading, setLoading] = useState<boolean>(false);
 
-    console.log(messageSlide)
+
       useEffect(() => {
 
 
@@ -58,9 +58,10 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
                     status: string;
                 };
 
-                console.log(movies)
 
                 if(res.ok && movies.status !== "error") {
+
+                    console.log(movies.payload)
 
                     setAllMovies(movies.payload);
             

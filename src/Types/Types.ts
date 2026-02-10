@@ -39,9 +39,12 @@ export interface MovieDownloadNew {
 
 export type MovieImage = {
     id: number,
-    filename: string,
+    key: string,
+    movie_id: number,
     mime_type: string,
-    url: string
+    movie_title: string,
+    original_name: string
+    url: string,
 }
 
 

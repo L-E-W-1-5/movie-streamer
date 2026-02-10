@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import { UserContext } from '../../UserContext';
-import { type MovieDownloadNew } from '../../Types/Types';
+import { type MovieDownloadNew, type MovieImage } from '../../Types/Types';
 import { url } from '../../Url';
 import './MovieEditDetails.css'
 
@@ -41,6 +41,8 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
     const [ edit, setEdit ] = useState<MovieDownloadNew>(defaultOptions)
 
     const [editForm, setEditForm] = useState<boolean>(false)
+
+    console.log(movie)
 
 
     const handleDelete = async () => {
@@ -214,7 +216,7 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
 
                     <div className="form-grid p-4 h-100">
 
-                        <div className="first-column d-flex flex-column justify-content-around align-items-end">
+                        <div className="first-column d-flex flex-column justify-content-around">
 
                             <label>title: 
                                 <input id="title" className="movie-edit-details-element btn variable-colour border-shadow" defaultValue={movie.title} onChange={changeNewEdit}/>
@@ -247,6 +249,35 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
                             <label>description: 
                                 <textarea id="description" className="edit-details-textarea variable-colour border-shadow input-field" defaultValue={movie.description ? movie.description : ""} onChange={changeNewEdit}/>
                             </label>
+
+                        </div>
+
+                        <div className="image-edit">
+
+                            <div className="d-flex flex-row">
+
+                                <label>images
+
+                                    {movie.images && 
+                                        <>
+
+                                            {movie.images.map((image: MovieImage, x: number) => {
+
+                                                return <div className="image-viewport">{x + 1}: {image.original_name}
+
+                                                    <img className="image-display" src={image.url}/>
+
+                                                </div>
+                                            })}
+
+                                        </>       
+                                    }
+                         
+                                </label>
+
+                            </div>
+
+                            <button className="button-style border-shadow mt-3 w-50">add image</button>
 
                         </div>
 

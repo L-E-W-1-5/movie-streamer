@@ -238,7 +238,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
     const sendSingleMovie = async (formData: FormData) => {
 
-        console.log(movieUpload)
+
 
         if(!user?.token) return;
 
@@ -261,7 +261,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
         if(!user?.token) return;
 
-        console.log(res);
+
 
         try{
 
@@ -277,7 +277,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
             reply = await res.json();
 
-            console.log("276", reply)
+            console.log("276", reply.payload)
 
             if(reply.status === "error"){
 
@@ -299,7 +299,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
                     length: reply.payload.length,
                     timestamp: reply.payload.timestamp,
                     times_played: reply.payload.times_played,
-                    images: reply.payload.images
+                    images: reply.payload.images ? reply.payload.images : null
                 };
 
             setAllMovies(prev => [...prev, newUpload]);
@@ -346,6 +346,15 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
                     onChange={handleFileUpload}
                 />
 
+                <input
+                    className="images upload-form-element first-column btn variable-colour border-shadow"
+                    type="file"
+                    name="movieImages"
+                    multiple
+                    {...({ webkitdirectory: true } as React.InputHTMLAttributes<HTMLInputElement>)}
+                    onChange={handleImageUpload}
+                />
+
                 <input 
                     id="title" 
                     className="upload-form-element first-column btn variable-colour border-shadow input-field" 
@@ -367,18 +376,11 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
                 <input id="year" className="upload-form-element first-column btn variable-colour border-shadow input-field" type="number" placeholder="movie year" onChange={handleChanges}/>
 
-                <textarea id="description" className="upload-form-element upload-form-textarea second-column variable-colour border-shadow input-field" placeholder="enter description here" onChange={handleChanges}/>
-
                 <input id="length" className="upload-form-element first-column btn variable-colour border-shadow input-field" type="text" placeholder="movie length" onChange={handleChanges}/>
 
-                <input
-                    className="images"
-                    type="file"
-                    name="movieImages"
-                    multiple
-                    {...({ webkitdirectory: true } as React.InputHTMLAttributes<HTMLInputElement>)}
-                    onChange={handleImageUpload}
-                />
+                <textarea id="description" className="upload-form-element upload-form-textarea second-column variable-colour border-shadow input-field" placeholder="enter description here" onChange={handleChanges}/>
+
+                
                 
 
                 <div className="d-flex flex-row gap-5 align-self-center upload-form-buttons mt-3">

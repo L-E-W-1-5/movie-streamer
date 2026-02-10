@@ -32,10 +32,6 @@ const MovieCard: React.FC<MovieInfo> = ({film, setSignedUrl}) => {
             }
 
         }
-            
-                
-            
-        
 
     }, [film])
 

@@ -39,3 +39,23 @@
     width: 100%;
 }
 
+.image-edit{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.image-viewport{
+    cursor: pointer;
+}
+
+.image-display{
+    display: none;
+    height: 200px;
+    width: 200px;
+    position: fixed;
+}
+
+.image-viewport:hover .image-display{
+    display: block;
+}
