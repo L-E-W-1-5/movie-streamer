@@ -23,7 +23,13 @@ type MovieEditProps = {
 
 const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAllMovies}) => {
 
-    const [movieDetails, showMovieDetails] = useState<MovieDownloadNew | null>(null);
+    //const [movieDetails, showMovieDetails] = useState<MovieDownloadNew | null>(null);
+
+    const [movieEditContainer, setMovieEditContainer] = useState<{
+        movie: MovieDownloadNew,
+        position: {top: number,
+                    left: number;}
+        } | null>(null);
 
    
 
@@ -37,14 +43,36 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
     }
 
 
-    const setMovieDetails = (movie: MovieDownloadNew) => {
+    // const setMovieDetails = (movie: MovieDownloadNew) => {
 
-        showMovieDetails(movie)
+    //     showMovieDetails(movie)
+    // }
+
+
+    const setEditForm = (movie: MovieDownloadNew, e: React.MouseEvent) => {
+
+        console.log(e.currentTarget.closest('movie-edit-form'))
+
+        const containerPosition = e.currentTarget.closest('.movie-edit-form')?.getBoundingClientRect();
+
+        const scrollContainerTop = e.currentTarget.closest('.movie-edit-form')?.scrollTop || 0;
+
+        const top = scrollContainerTop - (containerPosition?.top || 0) + 350
+
+        setMovieEditContainer({
+            movie,
+            position: { 
+                top: top,
+                left: 100
+            }
+        })
     }
 
  
 
     return(
+
+    <>
 
         <div className="movie-edit-form border-shadow container-style d-flex flex-column justify-content-around align-items-center">
 
@@ -56,7 +84,7 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
                     
 
-                        <div key={index} className="record-container border-shadow p-2 mb-2" onClick={() => setMovieDetails(movie)}>
+                        <div key={index} className="record-container border-shadow p-2 mb-2" onClick={(e) => setEditForm(movie, e)}>
 
                             <span className="edit-field-item">{movie.id}</span>
                             <span className="edit-field-item">{movie.title}</span>
@@ -71,23 +99,27 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
                     )
                 })}
 
-                {movieDetails &&
-                    
-                    <div className="movie-edit-container border-shadow container-style">
-
-                        <MovieEditDetails movie={movieDetails} setAllMovies={setAllMovies} showMovieDetails={showMovieDetails}/>
-
-                    </div>
-
-                }
+                
 
             </div>
+
+            {movieEditContainer &&
+                    
+            <div className="movie-edit-container border-shadow container-style" style={{top: movieEditContainer.position.top}}>
+
+                <MovieEditDetails movie={movieEditContainer.movie} setAllMovies={setAllMovies} setMovieEditContainer={setMovieEditContainer}/>
+
+            </div>
+
+        }
 
             <button className="button-style border-shadow" onClick={stopMenuClosure}>close</button>
 
         </div>
 
+        
 
+    </>
     )
 }
 

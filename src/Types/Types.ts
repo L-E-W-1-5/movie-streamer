@@ -35,6 +35,7 @@ export interface MovieDownloadNew {
     timestamp: Date,
     times_played: number,
     images?: Array<MovieImage> | null
+    image?: File[] | null
 };
 
 export type MovieImage = {
@@ -53,3 +54,14 @@ export type MovieUrl = {
     type: string,
     title: string
 }
+
+export type MovieUpload = {
+    title: string,
+    genre: string,
+    description: string | null,
+    length: string | null,
+    year: number | null,
+    file: File | null,
+    folder?: File[],
+    images: File[]
+};

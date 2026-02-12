@@ -228,7 +228,7 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
                         return (
                             <div className="message-boxes d-flex flex-column lh-1 textarea-style mb-2 p-1" key={index}>
                                 
-                                <p className="d-flex flex-row justify-content-between"><b>{msg.username.split(' ')[0] + ' ' + msg.username.split(' ')[1][0]}</b><i>{msg.timestamp}</i>{user?.admin && <button className="message-box-delete align-self-end" onClick={() => deleteMessage(msg)}></button>}</p>
+                                <p className="d-flex flex-row justify-content-between"><b>{msg.username.split(' ')[0] + ' ' + msg.username.split(' ')[1][0]}</b><i>{msg.timestamp}</i>{user?.admin && <button className="delete-cross align-self-end" onClick={() => deleteMessage(msg)}></button>}</p>
                                 <p>{msg.message}</p>
                                 
                             </div>

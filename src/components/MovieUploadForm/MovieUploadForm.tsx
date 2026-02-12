@@ -1,23 +1,14 @@
 import './MovieUploadForm.css'
 import { useState, useContext } from "react";
 import { UserContext } from "../../UserContext";
-import { type MovieDownloadNew } from '../../Types/Types';
+import { type MovieDownloadNew, type MovieUpload } from '../../Types/Types';
 import { url } from '../../Url';
 
 
 
 
 
-type MovieUpload = {
-    title: string,
-    genre: string,
-    description: string | null,
-    length: string | null,
-    year: number | null,
-    file: File | null,
-    folder?: File[],
-    images: File[]
-};
+
 
 const initialMovie: MovieUpload = {
     title: '',

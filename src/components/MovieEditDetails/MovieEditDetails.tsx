@@ -16,7 +16,13 @@ import './MovieEditDetails.css'
 type MovieDetailsProps = {
     movie: MovieDownloadNew
     setAllMovies: React.Dispatch<React.SetStateAction<MovieDownloadNew[]>>
-    showMovieDetails: React.Dispatch<React.SetStateAction<MovieDownloadNew | null>>
+    setMovieEditContainer: React.Dispatch<React.SetStateAction<{
+        movie: MovieDownloadNew,
+        position: {
+            top: number,
+            left: number
+        }
+    } | null>>
 }
 
 const defaultOptions: MovieDownloadNew = {
@@ -28,13 +34,15 @@ const defaultOptions: MovieDownloadNew = {
     year: null,
     genre: null,
     timestamp: new Date(),
-    times_played: 0
+    times_played: 0,
+    images: null,
+    image: null
 }
 
 
 
 
-const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, showMovieDetails}) => {
+const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, setMovieEditContainer}) => {
 
     const { user } = useContext(UserContext);
 
@@ -42,7 +50,6 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
 
     const [editForm, setEditForm] = useState<boolean>(false)
 
-    console.log(movie)
 
 
     const handleDelete = async () => {
@@ -85,6 +92,62 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
     };
 
 
+    const handleDeleteImage = async (image: MovieImage) => {
+
+        console.log(image)
+
+        const confirmed = confirm("are you sure you want to delete this image?");
+
+        if(!confirmed) return;
+
+        if(!user?.token) return;
+
+        try{
+
+            const res = await fetch(`${url}/movies/image_delete`, {
+
+                method: 'post',
+
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer: ${user.token}`
+                },
+
+                body: JSON.stringify({image})
+            })
+
+            if(!res.status.toString().startsWith('2')){
+
+                alert("Network issue: Unable to delete image")
+            }
+                
+            const response = await res.json()
+
+            alert(response.payload)
+
+
+        }catch(err){
+
+            console.error(err)
+        }
+    }
+
+
+    const handleuploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+
+        const value = e.target.files;
+
+        console.log( value )
+
+        if(e.target.files){
+
+            const filesArray = Array.from(e.target.files)
+            
+            setEdit(prev => ({...prev, image: filesArray}))
+        }
+    }
+
+
     const handleEditOptions = async (e: React.MouseEvent<HTMLButtonElement>) => {
 
         e.stopPropagation();
@@ -98,7 +161,7 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
 
         e.stopPropagation()
 
-        showMovieDetails(null);
+        setMovieEditContainer(null);
     }
 
     const closeEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -141,9 +204,41 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
     };
 
 
+    const makeFormData = () => {
+
+        const formData = new FormData();
+
+        formData.append('id', edit.id.toString())
+
+        formData.append('title', edit.title);
+
+        if(edit.genre) formData.append('genre', edit.genre);
+
+        if(edit.description) formData.append('description', edit.description);
+
+        if(edit.year) formData.append('year', edit.year.toString());
+
+        if(edit.length) formData.append('length', edit.length);
+
+        if(edit.image && edit.image.length > 0){
+
+            edit.image.forEach((i) => {
+
+                formData.append('image[]', i, i.name)
+            })
+        } 
+
+        console.log(formData)
+
+        return formData
+    }
+
+
     const updateMovieDetails = async () => {
 
         console.log(edit);
+
+        const form = makeFormData()
 
         try{
 
@@ -152,11 +247,10 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
                 method: 'POST',
 
                 headers: {
-                    "Content-Type": "application/json",
                     "authorization": `Bearer ${user?.token}`
                 },
 
-                body: JSON.stringify({edit})
+                body: form
             })
 
             const response = await res.json();
@@ -183,7 +277,7 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
 
     return(
 
-        <div className="movie-record d-flex flex-column justify-content-around align-items-center h-100 w-100">
+        <div className="movie-record d-flex flex-column justify-content-around align-items-center w-100">
             
             {!editForm &&
             <>
@@ -254,16 +348,22 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
 
                         <div className="image-edit">
 
-                            <div className="d-flex flex-row">
+                            <div className="d-flex flex-column">
 
-                                <label>images
+                                <h5>images</h5>
+
+                                <div className='d-flex flex-row'>
 
                                     {movie.images && 
                                         <>
 
                                             {movie.images.map((image: MovieImage, x: number) => {
 
-                                                return <div className="image-viewport">{x + 1}: {image.original_name}
+                                                return <div className="image-viewport">
+                                                    
+                                                    <p>{x + 1}: {image.original_name}<button className='delete-cross' onClick={() => handleDeleteImage(image)}></button></p>
+                                                
+                                                    
 
                                                     <img className="image-display" src={image.url}/>
 
@@ -273,11 +373,11 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, sho
                                         </>       
                                     }
                          
-                                </label>
+                                </div>
 
                             </div>
 
-                            <button className="button-style border-shadow mt-3 w-50">add image</button>
+                            <input type="file" className="button-style border-shadow mt-3 w-50" onChange={handleuploadImage}/>
 
                         </div>
 
