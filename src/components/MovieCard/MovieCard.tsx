@@ -19,7 +19,7 @@ const MovieCard: React.FC<MovieInfo> = ({film, setSignedUrl}) => {
 
     const [movieDetails, showMovieDetails] = useState<boolean>(false)
 
-    const cardRef = useRef<HTMLImageElement | null>(null);
+    const cardRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
 

@@ -51,13 +51,13 @@
     cursor: default;
 }
 
+.image-viewport:hover .image-display{
+    display: block;
+}
+
 .image-display{
     display: none;
     height: 200px;
     width: 200px;
     position: fixed;
-}
-
-.image-viewport:hover .image-display{
-    display: block;
 }

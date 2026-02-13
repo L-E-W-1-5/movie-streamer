@@ -1,4 +1,17 @@
 .movie-play-container{
     z-index: 5;
+
+}
+
+.movie-details-button{
+    background-color: black;
+}
+
+.movie-details-image{
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
 }
 

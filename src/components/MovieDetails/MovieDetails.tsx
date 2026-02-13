@@ -1,4 +1,4 @@
-import {  useContext } from "react"
+import {  useContext, useEffect, useRef } from "react"
 import { UserContext } from "../../UserContext";
 import { type MovieUrl, type MovieDownloadNew } from "../../Types/Types";
 import { url } from '../../Url';
@@ -34,7 +34,24 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl, closeDeta
 
     const { user } = useContext(UserContext)
 
+    const imageRef = useRef<HTMLImageElement | null>(null)
+
    // const [movieS3, setMovieS3] = useState()
+
+   useEffect(() => {
+
+    if(imageRef.current && film.images){
+
+            if(film.images[1] && film.images[1].url){
+
+                //imageRef.current.style.setProperty("background-image", `url(${film.images[1].url})`, "important")
+
+                imageRef.current.src = film.images[1].url
+            }
+
+        }
+
+   }, [film])
 
 
     const getMovie = async () => {
@@ -128,7 +145,10 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl, closeDeta
 
     return(
         
-        <div className="movie-play-container d-flex flex-column justify-content-between align-items-center h-100 w-100 p-4">
+        <div className="movie-play-container d-flex flex-column justify-content-between align-items-center h-100 w-100 p-4"
+            
+        >
+            <img className="movie-details-image" ref={imageRef}></img>
 
             <h3>{`${film.title} - ${film.year}`}</h3>
 
@@ -140,9 +160,9 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl, closeDeta
 
             <div className="d-flex gap-4">
 
-                <button className="btn border-shadow variable-colour mb-3" onClick={changeUrl}>Play</button>
+                <button className="movie-details-button btn border-shadow variable-colour mb-3" onClick={changeUrl}>Play</button>
 
-                <button className="btn border-shadow variable-colour mb-3" onClick={closeMovieDetails}>close</button>
+                <button className="movie-details-button btn border-shadow variable-colour mb-3" onClick={closeMovieDetails}>close</button>
             
             </div>
 
