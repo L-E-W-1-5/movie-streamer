@@ -51,6 +51,8 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
     const setEditForm = (movie: MovieDownloadNew, e: React.MouseEvent) => {
 
+        e.stopPropagation();
+
         console.log(e.currentTarget.closest('movie-edit-form'))
 
         const containerPosition = e.currentTarget.closest('.movie-edit-form')?.getBoundingClientRect();
@@ -82,9 +84,11 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
                     return (
 
+                    <div key={index} className="d-flex flex-column justify-content-center align-items-center gap-1 w-100">
+           
                     
 
-                        <div key={index} className="record-container border-shadow p-2 mb-2" onClick={(e) => setEditForm(movie, e)}>
+                        <div className="record-container border-shadow p-2 mb-2" onClick={(e) => setEditForm(movie, e)}>
 
                             <span className="edit-field-item">{movie.id}</span>
                             <span className="edit-field-item">{movie.title}</span>
@@ -93,8 +97,17 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
                         </div>
 
-                        
+                        {movieEditContainer?.movie === movie &&
                     
+                            <div className="movie-edit-container border-shadow container-style" style={{top: movieEditContainer.position.top}}>
+
+                                <MovieEditDetails movie={movie} setAllMovies={setAllMovies} setMovieEditContainer={setMovieEditContainer}/>
+
+                            </div>
+
+                        }
+                    
+                    </div>
 
                     )
                 })}
@@ -103,15 +116,7 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
             </div>
 
-            {movieEditContainer &&
-                    
-            <div className="movie-edit-container border-shadow container-style" style={{top: movieEditContainer.position.top}}>
-
-                <MovieEditDetails movie={movieEditContainer.movie} setAllMovies={setAllMovies} setMovieEditContainer={setMovieEditContainer}/>
-
-            </div>
-
-        }
+            
 
             <button className="button-style border-shadow" onClick={stopMenuClosure}>close</button>
 

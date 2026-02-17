@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext,  useState } from 'react'
 import { UserContext } from '../../UserContext';
 import { type MovieDownloadNew, type MovieImage } from '../../Types/Types';
 import { url } from '../../Url';
@@ -25,19 +25,19 @@ type MovieDetailsProps = {
     } | null>>
 }
 
-const defaultOptions: MovieDownloadNew = {
-    id: 0,
-    title: "",
-    key: "",
-    description: null,
-    length: null,
-    year: null,
-    genre: null,
-    timestamp: new Date(),
-    times_played: 0,
-    images: null,
-    image: null
-}
+// const defaultOptions: MovieDownloadNew = {
+//     id: 0,
+//     title: "",
+//     key: "",
+//     description: null,
+//     length: null,
+//     year: null,
+//     genre: null,
+//     timestamp: new Date(),
+//     times_played: 0,
+//     images: null,
+//     image: null
+// }
 
 
 
@@ -46,9 +46,19 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
     const { user } = useContext(UserContext);
 
-    const [ edit, setEdit ] = useState<MovieDownloadNew>(defaultOptions)
+    const [ edit, setEdit ] = useState<MovieDownloadNew>(movie)
 
     const [editForm, setEditForm] = useState<boolean>(false)
+
+    //console.log(movie)
+
+    // useEffect(() => {
+
+    //     console.log("edit", edit);
+
+    //     console.log("movie", movie);
+
+    // }, [edit, movie])
 
 
 
@@ -106,7 +116,7 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
             const res = await fetch(`${url}/movies/image_delete`, {
 
-                method: 'post',
+                method: 'POST',
 
                 headers: {
                     'Content-Type': 'application/json',
@@ -123,7 +133,24 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
                 
             const response = await res.json();
 
-            alert(response.payload);
+            if(response.status === "success"){
+
+                setAllMovies(allMovies => {
+
+                    return allMovies.map(mov => 
+
+                        mov.id === movie.id ? {
+
+                            ...mov, 
+                        
+                            images: mov.images?.filter(img => img.id !== response.payload.id)
+                        
+                        } : mov
+                    );
+                })
+
+                alert("Image deleted");
+            };
 
 
         }catch(err){
@@ -144,7 +171,9 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
     };
 
 
-    const changeImagePosition = (index: number) => {
+    const changeImagePosition = (e: React.MouseEvent, index: number) => {
+
+        e.stopPropagation();
 
         if(!edit.images || edit.images.length < 2) return
 
@@ -154,10 +183,25 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
             if(!edit.images) return
 
             const newPosition = [...edit.images];
-                
+            
             [newPosition[a], newPosition[b]] = [newPosition[b], newPosition[a]];
 
             setEdit(prev => ({...prev, images: newPosition}));
+
+            setAllMovies(allMovies => {
+
+                return allMovies.map(mov => 
+
+                    mov.id === movie.id ? {
+
+                        ...mov,
+
+                        images: newPosition 
+
+                    } : mov
+                ) 
+            })
+
         };
 
 
@@ -191,41 +235,9 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
             }
         }
 
-
-        setAllMovies(prevMovies => {
-
-            return prevMovies.map(movie => 
-
-                 movie.id === edit.id ? {...movie, ...edit} : movie
-            );
-        });
     }
 
 
-    const handleEditOptions = async (e: React.MouseEvent<HTMLButtonElement>) => {
-
-        e.stopPropagation();
-
-        setEditForm(true);
-
-        setEdit(movie);
-    };
-
-
-    const closeForm = (e: React.MouseEvent<HTMLButtonElement>) => {
-
-        e.stopPropagation();
-
-        setMovieEditContainer(null);
-    };
-
-
-    const closeEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
-
-        e.stopPropagation();
-
-        setEditForm(false);
-    };
 
 
     function changeNewEdit<T extends HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement> (e: React.ChangeEvent<T>){
@@ -312,14 +324,27 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
             const response = await res.json();
 
+            console.log(response)
+
             if(res.ok && response.status === "success"){
 
+                console.log(response.payload)
+
+                
                 setAllMovies(prevMovies => {
 
-                    return prevMovies.map(movie => 
+                    return prevMovies.map(movie => {
 
-                        movie.id === edit.id ? {...movie, ...response.payload} : movie
-                    );
+                        const newImage = (response.payload.images && response.payload.images.length > 0) ? response.payload.images[0] : null;
+
+                        const updatedImages = movie.images ? [...movie.images, newImage].filter(Boolean) : newImage ? [newImage] : []
+
+                        return movie.id === edit.id ? {
+                            ...movie, 
+                            ...edit,
+                            images: updatedImages   //movie.images ? [...movie.images, response.payload.images[0]] : response.payload.images[0]
+                        } : movie
+                    });
                 });
 
                 alert("movie updated successfully");
@@ -329,6 +354,34 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
             console.log(err);
         };
+    };
+
+
+
+    
+    const handleEditOptions = async (e: React.MouseEvent<HTMLButtonElement>) => {
+
+        e.stopPropagation();
+
+        setEditForm(true);
+
+        setEdit(movie);
+    };
+
+
+    const closeForm = (e: React.MouseEvent<HTMLButtonElement>) => {
+
+        e.stopPropagation();
+
+        setMovieEditContainer(null);
+    };
+
+
+    const closeEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
+
+        e.stopPropagation();
+
+        setEditForm(false);
     };
 
 
@@ -362,6 +415,9 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
             </>
             }
+
+
+
 
             {editForm && 
             
@@ -411,25 +467,21 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
                                 <h6><b>images</b></h6>
 
-                                <div className='d-flex flex-row gap-5'>
+                                <div className='d-flex flex-row gap-5'>               
 
-                                    {movie.images && 
-                                        <>
+                                          {movie.images && movie.images.map((image: MovieImage, x: number) => {
 
-                                            {movie.images.map((image: MovieImage, x: number) => {
-
-                                                return  <div className="image-viewport" key={x} onClick={() => changeImagePosition(x)}>
+                                                return  <div className="image-viewport" key={x} >
                                                     
-                                                            <p><u>{x + 1 === 1 ? "card image" : x + 1 === 2 ? "open image" : "extra image"}</u></p>
+                                                           <div onClick={(e) => changeImagePosition(e, x)}><p><u>{x + 1 === 1 ? "card image" : x + 1 === 2 ? "open image" : "extra image"}</u></p></div>
 
                                                             <p> {image.original_name}<button className='delete-cross' onClick={() => handleDeleteImage(image)}></button></p>   
 
                                                             <img className="image-display" src={image.url}/>
 
                                                         </div>
-                                            })}
-
-                                        </>       
+                                            })
+                                               
                                     }
                          
                                 </div>
