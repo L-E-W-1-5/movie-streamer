@@ -1,4 +1,4 @@
-import { useContext,  useState, useEffect, useRef } from 'react'
+import { useContext,  useState } from 'react'
 import { UserContext } from '../../UserContext';
 import { type MovieDownloadNew, type MovieImage } from '../../Types/Types';
 import { url } from '../../Url';
@@ -50,26 +50,6 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
     const [editForm, setEditForm] = useState<boolean>(false)
 
-    const editFormRef = useRef(null);
-
-    //console.log(movie)
-
-    useEffect(() => {
-
-        if(movie){
-
-            document.body.style.overflow = 'hidden';
-
-            console.log("hidden")
-        
-        }else{
-
-            document.body.style.overflow = '';
-
-            console.log("visible")
-        }  
-
-    }, [movie])
 
 
 
@@ -387,25 +367,6 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
     };
 
 
-
-    const handleScroll = (e: React.MouseEvent<HTMLDivElement>) => { //
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        if(editFormRef.current){
-
-
-
- 
-           // const scrollContainer = e.currentTarget.closest('.movie-edit-form')
-
-            //console.log(scrollContainer)
-
-            //scrollContainer?.setAttribute('overflow-y', 'hidden')
-            
-        }
-    }
     
     const handleEditOptions = async (e: React.MouseEvent<HTMLButtonElement>) => {
 
@@ -470,11 +431,7 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
             {editForm && 
             
-                <div className="edit-form-container h-100 border-shadow container-style"
-                    ref={editFormRef}
-                    // onWheel={(e) => e.preventDefault()}
-                    onWheel={(e) => handleScroll(e)}
-                >
+                <div className="border-shadow container-style w-100" >
 
                     <div className="form-grid p-4">
 

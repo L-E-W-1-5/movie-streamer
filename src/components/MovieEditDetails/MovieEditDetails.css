@@ -4,14 +4,15 @@
     justify-content: center;
     width: 100%;
     height: 100%;
-
-    
+    max-height: 350px;
 }
 
 .movie-record{
     position: relative;
     color: var(--borderShadow);
+    /* overflow: hidden; */
     overflow: hidden;
+    max-height: 500px;
 }
 
 .form-grid{
@@ -19,7 +20,8 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
     width: 100%;
-    max-height: 50%;
+    max-height: 500px;
+    overflow-y: scroll;
 }
 
 .edit-pre-form{
@@ -74,3 +76,10 @@
     position: fixed;
 }
 
+
+@media only screen and (max-height: 600px){
+
+    .movie-record{
+        max-height: 350px;
+    }
+}
