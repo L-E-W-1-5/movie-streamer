@@ -1,5 +1,5 @@
 import './MovieEditForm.css'
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import MovieEditDetails from '../MovieEditDetails/MovieEditDetails'
 import { type MovieDownloadNew } from '../../Types/Types';
 
@@ -31,7 +31,24 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
                     left: number;}
         } | null>(null);
 
+        const scrollRef = useRef<HTMLDivElement>(null);
+
    
+
+        useEffect(() => {
+
+            if(!scrollRef.current) return;
+
+            if(movieEditContainer){
+
+                scrollRef.current.style.setProperty("overflow-y", "hidden", "important")
+            
+            }else{
+
+                scrollRef.current.style.setProperty("overflow-y", "scroll", "important")
+            }
+
+        }, [movieEditContainer])
 
     const stopMenuClosure = (e: React.MouseEvent) => {
 
@@ -53,13 +70,11 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
         e.stopPropagation();
 
-        console.log(e.currentTarget.closest('movie-edit-form'))
-
         const containerPosition = e.currentTarget.closest('.movie-edit-form')?.getBoundingClientRect();
 
         const scrollContainerTop = e.currentTarget.closest('.movie-edit-form')?.scrollTop || 0;
 
-        const top = scrollContainerTop - (containerPosition?.top || 0) + 350
+        const top = scrollContainerTop - (containerPosition?.top || 0) + 398
 
         setMovieEditContainer({
             movie,
@@ -76,7 +91,9 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
     <>
 
-        <div className="movie-edit-form border-shadow container-style d-flex flex-column justify-content-around align-items-center">
+        <div className="movie-edit-form border-shadow container-style d-flex flex-column justify-content-around align-items-center"
+            ref={scrollRef}
+        >
 
             <div className="map-container d-flex flex-column justify-content-center align-items-center gap-1">
             
@@ -99,7 +116,7 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
                         {movieEditContainer?.movie === movie &&
                     
-                            <div className="movie-edit-container border-shadow container-style" style={{top: movieEditContainer.position.top}}>
+                            <div className="movie-edit-container" style={{top: movieEditContainer.position.top}}>
 
                                 <MovieEditDetails movie={movie} setAllMovies={setAllMovies} setMovieEditContainer={setMovieEditContainer}/>
 

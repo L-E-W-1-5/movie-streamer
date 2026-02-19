@@ -1,4 +1,4 @@
-import { useContext,  useState } from 'react'
+import { useContext,  useState, useEffect, useRef } from 'react'
 import { UserContext } from '../../UserContext';
 import { type MovieDownloadNew, type MovieImage } from '../../Types/Types';
 import { url } from '../../Url';
@@ -50,15 +50,26 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
     const [editForm, setEditForm] = useState<boolean>(false)
 
+    const editFormRef = useRef(null);
+
     //console.log(movie)
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     console.log("edit", edit);
+        if(movie){
 
-    //     console.log("movie", movie);
+            document.body.style.overflow = 'hidden';
 
-    // }, [edit, movie])
+            console.log("hidden")
+        
+        }else{
+
+            document.body.style.overflow = '';
+
+            console.log("visible")
+        }  
+
+    }, [movie])
 
 
 
@@ -330,22 +341,41 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
                 console.log(response.payload)
 
+                //TODO: change this so that it will accept multiple images at the same time
                 
                 setAllMovies(prevMovies => {
 
                     return prevMovies.map(movie => {
 
-                        const newImage = (response.payload.images && response.payload.images.length > 0) ? response.payload.images[0] : null;
+                        const newImages = (response.payload.images && response.payload.images.length > 0) ? response.payload.images : null;
 
-                        const updatedImages = movie.images ? [...movie.images, newImage].filter(Boolean) : newImage ? [newImage] : []
+                        const updatedImages = movie.images ? [...movie.images, ...newImages].filter(Boolean) : newImages ? [...newImages] : []
 
                         return movie.id === edit.id ? {
                             ...movie, 
                             ...edit,
-                            images: updatedImages   //movie.images ? [...movie.images, response.payload.images[0]] : response.payload.images[0]
+                            images: updatedImages   
                         } : movie
                     });
                 });
+
+                /*
+                setAllMovies(prevMovies => {
+
+                    return prevMovies.map(movie => {
+
+                        const newImages = (response.payload.images && response.payload.images.length > 0) ? response.payload.images[0] : null;
+
+                        const updatedImages = movie.images ? [...movie.images, newImages].filter(Boolean) : newImages ? [newImages] : []
+
+                        return movie.id === edit.id ? {
+                            ...movie, 
+                            ...edit,
+                            images: updatedImages   
+                        } : movie
+                    });
+                });
+                */
 
                 alert("movie updated successfully");
             };
@@ -358,6 +388,24 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
 
 
+    const handleScroll = (e: React.MouseEvent<HTMLDivElement>) => { //
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        if(editFormRef.current){
+
+
+
+ 
+           // const scrollContainer = e.currentTarget.closest('.movie-edit-form')
+
+            //console.log(scrollContainer)
+
+            //scrollContainer?.setAttribute('overflow-y', 'hidden')
+            
+        }
+    }
     
     const handleEditOptions = async (e: React.MouseEvent<HTMLButtonElement>) => {
 
@@ -392,7 +440,8 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
         <div className="movie-record d-flex flex-column justify-content-around align-items-center w-100">
             
             {!editForm &&
-            <>
+
+            <div className="d-flex flex-column justify-content-around align-items-center w-100 border-shadow">
                 
                 <h4 className="mt-4">{movie.title}</h4>
                 <span>{movie.genre}</span>
@@ -413,7 +462,7 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
             
                 </div>
 
-            </>
+            </div>
             }
 
 
@@ -421,9 +470,13 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
             {editForm && 
             
-                <div className="edit-form-container h-100">
+                <div className="edit-form-container h-100 border-shadow container-style"
+                    ref={editFormRef}
+                    // onWheel={(e) => e.preventDefault()}
+                    onWheel={(e) => handleScroll(e)}
+                >
 
-                    <div className="form-grid p-4 h-100">
+                    <div className="form-grid p-4">
 
                         <div className="first-column d-flex flex-column justify-content-around">
 
@@ -461,13 +514,13 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
                         </div>
 
-                        <div className="image-edit">
+                        <div className="image-edit two-column-container">
 
                             <div className="d-flex flex-column">
 
                                 <h6><b>images</b></h6>
 
-                                <div className='d-flex flex-row gap-5'>               
+                                <div className='d-flex flex-row gap-5 overflow-x-scroll'>               
 
                                           {movie.images && movie.images.map((image: MovieImage, x: number) => {
 
@@ -488,17 +541,21 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
                             </div>
 
-                            <input 
-                                className="button-style border-shadow mt-3 w-100" 
+                            
+
+                        </div>
+
+                        <input 
+                                className="movie-edit-details-element button-style border-shadow mt-3" 
                                 type="file" 
                                 name="movieImages"
                                 multiple
                                 {...({ webkitdirectory: true } as React.InputHTMLAttributes<HTMLInputElement>)}
                                 onChange={handleuploadImage}/>
 
-                        </div>
 
-                        <div className="form-grid-button-container d-flex gap-3">
+
+                        <div className="two-column-container d-flex gap-3">
 
                             <button className="button-style border-shadow align-self-center" onClick={updateMovieDetails}>update</button>
 
