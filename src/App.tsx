@@ -3,7 +3,7 @@ import LoginPage from './components/LoginPage/LoginPage.tsx';
 import Dashboard from './components/Dashboard/Dashboard.tsx';
 import RegisterForm from './components/RegisterForm/RegisterForm.tsx';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import { Routes, BrowserRouter, Route, Navigate, useLocation, useNavigate } from 'react-router';
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router';
 import { VerifiedRoute } from './VerifiedRoute.tsx';
 import { UserProvider } from './UserProvider.tsx'
 import { useContext, useEffect } from 'react';
@@ -20,6 +20,7 @@ function App() {
 
   const navigate = useNavigate()
 
+
   useEffect(() => {
 
     if(user && location.pathname === '/'){
@@ -29,12 +30,13 @@ function App() {
 
   }, [user, location, navigate])
 
+  
+
   return (
 
     <div className="app-container d-flex justify-content-center align-items-center">
-      <UserProvider>
 
-        <BrowserRouter>
+      <UserProvider>
 
           <Routes>
 
@@ -52,8 +54,6 @@ function App() {
     
           </Routes>
       
-        </BrowserRouter>
-
       </UserProvider>
 
     </div>
