@@ -25,6 +25,8 @@ function App() {
 
     if(user && location.pathname === '/'){
 
+      console.log("app effect")
+
       navigate('/dashboard')
     }
 
