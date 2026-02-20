@@ -42,7 +42,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 60%;
-    height: 45%;
+    height: 65%;
     background-color: black;
     z-index: 4;
 }
@@ -50,27 +50,21 @@
 
 @media only screen and (max-width: 765px){
 
-    /* .movie-card{
-        min-height: 100px;
-        max-height: 100px;
-        min-width: 100%;
-        max-width: 100%;
-    } */
-
     .movie-card-container{
         width: 31.5%;
         min-width: 100px;
     }
 
     .movie-details-container{
-        width: 95%;
+        width: 100%;
     }
 }
 
-@media only screen and (max-height: 550px){
+@media only screen and (max-height: 720px){
 
     .movie-details-container{
-        height: 75%;
+        height: 93%;
+        width: 70%;
     }
 
     .movie-card-container{

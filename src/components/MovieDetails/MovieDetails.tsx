@@ -36,22 +36,21 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl, closeDeta
 
     const imageRef = useRef<HTMLImageElement | null>(null)
 
-   // const [movieS3, setMovieS3] = useState()
 
-   useEffect(() => {
 
-    if(imageRef.current && film.images){
+
+    useEffect(() => {
+
+        if(imageRef.current && film.images){
 
             if(film.images[1] && film.images[1].url){
 
-                //imageRef.current.style.setProperty("background-image", `url(${film.images[1].url})`, "important")
-
                 imageRef.current.src = film.images[1].url
-            }
+            };
+        };
 
-        }
+    }, [film]);
 
-   }, [film])
 
 
     const getMovie = async () => {
@@ -71,17 +70,6 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl, closeDeta
             })
 
 
-            // const response = await res.json();
-    
-            //     console.log(response);
-    
-            //     setSignedUrl({
-            //         url: response.payload,
-            //         title: film.title
-            //     })
-
-            //     return
-
             if(res.status !== 200){
 
                 alert("problem retreiving media from server");
@@ -91,25 +79,7 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl, closeDeta
 
             const contentType = res.headers.get('Content-Type') || '';
 
-            console.log(contentType)
-
-            // if (contentType.includes('application/json')){
-
-            //     const response = await res.json();
-    
-            //     console.log(response);
-    
-            //     setSignedUrl({
-            //         url: response.url,
-            //         type: contentType,
-            //         title: film.title
-            //     })
-            
-            // } else{
-
             const response = await res.text();
-
-            console.log(response)
 
             setSignedUrl({
 
@@ -145,18 +115,21 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl, closeDeta
 
     return(
         
-        <div className="movie-play-container d-flex flex-column justify-content-between align-items-center h-100 w-100 p-4"
-            
-        >
+        <div className="movie-play-container d-flex flex-column justify-content-between align-items-center h-100 w-100">
+
             <img className="movie-details-image" ref={imageRef}></img>
 
             <h3>{`${film.title} - ${film.year}`}</h3>
 
-            <h4>{film.genre}</h4>
+            <div className="movie-info">
+            
+                <h4>{film.genre}</h4>
 
-            <p>{film.description}</p>
+                <p>{film.description}</p>
 
-            <p>{film.length ? `length: ${film.length}` : ""}</p>
+                <p>{film.length ? `length: ${film.length}` : ""}</p>
+
+            </div>
 
             <div className="d-flex gap-4">
 

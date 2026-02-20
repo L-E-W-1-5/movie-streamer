@@ -1,6 +1,7 @@
 .movie-play-container{
-    z-index: 5;
 
+    padding: 10px;
+    min-height: 100%;
 }
 
 .movie-details-button{
@@ -13,5 +14,45 @@
     background-repeat: no-repeat;
     height: 100%;
     width: 100%;
+    min-height: 250px;
+    border-radius: 0.375rem;
+    max-height: 370px;
+    min-height: 200px;
 }
 
+.movie-info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+@media only screen and (max-width: 765px){
+
+    .movie-play-container{
+        padding: 3px;
+    }
+
+    .movie-details-image{
+        width: 100%;
+    }
+}
+
+@media only screen and (max-height: 720px){
+
+    .movie-play-container{
+        padding: 3px;
+    }
+
+    .movie-details-image{
+        width: 100%;
+    }
+
+    .movie-info{
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-around;
+        gap: 10px;
+    }
+}

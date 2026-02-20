@@ -32,7 +32,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
         return null;
       };
+
     };
+
+    return null;
+    
   }); 
 
   return (
