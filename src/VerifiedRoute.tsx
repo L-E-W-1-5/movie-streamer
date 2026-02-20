@@ -10,6 +10,10 @@ export const VerifiedRoute = () => {
     if(!user || !user.verified || !user.token){
 
         return <Navigate to='/' />
+    
+    }else{
+
+        return <Navigate to='/dashboard'/>
     }
 
     return <Outlet/>
