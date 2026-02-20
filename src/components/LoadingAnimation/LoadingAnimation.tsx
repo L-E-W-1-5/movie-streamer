@@ -9,7 +9,7 @@ const LoadingAnimation = () => {
 
         <div className="ring">LOADING
         
-            <span></span>
+            <span className="ball"></span>
         
         </div>
     )
