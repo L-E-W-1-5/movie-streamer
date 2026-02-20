@@ -5,6 +5,7 @@ import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../UserContext.ts';
 import { type MovieUrl, type MovieDownloadNew } from '../../Types/Types.ts';
 import { url } from '../../Url';
+import LoadingAnimation from '../LoadingAnimation/LoadingAnimation';
 
 
 
@@ -106,14 +107,19 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
 
             {loading && 
 
-                <div className='loading-animation'>
-                
-                    <h1>LOADING...</h1>
-                
-            </div>}
+                <LoadingAnimation/>
+
+                }
 
         </div>
     )
 };
 
 export default MovieList
+
+
+// <div className='loading-animation'>
+                
+//                     <h1>LOADING...</h1>
+                
+//             </div>

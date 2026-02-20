@@ -4,6 +4,7 @@ import { UserContext } from '../../UserContext';
 import { Link, useNavigate } from 'react-router';
 import { type FormEvent, useContext, useEffect, useState } from 'react';
 import { url } from '../../Url';
+import LoadingAnimation from '../LoadingAnimation/LoadingAnimation';
 //import { type User } from '../../Types/Types';
 
 
@@ -139,9 +140,9 @@ const LoginPage = () => {
 
         <form className="d-flex flex-column justify-content-center gap-2" onSubmit={onSubmit}>
 
-            <input className="form-control input-field border-shadow" name="loginEmail" type="text" placeholder="email address"/>
+            <input className="form-control input-field border-shadow" name="loginEmail" type="text" placeholder="Email Address"/>
 
-            <input className="form-control input-field border-shadow" name="loginid" type="password" placeholder="password"/>
+            <input className="form-control input-field border-shadow" name="loginid" type="password" placeholder="Password"/>
 
             <button className="btn variable-colour border-shadow" type="submit">Submit</button> 
 
@@ -156,11 +157,7 @@ const LoginPage = () => {
 
         {loading && 
         
-            <div className="login-loading-animation">
-
-                <h1>Loading...</h1>
-
-            </div>
+            <LoadingAnimation/>
         
         }
     

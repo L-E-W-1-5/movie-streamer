@@ -288,15 +288,11 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
             })
         } 
 
-        console.log(formData)
-
         return formData
     };
 
 
     const updateMovieDetails = async () => {
-
-        console.log(edit);
 
         const form = makeFormData();
 
@@ -315,11 +311,7 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
             const response = await res.json();
 
-            console.log(response)
-
             if(res.ok && response.status === "success"){
-
-                console.log(response.payload)
 
                 //TODO: change this so that it will accept multiple images at the same time
                 

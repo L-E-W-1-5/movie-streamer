@@ -26,13 +26,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
       try{
 
-        console.log("is user")
-
         return JSON.parse(storedUser);
       
       }catch{
-
-        console.log("catch")
 
         return null;
       };

@@ -9,12 +9,10 @@ export const VerifiedRoute = () => {
     
     if(!user || !user.verified || !user.token){
 
-        console.log("isnt verified")
-
         return <Navigate to='/' />
     
-    }
+    };
     
 
     return <Outlet/>
-}
+};

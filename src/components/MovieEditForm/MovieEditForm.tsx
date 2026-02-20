@@ -72,16 +72,11 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
         const screenHeight = window.innerHeight;
 
-        
-
         const containerPosition = e.currentTarget.closest('.movie-edit-form')?.getBoundingClientRect();
 
         const scrollContainerTop = e.currentTarget.closest('.movie-edit-form')?.scrollTop || 0;
 
         const top = scrollContainerTop - (containerPosition?.top || 0) + (screenHeight > 600 ? 350 : 200);
-
-
-        console.log(top)
 
         setMovieEditContainer({
             movie,

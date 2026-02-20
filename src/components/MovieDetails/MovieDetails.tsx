@@ -131,11 +131,11 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl, closeDeta
 
             </div>
 
-            <div className="d-flex gap-4">
+            <div className="d-flex gap-4 mb-2">
 
-                <button className="movie-details-button btn border-shadow variable-colour mb-3" onClick={changeUrl}>Play</button>
+                <button className="button-style border-shadow" onClick={changeUrl}>Play</button>
 
-                <button className="movie-details-button btn border-shadow variable-colour mb-3" onClick={closeMovieDetails}>close</button>
+                <button className="button-style border-shadow" onClick={closeMovieDetails}>Close</button>
             
             </div>
 
