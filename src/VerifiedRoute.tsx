@@ -11,10 +11,8 @@ export const VerifiedRoute = () => {
 
         return <Navigate to='/' />
     
-    }else{
-
-        return <Navigate to='/dashboard'/>
     }
+    
 
     return <Outlet/>
 }
