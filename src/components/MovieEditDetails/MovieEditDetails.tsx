@@ -394,7 +394,7 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
             
             {!editForm &&
 
-            <div className="d-flex flex-column justify-content-around align-items-center w-100 border-shadow">
+            <div className="container-style d-flex flex-column justify-content-around align-items-center w-100 border-shadow">
                 
                 <h4 className="mt-4">{movie.title}</h4>
                 <span>{movie.genre}</span>

@@ -32,11 +32,14 @@
   border-radius: 0.375rem;
   height: 35px;
   min-width: 70px;
+  
 }
 
 .button-style:hover{
   background-color: var(--borderShadow);
   color: white;
+  
+  animation: increase 0.15s ease-in-out forwards;
 }
 
 .delete-cross{
@@ -50,3 +53,11 @@
     background-position: center;
     border: none;
 }
+
+
+@keyframes increase {
+  100% {
+    transform: scale(1.1);
+  }
+}
+

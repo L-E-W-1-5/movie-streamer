@@ -32,6 +32,7 @@
 }
 
 .record-container{
+    position: relative;
     width: 90%;
     cursor: pointer;
     display: flex;
@@ -44,7 +45,42 @@
 .record-container:hover{
     border: 1px solid rgba(231, 98, 167, 0.812)!important;
     box-shadow: 0px 0px 30px rgba(231, 98, 167, 0.812)!important;
+    animation: listSelect 50ms ease-in-out forwards;
+    
 }
+
+/*
+.record-container:hover:before{
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    height: 5px;
+    width: 5px;
+    border-radius: 50%;
+    background: var(--borderShadow);
+    border: 5px solid var(--borderShadow);
+    animation: moveListBall 7s linear infinite;
+}
+
+@keyframes moveListBall {
+    40% {
+        left: 98.5%;
+        top: -12%;
+    }
+
+    50% {
+        left: 98.5%;
+        top: 87%;
+    }
+
+    90% {
+        left: -1.6%;
+        top: 87%;
+    }
+}
+*/
+
 
 .movie-edit-container{
     position: absolute;
@@ -61,9 +97,19 @@
 
 .edit-details-textarea{
     border-radius: 0.375rem;
-    
 }
 
+.button-min-height{
+    min-height: 40px;
+    min-width: 100px;
+}
+
+
+@keyframes listSelect {
+    100% {
+        transform: scale(1.03);
+    }
+}
 
 
 @media only screen and (max-width: 765px){
