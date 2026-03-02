@@ -123,17 +123,16 @@ const UserEditForm: React.FC<UserEditProps> = ({ openForm, setOpenForm }) => {
 
                 return (
 
-                <div key={index} className="record-container-user border-shadow container-style d-flex flex-column mb-2 p-2"
-                    onClick={(e) => userOptions(userEdit, e)}
-                >
+                    <div key={index} className="record-container-user border-shadow container-style d-flex flex-column mb-2 p-2"
+                        onClick={(e) => userOptions(userEdit, e)}
+                    >
 
-                    <span className="edit-field-item-user">{userEdit.id}</span>
-                    <span className="edit-field-item-user flex-fill">{userEdit.username}</span>
-                    <span className="edit-field-item-user d-flex flex-row justify-content-between">{`admin: ${userEdit.is_admin}`}<img src={userEdit.is_admin ? tick : cross} width="25px" height="25px"/></span>
-                    <span className="edit-field-item-user d-flex flex-row justify-content-between">{`verified: ${userEdit.is_verified}`}<img src={userEdit.is_verified ? tick : cross} width="25px" height="25px"/></span>
+                        <span className="edit-field-item-user">{userEdit.id}</span>
+                        <span className="edit-field-item-user flex-fill">{userEdit.username}</span>
+                        <span className="edit-field-item-user d-flex flex-row justify-content-between">{`admin: ${userEdit.is_admin}`}<img src={userEdit.is_admin ? tick : cross} width="25px" height="25px"/></span>
+                        <span className="edit-field-item-user d-flex flex-row justify-content-between">{`verified: ${userEdit.is_verified}`}<img src={userEdit.is_verified ? tick : cross} width="25px" height="25px"/></span>
                     
-            
-                </div>
+                    </div>
                 )
             })}
 

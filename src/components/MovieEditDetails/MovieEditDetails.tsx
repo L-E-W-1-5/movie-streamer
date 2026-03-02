@@ -390,11 +390,11 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
     return(
 
-        <div className="movie-record d-flex flex-column justify-content-around align-items-center w-100">
+        <div className="movie-record d-flex flex-column justify-content-around align-items-center w-100 border-shadow container-style">
             
             {!editForm &&
 
-            <div className="container-style d-flex flex-column justify-content-around align-items-center w-100 border-shadow">
+            <div className="d-flex flex-column justify-content-around align-items-center w-100">
                 
                 <h4 className="mt-4">{movie.title}</h4>
                 <span>{movie.genre}</span>
@@ -423,7 +423,7 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
             {editForm && 
             
-                <div className="border-shadow container-style w-100" >
+                <div className="w-100" >
 
                     <div className="form-grid p-4">
 

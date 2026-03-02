@@ -7,10 +7,14 @@ const LoadingAnimation = () => {
 
     return (
 
-        <div className="ring">LOADING
+        <div className="loading-container">
+
+            <div className="ring">LOADING
         
-            <span className="ball"></span>
+                <span className="ball"></span>
         
+            </div>
+
         </div>
     )
 
