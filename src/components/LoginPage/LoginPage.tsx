@@ -133,37 +133,42 @@ const LoginPage = () => {
 
     return (
 
-    <div className="login-container border-shadow card d-flex justify-content-center align-items-center p-4 w-auto h-auto">
+    <>
 
-        <h2 className="login-text text-center mb-4">Sign in</h2>
+        <div className="login-container border-shadow card d-flex justify-content-center align-items-center p-4 w-auto h-auto">
 
-        <form className="d-flex flex-column justify-content-center gap-2" onSubmit={onSubmit}>
+            <h2 className="login-text text-center mb-4">Sign in</h2>
 
-            <p className="login-label login-text">email address</p>
+            <form className="d-flex flex-column justify-content-center gap-2" onSubmit={onSubmit}>
 
-            <input className="form-control input-field border-shadow" name="loginEmail" type="text" placeholder="Email Address"/>
+                <p className="login-label login-text">email address</p>
 
-            <p className="login-label login-text">password</p>
+                <input className="form-control input-field border-shadow" name="loginEmail" type="text" placeholder="Email Address"/>
 
-            <input className="form-control input-field border-shadow mb-4" name="loginid" type="password" placeholder="Password"/>
+                <p className="login-label login-text">password</p>
 
-            <button className="button-style border-shadow login-text" type="submit">Submit</button> 
+                <input className="form-control input-field border-shadow mb-4" name="loginid" type="password" placeholder="Password"/>
 
-            <div className="d-flex mt-3">
+                <button className="button-style border-shadow login-text" type="submit">Submit</button> 
 
-                <p className="login-text">or not signed up yet? <br></br><Link to='/register' className="cursor">sign up here</Link></p>
+                <div className="d-flex mt-3">
+
+                    <p className="login-text">or not signed up yet? <br></br><Link to='/register' className="cursor">sign up here</Link></p>
                 
-            </div>
+                </div>
 
-        </form>
+            </form>    
+    
+        </div>
 
-        {loading && 
+        {!loading && 
         
-            <LoadingAnimation/>
+                <LoadingAnimation/>
         
         }
-    
-    </div>
+
+    </>
+
     
 )
 }
