@@ -161,7 +161,7 @@ const LoginPage = () => {
     
         </div>
 
-        {!loading && 
+        {loading && 
         
                 <LoadingAnimation/>
         
