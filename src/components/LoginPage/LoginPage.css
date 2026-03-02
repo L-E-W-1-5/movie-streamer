@@ -16,9 +16,7 @@
 }
 
 .input-field{
-    /* background-color: var(--backgroundColour)!important; */
     background-color: rgba(0, 0, 0, 0)!important;
-    /* border: none!important; */
     color: var(--borderShadow)!important;
 }
 
@@ -26,6 +24,14 @@
     color: var(--borderShadow)!important;
 }
 
+.login-label{
+    margin-bottom: -5px;
+    font-size: 0.8rem;
+}
+
+.login-text{
+    color: white;
+}
 
 .border-shadow{
     border: 0.1px solid var(--borderShadow)!important;

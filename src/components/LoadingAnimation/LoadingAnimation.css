@@ -6,6 +6,9 @@
     justify-content: center;
     align-items: center;
     background-color: #000000dc;
+    z-index: 10;
+    top: 0%;
+    left: 0%;
 }
 
 .ring{

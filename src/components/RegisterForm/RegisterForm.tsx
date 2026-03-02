@@ -55,11 +55,13 @@ const RegisterForm = () => {
 
         <div className="register-container border-shadow p-4 card">
 
-            <h2 className="variable-colour text-center mb-4">Register</h2>
+            <h2 className="login-text text-center mb-4">Register</h2>
 
             <form className="d-flex flex-column justify-content-center gap-2" onSubmit={handleSubmit(onSubmit)}>
 
-                <div className="mb-3 d-flex flex-column">
+                <p className="login-label login-text">full name</p>
+
+                <div className="d-flex flex-column">
 
                     <input
                         className="form-control input-field border-shadow"
@@ -76,7 +78,9 @@ const RegisterForm = () => {
                 
                 </div>
 
-                <div className="mb-3 d-flex flex-column">
+                <p className="login-label login-text">email address</p>
+
+                <div className="mb-4 d-flex flex-column">
 
                     <input
                         className="form-control input-field border-shadow"
@@ -95,7 +99,7 @@ const RegisterForm = () => {
                 </div>
 
 
-                <button className="btn variable-colour border-shadow" type="submit">Submit</button>
+                <button className="button-style border-shadow login-text" type="submit">Submit</button>
 
                 <Link to='/'>sign in</Link>
 

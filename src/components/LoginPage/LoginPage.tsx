@@ -50,7 +50,7 @@ const LoginPage = () => {
     }, [user, navigate, setUser])
 
 
-    const onSubmit = (event:FormEvent<HTMLFormElement>) => {
+    const onSubmit = (event: FormEvent<HTMLFormElement>) => {
 
         event.preventDefault();
 
@@ -68,7 +68,7 @@ const LoginPage = () => {
 
     const handleLogin = async (guid: string, email: string) => {
 
-        const pattern = /^[A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
+        const pattern = /^[A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
 
         if(!guid || !email){
 
@@ -82,14 +82,14 @@ const LoginPage = () => {
             alert("password length must be 10 letters or over");
 
             return;
-        }
+        };
 
         if(!pattern.test(email)){
 
             alert("invalid email format");
 
             return;
-        }
+        };
 
         setLoading(true);
 
@@ -99,7 +99,7 @@ const LoginPage = () => {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({guid, email})
-            })
+            });
 
             const response = await res.json();
     
@@ -108,27 +108,26 @@ const LoginPage = () => {
                 alert(response.payload);
 
                 return;
-            }
+            };
 
             if(response.status === "success"){
 
-                setUser(response.payload)
-            }
+                setUser(response.payload);
+            };
     
 
         }catch(err){
 
             console.log(err);
 
-            alert(err)
+            alert(err);
         
         }finally{
 
             setLoading(false);
-        }
+        };
 
-        //TODO: create loading animation
-    }
+    };
 
    
 
@@ -136,22 +135,25 @@ const LoginPage = () => {
 
     <div className="login-container border-shadow card d-flex justify-content-center align-items-center p-4 w-auto h-auto">
 
-        <h2 className="variable-colour text-center mb-4">Login</h2>
+        <h2 className="login-text text-center mb-4">Sign in</h2>
 
         <form className="d-flex flex-column justify-content-center gap-2" onSubmit={onSubmit}>
 
+            <p className="login-label login-text">email address</p>
+
             <input className="form-control input-field border-shadow" name="loginEmail" type="text" placeholder="Email Address"/>
 
-            <input className="form-control input-field border-shadow" name="loginid" type="password" placeholder="Password"/>
+            <p className="login-label login-text">password</p>
 
-            <button className="button-style border-shadow" type="submit">Submit</button> 
+            <input className="form-control input-field border-shadow mb-4" name="loginid" type="password" placeholder="Password"/>
+
+            <button className="button-style border-shadow login-text" type="submit">Submit</button> 
 
             <div className="d-flex mt-3">
 
-                <p className="variable-colour">or not signed up yet? <br></br><Link to='/register' className="cursor">sign up here</Link></p>
+                <p className="login-text">or not signed up yet? <br></br><Link to='/register' className="cursor">sign up here</Link></p>
                 
             </div>
-
 
         </form>
 
