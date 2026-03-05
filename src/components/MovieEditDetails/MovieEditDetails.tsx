@@ -6,12 +6,6 @@ import './MovieEditDetails.css'
 
 
 
-// type MovieDownload = {
-//     id: string,
-//     title: string,
-//     url: string,
-//     genre: string,
-// };
 
 type MovieDetailsProps = {
     movie: MovieDownloadNew
@@ -25,21 +19,6 @@ type MovieDetailsProps = {
     } | null>>
 }
 
-// const defaultOptions: MovieDownloadNew = {
-//     id: 0,
-//     title: "",
-//     key: "",
-//     description: null,
-//     length: null,
-//     year: null,
-//     genre: null,
-//     timestamp: new Date(),
-//     times_played: 0,
-//     images: null,
-//     image: null
-// }
-
-
 
 
 const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, setMovieEditContainer}) => {
@@ -48,42 +27,8 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
     const [ edit, setEdit ] = useState<MovieDownloadNew>(movie)
 
-    //const [newImage, setNewImage] = useState<ImageUpload[]>([])
-
     const [editForm, setEditForm] = useState<boolean>(false)
 
-
-    // useEffect(() => {
-
-    //     console.log("effect");
-
-    //     if(movie.images && movie.images.length > 1){
-
-    //         const imageArr = [...movie.images];
-
-    //         for(let i = 0; i < imageArr.length; i++){
-
-    //             if(imageArr[i].usage === 'card' && i !== 0){
-
-    //                 [imageArr[i], imageArr[0]] = [imageArr[0], imageArr[i]];
-
-    //                 setAllMovies(mov => 
-
-    //                     mov.map(m => m.id === movie.id ?
-    //                         { 
-    //                             ...m,
-
-    //                             images: imageArr
-
-    //                         } : m
-    //                     )  
-                       
-    //                 )
-    //             }
-    //         }
-    //     }
-
-    // }, [movie, setAllMovies])
 
 
     const handleDelete = async () => {
@@ -186,13 +131,6 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
     const handleuploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
 
-        // if(e.target.files){
-
-        //     const filesArray = Array.from(e.target.files);
-            
-        //     setEdit(prev => ({...prev, image: filesArray}));
-        // };
-
         if(e.target.files){
 
             const filesArray = Array.from(e.target.files);
@@ -241,46 +179,12 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
                 newImageEntries.push({file: file, usage: "other", name: file.name})
             })
 
-            // for(let i = 0; i < filesArray.length; i++){
-
-            //     console.log("filesArray", filesArray[i])
-
-            //     if(!cardSet && movie.images && movie.images.length === 0){
-
-            //         console.log("card entered", filesArray[i])
-
-            //         newImageEntries.push({file: filesArray[i], usage: 'card', name: filesArray[i].name})
-
-            //         cardSet = true;
-
-            //         return;
-            //     }
-
-            //     if(!containerSet && movie.images && movie.images.length === 1){
-
-            //         console.log("container entered", filesArray[i])
-
-            //         newImageEntries.push({file: filesArray[i], usage: 'container', name: filesArray[i].name})
-
-            //         containerSet = true;
-
-            //         return;
-            //     }
-
-            //     console.log("other", filesArray[i])
-
-            //     newImageEntries.push({file: filesArray[i], usage: "other", name: filesArray[i].name})
-                
-            // }
-
-            console.log(newImageEntries)
-
             setEdit(prev => ({...prev, image: newImageEntries}))
         }
     };
 
 
-    const changeImagePosition = (e: React.MouseEvent, index: number) => {
+    const changeImagePosition = (e: React.MouseEvent, index: number, image: MovieImage) => {
 
         e.stopPropagation();
 
@@ -291,30 +195,22 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
             if(!edit.images) return
 
-            //const newPosition = [...edit.images]; //shallow copy
+            const newPosition = edit.images.map(img => ({...img})); 
 
-            const newPosition = edit.images.map(img => ({...img})); //deep copy
+            let aSwap: MovieImage | null = null, bSwap: MovieImage | null = null;
 
-            //console.log(newPosition[a].usage, newPosition[a].original_name);
-            //console.log(newPosition[b].usage, newPosition[b].original_name);
-            
-            [newPosition[a].usage, newPosition[b].usage] = [newPosition[b].usage, newPosition[a].usage];
 
-            console.log("after", newPosition[a].usage, newPosition[a].original_name);
-            console.log("after", newPosition[b].usage, newPosition[b].original_name);
+            for(let i = 0; i < newPosition.length; i++){
 
-            // for(let i = 0; i < newPosition.length; i++){
+                if(newPosition[i].id === a) aSwap = newPosition[i];
 
-            //     if(newPosition[i].usage === 'card' && i !== 0){
+                if(newPosition[i].id === b) bSwap = newPosition[i];
+            };
 
-            //         [newPosition[i], newPosition[0]] = [newPosition[0], newPosition[i]];
-            //     };
+            if(aSwap && bSwap){
 
-            //     if(newPosition[i].usage === 'container' && i !== 1){
-
-            //         [newPosition[i], newPosition[1]] = [newPosition[1], newPosition[i]];
-            //     };            
-            // };
+                [aSwap.usage, bSwap.usage] = [bSwap.usage, aSwap.usage];
+            };
 
 
             setEdit(prev => ({...prev, images: newPosition}));
@@ -343,7 +239,7 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
             formData.append(String(newPosition[b].id), newPosition[b].usage);
 
-            //console.log(formData);
+
 
             try{
 
@@ -361,11 +257,8 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
                 const response = await res.json();
 
-                console.log(response)
 
                 if(res.ok && response.status === "success"){
-
-                    //TODO: set allMovies here
 
                     console.log(response.payload);
                 }
@@ -375,8 +268,39 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
                 console.log(err)
             }
 
-            //TODO: need to make a fetch request here to change the image position in the database... somehow...
+        };
 
+
+        const getIndices = () => {
+
+            let containerIndex: number = -1, cardIndex: number = -1;
+
+            if(!movie.images) return;
+
+            const imageArray = [...movie.images];
+
+            imageArray.forEach((image, index) => {
+
+                if(image.usage === 'container'){
+
+                    containerIndex = image.id;
+                    console.log("container index", index, image.original_name, image.usage)
+                }
+
+                if(image.usage === 'card'){
+
+                    cardIndex = image.id;
+                    console.log("card index", index, image.original_name, image.usage)
+                }
+            });
+
+            if(containerIndex !== -1 && cardIndex !== -1){
+
+                return {
+                    "containerIndex": containerIndex,
+                    "cardIndex": cardIndex
+                };
+            };
         };
 
 
@@ -384,19 +308,30 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
             const confirmed = confirm("Make this image the 'open container' image?");
 
-            if(confirmed) arraySwap(0, 1);
+            const indices = getIndices();
 
+            if(!indices || !confirmed) return
+
+            if(indices.containerIndex !== -1 && indices.cardIndex !== -1){
+
+                console.log(indices.cardIndex, indices.containerIndex)
+
+                arraySwap(indices.cardIndex, indices.containerIndex)
+            };
         }
-
         else if(index === 1){
 
             const confirmed = confirm("Make this image the 'movie card' image?");
 
-            if(confirmed) arraySwap(0, 1);
+            const indices = getIndices();
 
+            if(!indices || !confirmed) return
 
+            if(indices.containerIndex !== -1 && indices.cardIndex !== -1){
+
+                arraySwap(indices.cardIndex, indices.containerIndex)
+            }
         }
-
         else{
 
             const position = prompt("which position would you like this image, type 1 for the card or 2 for the 'open container' image.");
@@ -405,9 +340,23 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
             if(numPosition === 1 || numPosition === 2){
 
-                console.log(numPosition -1, index)
+                const indices = getIndices();
 
-                arraySwap(numPosition -1, index);
+                if(!indices) return;
+
+                if(numPosition === 1 && indices.cardIndex !== -1){
+
+                    arraySwap(image.id, indices.cardIndex);
+
+                    return;
+                }
+
+                if(numPosition === 2 && indices.containerIndex !== -1){
+
+                    arraySwap(image.id, indices.containerIndex);
+
+                    return;
+                }
   
             } else {
 
@@ -667,7 +616,7 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
                                                 return  <div className="image-viewport" key={x} >
                                                     
-                                                           <div onClick={(e) => changeImagePosition(e, x)}><p><u>{x + 1 === 1 ? "card image" : x + 1 === 2 ? "open image" : "extra image"}</u></p></div>
+                                                           <div onClick={(e) => changeImagePosition(e, x, image)}><p><u>{x + 1 === 1 ? "card image" : x + 1 === 2 ? "open image" : "extra image"}</u></p></div>
 
                                                             <p> {image.original_name}<button className='delete-cross' onClick={() => handleDeleteImage(image)}></button></p>   
 
