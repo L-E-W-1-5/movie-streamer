@@ -2,8 +2,8 @@ import './MovieEditForm.css'
 import { useState, useEffect, useRef } from 'react';
 import MovieEditDetails from '../MovieEditDetails/MovieEditDetails'
 import { type MovieDownloadNew } from '../../Types/Types';
-
-
+//import { url } from '../../Url'
+//import { UserContext } from '../../UserContext';
 
 
 
@@ -24,6 +24,8 @@ type MovieEditProps = {
 const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAllMovies}) => {
 
     //const [movieDetails, showMovieDetails] = useState<MovieDownloadNew | null>(null);
+  
+    //const { user } = useContext(UserContext);
 
     const [movieEditContainer, setMovieEditContainer] = useState<{
         movie: MovieDownloadNew,
@@ -35,20 +37,22 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
    
 
-        useEffect(() => {
+    useEffect(() => {
 
-            if(!scrollRef.current) return;
+        if(!scrollRef.current) return;
 
-            if(movieEditContainer){
+        if(movieEditContainer){
 
-                scrollRef.current.style.setProperty("overflow-y", "hidden", "important")
+            scrollRef.current.style.setProperty("overflow-y", "hidden", "important")
             
-            }else{
+        }else{
 
-                scrollRef.current.style.setProperty("overflow-y", "scroll", "important")
-            }
+            scrollRef.current.style.setProperty("overflow-y", "scroll", "important")
+        }
 
-        }, [movieEditContainer])
+    }, [movieEditContainer])
+
+    
 
     const stopMenuClosure = (e: React.MouseEvent) => {
 
@@ -87,6 +91,113 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
         })
     }
 
+
+    // const sortImages = async () => {
+
+    //     const formData = new FormData();
+
+
+    //     allMovies.forEach(movie => {
+
+    //         if(!movie.images) return;
+
+    //         movie.images.forEach((image, index) => {
+
+    //             if(image.usage === 'card'){
+
+    //                 console.log(image.original_name, image.usage, "skipped")
+
+    //                 formData.append('imagesUp', String(image.id));
+
+    //                 formData.append(String(image.id), 'card')
+
+    //                 return;
+    //             };
+
+    //             if(image.usage === 'container'){
+
+    //                 console.log(image.original_name, image.usage, "skipped cont.")
+
+    //                 formData.append('imagesUp', String(image.id));
+
+    //                 formData.append(String(image.id), 'container')
+
+    //                 return;
+    //             } 
+
+    //             if(index === 0){
+
+    //                 image.usage = 'card';
+
+    //                 console.log(image.original_name, image.usage, "updated")
+
+    //                 formData.append('imagesUp', String(image.id));
+
+    //                 formData.append(String(image.id), 'card')
+
+    //                 return;
+    //             }
+
+    //             if(index === 1){
+
+    //                 image.usage = 'container';
+
+    //                 console.log(image.original_name, image.usage, "updated")
+
+    //                 formData.append('imagesUp', String(image.id));
+
+    //                 formData.append(String(image.id), 'container')
+
+    //                 return;
+    //             }
+
+    //             if(!image.usage || image.usage === 'other'){
+
+    //                 image.usage = "other";
+
+    //                 console.log(image.original_name, image.usage, "other")
+
+    //                 formData.append('imagesUp', String(image.id));
+
+    //                 formData.append(String(image.id), 'other')
+
+    //             } 
+    //         })
+            
+    //     });
+
+    //     console.log(formData);
+
+    //     try{
+
+    //         const res = await fetch(`${url}/movies/update_image`, {
+
+    //             method: 'POST',
+
+    //             headers: {
+
+    //                 'authorization': `Bearer ${user?.token}`
+    //             },
+
+    //             body: formData
+    //         });
+
+    //         const response = await res.json();
+
+    //         console.log(response)
+
+    //         if(res.ok && response.status === "success"){
+
+    //             //TODO: set allMovies here
+
+    //             console.log(response.payload);
+    //         }
+        
+    //     }catch(err){
+
+    //         console.log(err)
+    //     }
+    // }
  
 
     return(
@@ -139,6 +250,8 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
             <button className="button-min-height button-style border-shadow" onClick={stopMenuClosure}>close</button>
 
+            {/* <button onClick={sortImages}>sort images</button> */}
+
         </div>
 
         
@@ -148,3 +261,25 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 }
 
 export default MovieEditForm
+
+
+
+            // for(let i = 0; i < movie.images.length; i++){
+
+            //     if(i === 0 && !hasCard){
+
+            //         movie.images[i].usage = 'card';
+
+            //         formData.append('imagesUp[]', movie.images[i].key);
+
+            //         formData.append(movie.images[i].key, 'card')
+            //     }
+            //     if(i === 1 && !hasContainer){
+
+            //         movie.images[i].usage = 'container';
+
+            //         formData.append('imagesUp[]', movie.images[i].key);
+
+            //         formData.append(movie.images[i].key, 'container')
+            //     }
+            // }

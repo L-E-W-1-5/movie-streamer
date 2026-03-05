@@ -43,7 +43,24 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl, closeDeta
 
         if(imageRef.current && film.images){
 
-            if(film.images[1] && film.images[1].url){
+            let containerImageSelected = false;
+
+            film.images.forEach(image => {
+
+                console.log("details element", image.usage, image.original_name)
+
+                if(image.usage === 'container' && imageRef.current){
+
+                    imageRef.current.src = image.url;
+
+                    containerImageSelected = true;
+
+                    return;
+                }
+                
+            });
+
+            if(!containerImageSelected && film.images[1]){   //film.images[1] && film.images[1].url){
 
                 imageRef.current.src = film.images[1].url
             };

@@ -28,7 +28,30 @@ const MovieCard: React.FC<MovieInfo> = ({film, setSignedUrl}) => {
 
             if(film.images[0] && film.images[0].url){
 
-                cardRef.current.style.setProperty("background-image", `url(${film.images[0].url})`, "important")
+                let cardSelected = false;
+
+                film.images.forEach(image => {
+
+                    if(image.usage === 'card' && cardRef.current){
+
+                        //console.log(image.usage, image.original_name)
+
+                        cardRef.current.style.setProperty("background-image", `url(${image.url})`, "important")
+
+                        cardSelected = true;
+                    
+                        return;
+                    };
+
+                });
+
+                if(cardSelected === false){
+
+                    console.log("fallback")
+
+                    cardRef.current.style.setProperty("background-image", `url(${film.images[0].url})`, "important")
+                }
+
             }
 
         }
