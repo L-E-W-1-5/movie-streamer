@@ -23,19 +23,21 @@
 
 .movie-card-headings{
     height: 30%;
+    display: flex;
+    justify-content: center;
 }
 
 .movie-card-title{
     overflow-x: hidden;
     text-wrap: nowrap;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis;   
 }
 
-.movie-card-title{
+/* .movie-card-title{
     text-overflow: ellipsis;
     overflow: hidden;
     
-}
+} */
 
 .movie-details-container{
     position: absolute;

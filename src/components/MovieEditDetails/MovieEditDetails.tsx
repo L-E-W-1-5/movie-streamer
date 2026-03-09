@@ -231,15 +231,17 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
             const formData = new FormData();
 
-            formData.append('imagesUp', String(newPosition[a].id));
+            if(aSwap && bSwap){
 
-            formData.append('imagesUp', String(newPosition[b].id));
+                formData.append('imagesUp', String(aSwap.id));//newPosition[a].id));
 
-            formData.append(String(newPosition[a].id), newPosition[a].usage);
+                formData.append('imagesUp', String(bSwap.id));//newPosition[b].id));
 
-            formData.append(String(newPosition[b].id), newPosition[b].usage);
+                formData.append(String(aSwap.id), aSwap.usage);
 
+                formData.append(String(bSwap.id), bSwap.usage);
 
+            }
 
             try{
 
@@ -257,11 +259,10 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
                 const response = await res.json();
 
-
                 if(res.ok && response.status === "success"){
 
                     console.log(response.payload);
-                }
+                };
         
             }catch(err){
 
@@ -271,9 +272,9 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
         };
 
 
-        const getIndices = () => {
+        const getIds = () => {
 
-            let containerIndex: number = -1, cardIndex: number = -1;
+            let containerId: number = -1, cardId: number = -1;
 
             if(!movie.images) return;
 
@@ -283,22 +284,26 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
                 if(image.usage === 'container'){
 
-                    containerIndex = image.id;
-                    console.log("container index", index, image.original_name, image.usage)
+                    containerId = image.id;
+                    console.log("container id", index, image.id, image.original_name, image.usage)
+
+                    return;
                 }
 
                 if(image.usage === 'card'){
 
-                    cardIndex = image.id;
-                    console.log("card index", index, image.original_name, image.usage)
+                    cardId = image.id;
+                    console.log("card id", index, image.id, image.original_name, image.usage)
+
+                    return;
                 }
             });
 
-            if(containerIndex !== -1 && cardIndex !== -1){
+            if(containerId !== -1 && cardId !== -1){
 
                 return {
-                    "containerIndex": containerIndex,
-                    "cardIndex": cardIndex
+                    "containerId": containerId,
+                    "cardId": cardId
                 };
             };
         };
@@ -308,28 +313,30 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
             const confirmed = confirm("Make this image the 'open container' image?");
 
-            const indices = getIndices();
+            const ids = getIds();
 
-            if(!indices || !confirmed) return
+            if(!ids || !confirmed) return;
 
-            if(indices.containerIndex !== -1 && indices.cardIndex !== -1){
+            if(ids.containerId !== -1 && ids.cardId !== -1){
 
-                console.log(indices.cardIndex, indices.containerIndex)
+                console.log(ids.cardId, ids.containerId);
 
-                arraySwap(indices.cardIndex, indices.containerIndex)
+                arraySwap(ids.cardId, ids.containerId);
             };
         }
         else if(index === 1){
 
             const confirmed = confirm("Make this image the 'movie card' image?");
 
-            const indices = getIndices();
+            const ids = getIds();
 
-            if(!indices || !confirmed) return
+            if(!ids || !confirmed) return
 
-            if(indices.containerIndex !== -1 && indices.cardIndex !== -1){
+            if(ids.containerId !== -1 && ids.cardId !== -1){
 
-                arraySwap(indices.cardIndex, indices.containerIndex)
+                console.log("337", ids.cardId, ids.containerId)
+
+                arraySwap(ids.cardId, ids.containerId)
             }
         }
         else{
@@ -340,20 +347,20 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
             if(numPosition === 1 || numPosition === 2){
 
-                const indices = getIndices();
+                const ids = getIds();
 
-                if(!indices) return;
+                if(!ids) return;
 
-                if(numPosition === 1 && indices.cardIndex !== -1){
+                if(numPosition === 1 && ids.cardId !== -1){
 
-                    arraySwap(image.id, indices.cardIndex);
+                    arraySwap(image.id, ids.cardId);
 
                     return;
                 }
 
-                if(numPosition === 2 && indices.containerIndex !== -1){
+                if(numPosition === 2 && ids.containerId !== -1){
 
-                    arraySwap(image.id, indices.containerIndex);
+                    arraySwap(image.id, ids.containerId);
 
                     return;
                 }
@@ -457,7 +464,6 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
             if(res.ok && response.status === "success"){
 
-                //TODO: change this so that it will accept multiple images at the same time
                 
                 setAllMovies(prevMovies => {
 

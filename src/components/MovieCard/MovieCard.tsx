@@ -47,7 +47,7 @@ const MovieCard: React.FC<MovieInfo> = ({film, setSignedUrl}) => {
 
                 if(cardSelected === false){
 
-                    console.log("fallback")
+                    console.log("fallback", film.title)
 
                     cardRef.current.style.setProperty("background-image", `url(${film.images[0].url})`, "important")
                 }
@@ -66,13 +66,13 @@ const MovieCard: React.FC<MovieInfo> = ({film, setSignedUrl}) => {
 
         <div className='movie-card-container d-flex flex-column' onClick={() => showMovieDetails(current => !current)}>
 
-            <div className="movie-card border-shadow card p-2" ref={cardRef} > 
+            <div className="movie-card border-shadow card p-2" ref={cardRef}/>
 
-            </div>
+            
 
             <div className="movie-card-headings">
 
-                <h3 className="movie-card-title">{film.title}</h3>
+                <h5 className="movie-card-title">{film.title}</h5>
 
                 {/* <p>{film.genre}</p> */}
 
