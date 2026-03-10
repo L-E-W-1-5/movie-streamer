@@ -196,7 +196,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
             const res = await sendHLS(formData);
             
-            if(res instanceof Response && res.ok){
+            if(res instanceof Response){
                 
                 checkResponse(res);
                 
@@ -222,6 +222,8 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
             body: formData
         });
+        const result = await res.json();
+        console.log(result)
 
         return res;
             
