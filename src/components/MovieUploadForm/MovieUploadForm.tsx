@@ -70,7 +70,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
 
-        console.log(e.target.files)
+       
 
         if(e.target.files){
 
@@ -112,7 +112,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
     const handleSubmit = async () => {
 
-        console.log(movieUpload)
+        //console.log(movieUpload)
 
         if(!movieUpload.file && !movieUpload.folder){
             alert("please select a video to upload first");
@@ -134,7 +134,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
                 
                 formData.append('hls_files[]', file, file.webkitRelativePath || file.name);
                 
-                console.log(file);
+                //console.log(file);
             })
             
         }else{
@@ -196,7 +196,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
             const res = await sendHLS(formData);
             
-            if(res instanceof Response){
+            if(res instanceof Response && res.ok){
                 
                 checkResponse(res);
                 
@@ -210,7 +210,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
     const sendHLS = async (formData: FormData) => {
 
-        console.log("hls")
+        console.log("hls", url)
 
         if(!user?.token) return;
 
@@ -268,7 +268,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
             reply = await res.json();
 
-            console.log("276", reply.payload)
+            
 
             if(reply.status === "error"){
 
