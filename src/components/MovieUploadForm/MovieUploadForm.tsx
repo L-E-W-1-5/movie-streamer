@@ -328,6 +328,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
     return(
         <div className="upload-form border-shadow container-style p-3 gap-2">
 
+                <p>movie file</p>
                 <input 
                     className="upload-form-element first-column btn variable-colour border-shadow" 
                     type="file" 
@@ -336,7 +337,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
                     {...({ webkitdirectory: true } as React.InputHTMLAttributes<HTMLInputElement>)}
                     onChange={handleFileUpload}
                 />
-
+                <p>images</p>
                 <input
                     className="images upload-form-element first-column btn variable-colour border-shadow"
                     type="file"
