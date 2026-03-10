@@ -214,6 +214,8 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
         if(!user?.token) return;
 
+        try{
+
         const res = await fetch(`${url}/movies/hls`, {
 
             headers: {"Authorization": `Bearer ${user.token}`},
@@ -221,12 +223,23 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
             method: "POST",
 
             body: formData
-        });
-        const result = await res.json();
-        console.log(result)
+
+        })
+        // .then(r => {
+            
+        //     console.log(r)
+        // });
+            
+
+        // const result = await res.json();
+        console.log(res)
 
         return res;
-            
+
+        }catch(err){
+
+            console.log(err)
+        }      
     }
 
     const sendSingleMovie = async (formData: FormData) => {
@@ -253,8 +266,6 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
         let reply
 
         if(!user?.token) return;
-
-
 
         try{
 
