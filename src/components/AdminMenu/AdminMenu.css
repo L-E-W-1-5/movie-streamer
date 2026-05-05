@@ -5,7 +5,7 @@
     width: 200px;
     top: 50px;
     right: 0.2%;
-    z-index: 2;
+    z-index: 3;
     border-left: 0.1px solid var(--borderShadow)!important;
     border-bottom: 0.1px solid var(--borderShadow)!important;
     overflow: hidden;

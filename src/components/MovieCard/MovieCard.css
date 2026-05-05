@@ -5,6 +5,7 @@
     min-height: 150px;
     min-width: 130px;
     max-width: 200px;
+    /* z-index: 2; */
 }
 
 .movie-card{
