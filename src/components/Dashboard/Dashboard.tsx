@@ -24,6 +24,7 @@ const Dashboard = () => {
 
     const [messageSlide, setMessageSlide] = useState<boolean>(false); 
 
+    const [interacted, hasInteracted] = useState<boolean>(false);
 
 
     const logout = async () => {
@@ -87,19 +88,25 @@ const Dashboard = () => {
     };
 
 
+    const handleAnimation = () => {
+
+        hasInteracted(true);
+    }
+
+
 
     return (
         
         <div className="main-dash-container d-flex flex-column justify-content-between">
             
 
-            <DashNavbar showAdminForm={showAdminForm}/>
+            <DashNavbar showAdminForm={showAdminForm} animation={handleAnimation}/>
 
 
-            {/* {adminForm && */}
+            {interacted &&
 
                 <AdminMenu showAdminForm={showAdminForm} setAllMovies={setAllMovies} allMovies={allMovies} adminForm={adminForm} logout={logout} />
-            {/* } */}
+            }
 
             
 

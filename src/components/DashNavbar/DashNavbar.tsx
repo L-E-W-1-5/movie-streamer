@@ -3,10 +3,11 @@
 type UserOptionsProps = {
 
     showAdminForm: React.Dispatch<React.SetStateAction<boolean>>
+    animation: () => void
 }
 
 
-const DashNavbar: React.FC<UserOptionsProps> = ({ showAdminForm }) => {
+const DashNavbar: React.FC<UserOptionsProps> = ({ showAdminForm, animation }) => {
 
     const preventClosureOfMenu = (e: React.MouseEvent) => {
 
@@ -14,6 +15,7 @@ const DashNavbar: React.FC<UserOptionsProps> = ({ showAdminForm }) => {
 
         showAdminForm(current => !current);
 
+        animation();
     };
 
 

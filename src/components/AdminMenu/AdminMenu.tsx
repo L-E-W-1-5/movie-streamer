@@ -96,8 +96,10 @@ const AdminMenu: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminFor
 
     <>
 
-    <div ref={menuRef} className="admin-menu-container d-flex flex-column p-2"
-        id={adminForm ? "admin-menu-open" : "admin-menu-closed"}
+    <div ref={menuRef} 
+    id={adminForm ? "admin-menu-open" : "admin-menu-closed"}
+    className="admin-menu-container d-flex flex-column p-2"
+        
     >
 
         {user?.admin && 
