@@ -96,10 +96,10 @@ const Dashboard = () => {
             <DashNavbar showAdminForm={showAdminForm}/>
 
 
-            {adminForm &&
+            {/* {adminForm && */}
 
                 <AdminMenu showAdminForm={showAdminForm} setAllMovies={setAllMovies} allMovies={allMovies} adminForm={adminForm} logout={logout} />
-            }
+            {/* } */}
 
             
 

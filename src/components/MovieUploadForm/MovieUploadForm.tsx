@@ -134,7 +134,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
                 
                 formData.append('hls_files[]', file, file.webkitRelativePath || file.name);
                 
-                //console.log(file);
+                //TODO: create batches of the segments here 
             })
             
         }else{
@@ -171,7 +171,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
                 formData.append('images[]', image, image.name)
             })
-
+            
         }
 
         if(formData.has('movie')){
@@ -215,23 +215,17 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
         if(!user?.token) return;
 
         try{
+//TODO: change endpoint to the new route for streaming via multer-s3 & test
+            const res = await fetch(`${url}/movies/hls`, {
 
-        const res = await fetch(`${url}/movies/hls`, {
-
-            headers: {"Authorization": `Bearer ${user.token}`},
+                headers: {"Authorization": `Bearer ${user.token}`},
             
-            method: "POST",
+                method: "POST",
 
-            body: formData
+                body: formData
 
-        })
-        // .then(r => {
-            
-        //     console.log(r)
-        // });
-            
-
-        // const result = await res.json();
+            })
+        
         console.log(res)
 
         return res;

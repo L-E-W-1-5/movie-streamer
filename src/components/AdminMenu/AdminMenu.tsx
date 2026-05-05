@@ -17,6 +17,7 @@ type AdminProps = {
     showAdminForm: React.Dispatch<React.SetStateAction<boolean>>;
     setAllMovies: React.Dispatch<React.SetStateAction<MovieDownloadNew[]>>;
     logout: () => void;
+    
 }
 
 const AdminMenu: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminForm, allMovies, logout}) => {
@@ -27,6 +28,7 @@ const AdminMenu: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminFor
     const menuRef = useRef<HTMLDivElement | null>(null);
 
     const { user } = useContext(UserContext)
+
 
 
 
@@ -94,7 +96,9 @@ const AdminMenu: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminFor
 
     <>
 
-    <div ref={menuRef} className="admin-menu-container border-shadow d-flex flex-column p-2">
+    <div ref={menuRef} className="admin-menu-container d-flex flex-column p-2"
+        id={adminForm ? "admin-menu-open" : "admin-menu-closed"}
+    >
 
         {user?.admin && 
             <>

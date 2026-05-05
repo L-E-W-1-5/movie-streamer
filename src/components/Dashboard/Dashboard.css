@@ -18,6 +18,7 @@
     height: 50px;
     min-height: 50px;
     background-color: black;
+    z-index: 5;
 }
 
 .dashboard-container{
