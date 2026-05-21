@@ -86,6 +86,13 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
         if(!confirmed) return;
 
+        if(user?.username === "demo account"){
+
+            alert("editing not available for demo account");
+
+            return;
+        };
+
         if(!user?.token) return;
 
         try{
