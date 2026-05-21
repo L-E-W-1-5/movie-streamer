@@ -13,9 +13,9 @@ const UserView: React.FC<{userEdit: UserEdit}> = ({ userEdit }) => {
 
     const deleteUser = async (route: string) => {
 
-        if(user?.username === "demo account"){
+        if(user?.username === "demo account" || userEdit.id === 1){
 
-            alert("editing not available for demo account");
+            alert(`editing not available for ${user?.username === "demo account" ? "demo" : "this"} account`);
 
             return;
         };
@@ -89,15 +89,15 @@ const UserView: React.FC<{userEdit: UserEdit}> = ({ userEdit }) => {
 
         <div className="d-flex flex-column variable-colour gap-1">
 
-            <span>{userEdit.id}</span>
-            <span>{userEdit.username}</span>
-            <span className="edit-field-item-user flex-fill">{userEdit.email}</span>
-            <span className="edit-field-item-user flex-fill">{userEdit.is_loggedin}</span>
+            <span>{user?.username === "demo account" ? "**demo**" : userEdit.id}</span>
+            <span>{user?.username === "demo account" ? "**demo**" : userEdit.username}</span>
+            <span className="edit-field-item-user flex-fill">{user?.username === "demo account" ? "**demo**" : userEdit.email}</span>
+            <span className="edit-field-item-user flex-fill">{`is logged in: ${userEdit.is_loggedin}`}</span>
             <span className="edit-field-item-user flex-fill">{`last login: ${userEdit.last_login}`}</span>
             <span className="edit-field-item-user flex-fill">{`time created: ${userEdit.time_created}`}</span>
             <span className="edit-field-item-user flex-fill">{`failed login attempts: ${userEdit.login_attempts}`}</span>
             <span>{`verified: ${userEdit.is_verified}`}</span>
-            <span>{`admin: ${userEdit.is_admin}`}</span>
+            <span>{`admin: ${userEdit.is_admin}`}</span> 
 
             <div className="align-self-center d-flex gap-3 mt-4">
 

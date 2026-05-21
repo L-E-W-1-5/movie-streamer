@@ -389,7 +389,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
                 
                 
 
-                <div className="d-flex flex-row gap-5 align-self-center upload-form-buttons mt-3">
+                <div className=" upload-form-buttons d-flex align-self-center mt-3">
                 
                     <button className="upload-form-button button-style border-shadow" onClick={handleSubmit} >upload</button>
 

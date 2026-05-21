@@ -127,10 +127,10 @@ const UserEditForm: React.FC<UserEditProps> = ({ openForm, setOpenForm }) => {
                         onClick={(e) => userOptions(userEdit, e)}
                     >
 
-                        <span className="edit-field-item-user">{userEdit.id}</span>
-                        <span className="edit-field-item-user flex-fill">{userEdit.username}</span>
-                        <span className="edit-field-item-user d-flex flex-row justify-content-between">{`admin: ${userEdit.is_admin}`}<img src={userEdit.is_admin ? tick : cross} width="25px" height="25px"/></span>
-                        <span className="edit-field-item-user d-flex flex-row justify-content-between">{`verified: ${userEdit.is_verified}`}<img src={userEdit.is_verified ? tick : cross} width="25px" height="25px"/></span>
+                        <span className="edit-field-item-user">{user?.username === "demo account" ? "**demo**" : userEdit.id}</span>
+                        <span className="edit-field-item-user flex-fill">{user?.username === "demo account" ? "**demo**" : userEdit.username}</span>
+                        <span className="edit-field-item-user d-flex flex-row justify-content-between">{`admin: `}<img src={userEdit.is_admin ? tick : cross} width="25px" height="25px"/></span>
+                        <span className="edit-field-item-user d-flex flex-row justify-content-between">{`verified: `}<img src={userEdit.is_verified ? tick : cross} width="25px" height="25px"/></span>
                     
                     </div>
                 )
