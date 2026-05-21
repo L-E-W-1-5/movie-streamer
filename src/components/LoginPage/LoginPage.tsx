@@ -66,9 +66,16 @@ const LoginPage = () => {
     };
 
 
-    const handleLogin = async (guid: string, email: string) => {
+    const handleLogin = async (guid: string, email: string, isDemo: boolean = false) => {
 
         const pattern = /^[A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+
+        if(isDemo){
+            
+            guid = import.meta.env.VITE_DEMO_PASSWORD!
+
+            email = import.meta.env.VITE_DEMO_USERNAME!
+        }
 
         if(!guid || !email){
 
@@ -133,7 +140,13 @@ const LoginPage = () => {
 
     return (
 
-    <>
+    <div className="d-flex flex-column align-items-center gap-4">
+
+        <div className="demo-button" onClick={() => {handleLogin("", "", true)}}
+        >
+
+            <p>DEMO</p>
+        </div>
 
         <div className="login-container border-shadow card d-flex justify-content-center align-items-center p-4 w-auto h-auto">
 
@@ -167,7 +180,7 @@ const LoginPage = () => {
         
         }
 
-    </>
+    </div>
 
     
 )

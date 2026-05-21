@@ -36,6 +36,13 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
         const confirmed = window.confirm("are you sure you wish to delete this movie?");
     
         if(!confirmed) return;
+
+        if(user?.username === "demo account"){
+
+            alert("editing not available for demo account");
+
+            return;
+        };
     
         if(!user?.token) return;
     
@@ -245,6 +252,13 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
             try{
 
+                if(user?.username === "demo account"){
+
+                    alert("editing not available for demo account");
+
+                    return;
+                };
+
                 const res = await fetch(`${url}/movies/update_image`, {
 
                     method: 'POST',
@@ -444,6 +458,13 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
 
     const updateMovieDetails = async () => {
+
+        if(user?.username === "demo account"){
+
+            alert("editing not available for demo account");
+
+            return;
+        };
 
         const form = makeFormData();
 

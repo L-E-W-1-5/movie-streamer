@@ -13,6 +13,13 @@ const UserView: React.FC<{userEdit: UserEdit}> = ({ userEdit }) => {
 
     const deleteUser = async (route: string) => {
 
+        if(user?.username === "demo account"){
+
+            alert("editing not available for demo account");
+
+            return;
+        };
+
         if(!user?.token) return;
 
         try{

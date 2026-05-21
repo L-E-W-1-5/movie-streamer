@@ -92,6 +92,13 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
 
     const sendMessage = async (message:string) => {
 
+        if(user?.username === "demo account"){
+
+            alert("editing not available for demo account");
+
+            return;
+        };
+
         let res;
 
         const timestamp = new Date().toLocaleString();
@@ -131,10 +138,19 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
 
     const deleteMessage = async (msg:MessageUpload) => {
 
+
+
         if(!confirm("are you sure you wish to delete this message?")){
 
             return;
         }
+
+        if(user?.username === "demo account"){
+
+            alert("editing not available for demo account");
+
+            return;
+        };
 
         try{
 

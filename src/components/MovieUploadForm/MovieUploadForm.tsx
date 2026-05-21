@@ -112,6 +112,13 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
     const handleSubmit = async () => {
 
+        if(user?.username === "demo account"){
+
+            alert("editing not available for demo account");
+
+            return;
+        };
+
         //console.log(movieUpload)
 
         if(!movieUpload.file && !movieUpload.folder){

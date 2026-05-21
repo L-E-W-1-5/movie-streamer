@@ -2,6 +2,58 @@
     background-color: var(--containerColour)!important;
 }
 
+.demo-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #fff000;
+    width: 120px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.551);
+    color: #fff000;
+    font-weight: 600;
+    content: "";
+    cursor: pointer;
+}
+
+.demo-button::before{
+    position: absolute;
+    border-left: 2px solid #fff000;
+    border-right: 2px solid #fff000;
+    width: 120px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(33, 205, 53, 0);
+    animation: demoButtonAnimation 2s linear infinite;
+    content: "";
+}
+
+@keyframes demoButtonAnimation{
+    0%{
+        transform: scale(1);
+        opacity: 1;
+        /* transform: rotate(0deg); */
+    }
+    
+    100%{
+        transform: scale(1.5);
+        opacity: 0;
+        /* transform: rotate(360deg); */
+    }
+     /* 0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    } */
+}
+
+.demo-button p{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 .error-text{
     color: red;
     font-size: 0.8rem;

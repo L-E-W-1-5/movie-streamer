@@ -44,6 +44,13 @@ const PasswordChange: React.FC<PasswordProps> = ({ setOpenForm }) => {
 
     const sendPassword = async (e: React.MouseEvent<HTMLButtonElement>) => {
 
+        if(user?.username === "demo account"){
+
+            alert("editing not available for demo account");
+
+            return;
+        };
+
         e.stopPropagation();
 
         const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{10,}$/;
