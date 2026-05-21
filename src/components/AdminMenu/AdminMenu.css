@@ -32,12 +32,12 @@
 
 #admin-menu-open{
     
-    animation: adminMenuOpen 2s forwards ;
+    animation: adminMenuOpen 1.5s forwards ;
 }
 
 #admin-menu-closed{
     
-    animation: adminMenuClose 2s forwards ;
+    animation: adminMenuClose 1.5s forwards ;
 }
 
 @keyframes adminMenuOpen{

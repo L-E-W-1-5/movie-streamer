@@ -216,7 +216,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
         try{
 //TODO: change endpoint to the new route for streaming via multer-s3 & test
-            const res = await fetch(`${url}/movies/hls`, {
+            const res = await fetch(`${url}/movies/stream?title=${movieUpload.title}`, { //hls
 
                 headers: {"Authorization": `Bearer ${user.token}`},
             
