@@ -79,6 +79,54 @@ select option{
     
 }
 
+.upload-progress-container{
+    position: absolute;
+    z-index: 50;
+    top: 0%;
+    left: 0%;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #000000dc;
+
+}
+
+.upload-progress-animation{  
+    position: relative;
+    width: 150px;
+    height: 150px;
+    background: transparent;
+    border: 3px solid rgb(40, 39, 39);
+    border-radius: 50%;
+    text-align: center;
+    line-height: 150px;
+    font-size: 20px;
+    color: #fff000;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px green;
+    box-shadow: 0 0 20px rgba(0,0,0,.5);
+
+}
+
+.upload-progress-animation::before{
+    position: absolute;
+    content: '';
+    inset: -3px;
+    border: 3px solid transparent;
+    border-top: 3px solid #fff000;
+    border-right: 3px solid #fff000;
+    border-radius: 50%;
+    animation: animateC 2s linear infinite;
+}
+
+.upload-loading-button{
+    margin-top: 150px;
+}
+
 @media only screen and (max-height: 600px){
 
     .upload-form{

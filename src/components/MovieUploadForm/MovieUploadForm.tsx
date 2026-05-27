@@ -47,6 +47,8 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
     const [movieUpload, setMovieUpload] = useState<MovieUpload>(initialMovie);
 
+    const [uploadProgress, setUploadProgress] = useState<number>(0);
+
 
 
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -165,6 +167,8 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
         if(movieUpload.folder && movieUpload.folder.length > 0){ 
 
+            setUploadProgress(1);
+
             chunks = chunkArray(movieUpload.folder, 50);
         
             try{
@@ -172,6 +176,8 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
                 for (let i = 0; i < chunks.length; i++) {
 
                     console.log(chunks[i])
+
+                    
 
                     let formData = new FormData();
 
@@ -196,18 +202,28 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
                     if (!res || !res.ok){
 
+                        setUploadProgress(0);
+                        
                         throw new Error(`batch ${i + 1} upload failed ${res ? `with status ${res.status}` : ''}`);
                     }
+
+                    setUploadProgress(Math.round(((i + 1) / chunks.length) * 100));
+
+                    // if(i === 0){
+                    //     await checkResponse(res);
+                    // }
 
                 }     
 
                 if(res) await checkResponse(res);
             
+                setUploadProgress(0);
         
             }catch(err){
 
                 console.error(err);
 
+                setUploadProgress(0);
                 alert("movie upload failed");
             }
 
@@ -425,6 +441,23 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
     return(
         <div className="upload-form border-shadow container-style p-3 gap-2">
+
+                {uploadProgress > 0 &&
+            
+                <div className="upload-progress-container">
+
+                    <div className="upload-progress-animation">
+
+                        {uploadProgress}% complete
+
+                        <span className="ball"></span>
+
+                    </div>
+                    
+                    <button className="upload-loading-button button-style border-shadow">cancel</button>
+                    
+                </div>
+            }
 
                 <p>movie file</p>
                 <input 
