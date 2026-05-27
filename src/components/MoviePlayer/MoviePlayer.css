@@ -30,9 +30,14 @@ video {
   height: 30%;
   border-radius: 0.375rem 0.375rem 0 0;
   cursor: grab;
+  overflow: hidden;
+  gap: 10px;
 }
 
 .player-header{
   text-shadow: 0px 5px 5px var(--borderShadow)!important;
   color: var(--borderShadow);
+  max-width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
