@@ -51,11 +51,22 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
 
-        if(e.target.files && e.target.files.length > 1){
+        if(e.target.files && e.target.files.length > 1){ 
 
             const filesArray = Array.from(e.target.files);
 
-            setMovieUpload(prev => ({...prev, folder: filesArray}));
+            const playlistIndex = filesArray.findIndex(file => file.name.endsWith('.m3u8'));
+
+            const orderedArray = filesArray;
+
+            if(playlistIndex !== -1){
+
+                const playlistFile = filesArray.splice(playlistIndex, 1)[0];
+
+                orderedArray.unshift(playlistFile);     
+            }
+
+            setMovieUpload(prev => ({...prev, folder: orderedArray}));
 
             return;
         };
@@ -66,6 +77,19 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
         };
 
     };
+
+
+    const chunkArray = <T,>(array: T[], chunkSize: number) => {
+
+        const chunks: T[][] = [];
+
+        for (let i = 0; i < array.length; i += chunkSize) {
+
+            chunks.push(array.slice(i, i + chunkSize))
+        }
+
+        return chunks;
+    }
 
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,37 +143,137 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
             return;
         };
 
-        //console.log(movieUpload)
-
         if(!movieUpload.file && !movieUpload.folder){
+
             alert("please select a video to upload first");
+
             return
         };
 
         if(!movieUpload.title){
-             alert("please select title first");
+
+            alert("please select title first");
+
             return
         };
 
 
-        const formData = new FormData();
+        let chunks: File[][] = [];
+
+        let res;
+
+
+        if(movieUpload.folder && movieUpload.folder.length > 0){ 
+
+            chunks = chunkArray(movieUpload.folder, 50);
+        
+            try{
+
+                for (let i = 0; i < chunks.length; i++) {
+
+                    console.log(chunks[i])
+
+                    let formData = new FormData();
+
+            
+                    if(i === 0){
+                
+                        formData = createFormData(formData);
+                    }
+
+                    formData.append('isFirstBatch', i === 0 ? "true" : "false");
+
+                    formData.append("batchNumber", i.toString());
+        
+                    chunks[i].forEach((file) => {
+
+                        formData.append('hls_files[]', file, file.webkitRelativePath || file.name);
+                    })
+
+                    console.log("hls movie")
+
+                    res = await sendHLS(formData);
+
+                    if (!res || !res.ok){
+
+                        throw new Error(`batch ${i + 1} upload failed ${res ? `with status ${res.status}` : ''}`);
+                    }
+            
+                    // if(i === 0 && res instanceof Response){
+                
+                    //     await checkResponse(res);           
+                    // }
+
+                }     
+
+                if(res) await checkResponse(res);
+            
+                alert("movie uploaded successfully");
+        
+            }catch(err){
+
+                console.error(err);
+
+                alert("movie upload failed");
+            }
 
         
-        if(movieUpload.folder && movieUpload.folder.length > 0){
+        // if(movieUpload.folder && movieUpload.folder.length > 0){
             
-            movieUpload.folder.forEach((file) => {
+        //     movieUpload.folder.forEach((file) => {
                 
-                formData.append('hls_files[]', file, file.webkitRelativePath || file.name);
+        //         formData.append('hls_files[]', file, file.webkitRelativePath || file.name);
                 
-                //TODO: create batches of the segments here 
-            })
+        //         //TODO: create batches of the segments here 
+        //     })
             
         }else{
 
-            if(movieUpload.file) formData.append('movie', movieUpload.file);    
-        };
+            let formData = new FormData();
 
-        
+            formData = createFormData(formData);
+            
+            if(movieUpload.file) formData.append('movie', movieUpload.file);  
+
+            if(formData.has('movie')){
+
+            console.log("single movie")
+
+            const res = await sendSingleMovie(formData);
+
+            if(res instanceof Response){
+
+                checkResponse(res);
+
+            }else{
+
+                alert("Error, correct response not received from server")
+            }
+        };
+ 
+                
+        }
+        // else{
+
+        //     console.log("hls movie")
+
+        //     const res = await sendHLS(formData);
+            
+        //     if(res instanceof Response){
+                
+        //         checkResponse(res);
+                
+        //     }else{
+                
+        //         alert("Error, correct response not received from server")
+        //     }
+        // }
+    };
+
+
+    const createFormData = (formData: FormData) => {
+
+
         formData.append('title', movieUpload.title);
 
         if(movieUpload.genre){
@@ -178,51 +302,19 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
                 formData.append('images[]', image, image.name)
             })
-            
         }
 
-        if(formData.has('movie')){
-
-            console.log("single movie")
-
-            const res = await sendSingleMovie(formData);
-
-            if(res instanceof Response){
-
-                checkResponse(res);
-
-            }else{
-
-                alert("Error, correct response not received from server")
-            }
-                
-        }
-        else{
-
-            console.log("hls movie")
-
-            const res = await sendHLS(formData);
-            
-            if(res instanceof Response){
-                
-                checkResponse(res);
-                
-            }else{
-                
-                alert("Error, correct response not received from server")
-            }
-        }
-    };
+        return formData;
+    }
 
 
     const sendHLS = async (formData: FormData) => {
 
-        console.log("hls", url)
 
         if(!user?.token) return;
 
         try{
-//TODO: change endpoint to the new route for streaming via multer-s3 & test
+//TODO: change to batching of segments instead of sending all at once
             const res = await fetch(`${url}/movies/stream?title=${movieUpload.title}`, { //hls
 
                 headers: {"Authorization": `Bearer ${user.token}`},
@@ -281,8 +373,6 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
             }
 
             reply = await res.json();
-
-            
 
             if(reply.status === "error"){
 
