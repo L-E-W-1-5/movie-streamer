@@ -198,17 +198,11 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
                         throw new Error(`batch ${i + 1} upload failed ${res ? `with status ${res.status}` : ''}`);
                     }
-            
-                    // if(i === 0 && res instanceof Response){
-                
-                    //     await checkResponse(res);           
-                    // }
 
                 }     
 
                 if(res) await checkResponse(res);
             
-                alert("movie uploaded successfully");
         
             }catch(err){
 
