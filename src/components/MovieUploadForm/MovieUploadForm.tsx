@@ -167,6 +167,8 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
         if(movieUpload.folder && movieUpload.folder.length > 0){ 
 
+            let createdMovie = null;
+
             setUploadProgress(1);
 
             chunks = chunkArray(movieUpload.folder, 50);
@@ -209,15 +211,18 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
                     setUploadProgress(Math.round(((i + 1) / chunks.length) * 100));
 
-                    // if(i === 0){
-                    //     await checkResponse(res);
-                    // }
+                    if(i === 0){
+
+                        const data = await res.json();
+
+                        createdMovie = data.payload;
+                    }
 
                 }     
 
-                if(res) await checkResponse(res);
+                if(createdMovie) await checkResponse(createdMovie);
             
-                setUploadProgress(0);
+                setUploadProgress(100);
         
             }catch(err){
 
@@ -225,6 +230,10 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
                 setUploadProgress(0);
                 alert("movie upload failed");
+            
+            }finally{
+
+                setUploadProgress(0);
             }
 
         
@@ -251,9 +260,11 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
             const res = await sendSingleMovie(formData);
 
-            if(res instanceof Response){
+            if(res && res.ok){
 
-                checkResponse(res);
+                const data = await res.json();
+
+                checkResponse(data.payload);
 
             }else{
 
@@ -364,47 +375,34 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
     }
 
 
-    const checkResponse = async (res: Response) => {
+    const checkResponse = async (createdMovie: MovieDownloadNew) => { //, createdMovie: MovieDownloadNew
 
-        let reply
 
         if(!user?.token) return;
 
         try{
 
-            if(!res.ok){
+            if(!createdMovie){
 
-                const errorText = await res.text();
-
-                console.error('server error', res.status, errorText);
-
-                return;
-
-            }
-
-            reply = await res.json();
-
-            if(reply.status === "error"){
-
-                alert(reply.payload);
+                alert("Error creating movie");
 
                 return;
             }
         
 
-            if(reply && reply.status === "success"){
+            if(createdMovie){
 
                 const newUpload: MovieDownloadNew = {
-                    id: reply.payload.id,
-                    title: reply.payload.title,
-                    key: reply.payload.key,
-                    genre: reply.payload.genre,
-                    description: reply.payload.description,
-                    year: reply.payload.year,
-                    length: reply.payload.length,
-                    timestamp: reply.payload.timestamp,
-                    times_played: reply.payload.times_played,
-                    images: reply.payload.images ? reply.payload.images : null
+                    id: createdMovie.id,
+                    title: createdMovie.title,
+                    key: createdMovie.key,
+                    genre: createdMovie.genre,
+                    description: createdMovie.description,
+                    year: createdMovie.year,
+                    length: createdMovie.length,
+                    timestamp: createdMovie.timestamp,
+                    times_played: createdMovie.times_played,
+                    images: createdMovie.images ? createdMovie.images : null
                 };
 
             setAllMovies(prev => [...prev, newUpload]);
