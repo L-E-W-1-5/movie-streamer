@@ -5,7 +5,8 @@
     /* min-width: 350px; */
     display: flex;
     flex-direction: row;
-    /* max-width: 30px; */
+    max-width: 30px;
+
 }
 
 .message-expand-bar{
@@ -53,6 +54,50 @@
 .message-boxes{
     border: 0.1px solid var(--borderShadow)!important;
     color: rgb(255, 255, 255);
+}
+
+.expand{
+    animation: openMessageBoard 2s forwards;
+}
+
+.retract{
+    animation: closeMessageBoard 2s forwards;
+}
+
+.expand-mobile{
+    margin-right: 0;
+    animation: openFullMessageBoard 2s forwards;
+}
+
+@keyframes openMessageBoard{
+    0%{
+        max-width: 30px;
+    }
+    100%{
+        max-width: 300px;
+        width: 300px;
+    }
+}
+
+@keyframes closeMessageBoard{
+    0%{
+        
+        max-width: 300px;
+        width: 300px;
+    }
+    100%{
+        max-width: 30px;
+    }
+}
+
+@keyframes openFullMessageBoard{
+    0%{
+        max-width: 30px;
+    }
+    100%{
+        max-width: 100%;
+        width: 100%;
+    }
 }
 
 /* .message-box-delete{

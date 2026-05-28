@@ -28,7 +28,7 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
 
     const messageBoard = useRef<HTMLDivElement>(null)
 
-
+    const expandAnimation = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
 
@@ -203,27 +203,43 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
 
             if(screenWidth < 500){
 
+                expandAnimation.current?.classList.remove("retract")
+                expandAnimation.current?.classList.add("expand-mobile")
+
+                //setMessageBox("300px")
                 setMessageBox("100%")
 
-                setMessageSlide(true);
+                setTimeout(() => {
+
+                    setMessageSlide(true);
+                }, 1300)
+
             }
             else{
+
+                expandAnimation.current?.classList.remove("retract")
+                expandAnimation.current?.classList.add("expand")
+
+                console.log(expandAnimation.current?.classList)
 
                 setMessageBox("300px")
             }
 
-            //setMessageBox(330);
+            // setMessageBox(330);
         }
         else{
  
             setMessageBox("30px")
+            expandAnimation.current?.classList.remove("expand")
+            expandAnimation.current?.classList.remove("expand-mobile")
+            expandAnimation.current?.classList.add("retract")
 
             setMessageSlide(false);
 
-            if(messageBoard.current){
+            // if(messageBoard.current){
 
-                messageBoard.current.style.setProperty("display", "none", "important")
-            }
+            //     messageBoard.current.style.setProperty("display", "none", "important")
+            // }
         }
     }
 
@@ -231,7 +247,8 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
 
     return (
         <div className="dashboard-message-container border-shadow" 
-            style={{maxWidth: messageBox}} 
+            ref={expandAnimation}
+            // style={{maxWidth: messageBox}} 
         >
             <div className="message-expand-bar mr-2" onClick={expandMessageBox}><h4 className="text-rotate">messages</h4></div>
 

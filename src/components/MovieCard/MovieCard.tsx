@@ -1,7 +1,8 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useContext } from 'react'
 import './MovieCard.css'
 import MovieDetails from '../MovieDetails/MovieDetails'
 import { type MovieUrl, type MovieDownloadNew } from '../../Types/Types'
+import { UserContext } from '../../UserContext'
 
 // type MovieDownload = {
 //     title: string,
@@ -21,7 +22,30 @@ const MovieCard: React.FC<MovieInfo> = ({film, setSignedUrl}) => {
 
     const cardRef = useRef<HTMLDivElement | null>(null);
 
+    const cardContainerRef = useRef<HTMLDivElement | null>(null);
+
+    const { user } = useContext(UserContext)
+
     useEffect(() => {
+
+        // if(user?.username === "demo account"){
+
+        //     if(film)
+
+        //         if(cardContainerRef.current){
+                    
+        //             cardContainerRef.current.style.pointerEvents = "none";
+
+        //             cardContainerRef.current.style.setProperty("opacity", "0.4", "important");
+
+        //             cardContainerRef.current.style.setProperty("filter", "grayscale(1)", "important");
+
+
+                    
+        //              return;
+        //         };
+
+        // }
 
       
         if(cardRef.current && film.images){
@@ -54,23 +78,21 @@ const MovieCard: React.FC<MovieInfo> = ({film, setSignedUrl}) => {
 
         }
 
-    }, [film])
+    }, [film, user])
 
 
 
     return(
 
-        <>
+    <>
 
-        <div className='movie-card-container d-flex flex-column' onClick={() => showMovieDetails(current => !current)}>
+        <div className='movie-card-container d-flex flex-column' ref={cardContainerRef} onClick={() => showMovieDetails(current => !current)}>
 
-            <div className="movie-card border-shadow card p-2" ref={cardRef}/>
-
-            
+            <div className="movie-card border-shadow card p-2" ref={cardRef}/> 
 
             <div className="movie-card-headings">
 
-                <h5 className="movie-card-title">{film.title}</h5>
+                <h5 className="movie-card-title">{user?.username === "demo account" ? "restricted" : film.title}</h5>
 
                 {/* <p>{film.genre}</p> */}
 
@@ -92,7 +114,7 @@ const MovieCard: React.FC<MovieInfo> = ({film, setSignedUrl}) => {
         }
         
         
-        </>
+    </>
     )
 }
 

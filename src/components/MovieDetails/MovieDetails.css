@@ -60,3 +60,10 @@
         max-height: 280px;
     }
 }
+
+@media only screen and (max-width: 450px){
+
+    .movie-details-image{
+        max-height: 220px;
+    }
+}
