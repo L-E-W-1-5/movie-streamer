@@ -209,10 +209,10 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
                 //setMessageBox("300px")
                 setMessageBox("100%")
 
-                setTimeout(() => {
+                //setTimeout(() => {
 
                     setMessageSlide(true);
-                }, 1300)
+                //}, 1300)
 
             }
             else{
@@ -236,10 +236,14 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
 
             setMessageSlide(false);
 
-            // if(messageBoard.current){
+            setTimeout(() => {
 
-            //     messageBoard.current.style.setProperty("display", "none", "important")
-            // }
+                if(messageBoard.current){
+    
+                    messageBoard.current.style.setProperty("display", "none", "important")
+                }
+                    
+            }, 1700)
         }
     }
 
