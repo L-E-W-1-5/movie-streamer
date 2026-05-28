@@ -204,6 +204,7 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
             if(screenWidth < 500){
 
                 expandAnimation.current?.classList.remove("retract")
+                expandAnimation.current?.classList.remove("retract-mobile")
                 expandAnimation.current?.classList.add("expand-mobile")
 
                 //setMessageBox("300px")
@@ -217,6 +218,7 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
             }
             else{
 
+                expandAnimation.current?.classList.remove("retract-mobile")
                 expandAnimation.current?.classList.remove("retract")
                 expandAnimation.current?.classList.add("expand")
 
@@ -229,10 +231,20 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
         }
         else{
  
-            setMessageBox("30px")
-            expandAnimation.current?.classList.remove("expand")
-            expandAnimation.current?.classList.remove("expand-mobile")
-            expandAnimation.current?.classList.add("retract")
+            if(messageBox === "300px"){
+
+                setMessageBox("30px")
+                expandAnimation.current?.classList.remove("expand")
+                expandAnimation.current?.classList.remove("expand-mobile")
+                expandAnimation.current?.classList.add("retract")
+            }
+            if(messageBox === "100%"){
+
+                setMessageBox("30px")
+                expandAnimation.current?.classList.remove("expand")
+                expandAnimation.current?.classList.remove("expand-mobile")
+                expandAnimation.current?.classList.add("retract-mobile")
+            }
 
             setMessageSlide(false);
 

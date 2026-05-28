@@ -69,6 +69,11 @@
     animation: openFullMessageBoard 1s forwards;
 }
 
+.retract-mobile{
+    margin-right: 0;
+    animation: closeFullMessageBoard 1s forwards;
+}
+
 @keyframes openMessageBoard{
     0%{
         max-width: 30px;
@@ -97,6 +102,16 @@
     100%{
         max-width: 100%;
         width: 100%;
+    }
+}
+
+@keyframes closeFullMessageBoard{
+    0%{
+        max-width: 100%;
+        width: 100%;
+    }
+    100%{
+        max-width: 30px;
     }
 }
 

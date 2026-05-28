@@ -92,7 +92,8 @@ const MovieCard: React.FC<MovieInfo> = ({film, setSignedUrl}) => {
 
             <div className="movie-card-headings">
 
-                <h5 className="movie-card-title">{user?.username === "demo account" ? "restricted" : film.title}</h5>
+                <h5 className="movie-card-title">{film.title}</h5>
+                {/* user?.username === "demo account" ? "restricted" :  */}
 
                 {/* <p>{film.genre}</p> */}
 
