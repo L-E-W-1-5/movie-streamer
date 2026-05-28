@@ -34,8 +34,6 @@ const MovieCard: React.FC<MovieInfo> = ({film, setSignedUrl}) => {
 
                     if(image.usage === 'card' && cardRef.current){
 
-                        //console.log(image.usage, image.original_name)
-
                         cardRef.current.style.setProperty("background-image", `url(${image.url})`, "important")
 
                         cardSelected = true;

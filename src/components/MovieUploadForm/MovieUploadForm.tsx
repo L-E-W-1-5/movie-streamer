@@ -220,9 +220,9 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
                 }     
 
-                if(createdMovie) await checkResponse(createdMovie);
-            
                 setUploadProgress(100);
+                
+                if(createdMovie) await checkResponse(createdMovie);
         
             }catch(err){
 

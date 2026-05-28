@@ -204,15 +204,13 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
         if(!edit.images || edit.images.length < 2) return
 
-
         const arraySwap = async (a: number, b: number) => {
-
+           
             if(!edit.images) return
 
             const newPosition = edit.images.map(img => ({...img})); 
 
             let aSwap: MovieImage | null = null, bSwap: MovieImage | null = null;
-
 
             for(let i = 0; i < newPosition.length; i++){
 
@@ -225,7 +223,6 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
                 [aSwap.usage, bSwap.usage] = [bSwap.usage, aSwap.usage];
             };
-
 
             setEdit(prev => ({...prev, images: newPosition}));
 
@@ -295,38 +292,34 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
         const getIds = () => {
 
-            let containerId: number = -1, cardId: number = -1;
+           // let containerId: number = -1, cardId: number = -1;
 
-            if(!movie.images) return;
+            if(!movie.images?.length) return;
 
             const imageArray = [...movie.images];
 
-            imageArray.forEach((image, index) => {
+            const containerId = imageArray.find(i => i.usage === 'container')
 
-                if(image.usage === 'container'){
+            const cardId = imageArray.find(i => i.usage === 'card')
 
-                    containerId = image.id;
-                    console.log("container id", index, image.id, image.original_name, image.usage)
+            if(!containerId && imageArray[0]){
+     
+                imageArray[0].usage = 'container';
+            }
 
-                    return;
-                }
+             if(!cardId && imageArray[1]){
+    
+                imageArray[1].usage = 'card';
+            }
 
-                if(image.usage === 'card'){
-
-                    cardId = image.id;
-                    console.log("card id", index, image.id, image.original_name, image.usage)
-
-                    return;
-                }
-            });
-
-            if(containerId !== -1 && cardId !== -1){
+            if(containerId && cardId){
 
                 return {
-                    "containerId": containerId,
-                    "cardId": cardId
+                    "containerId": containerId.id,
+                    "cardId": cardId.id
                 };
             };
+
         };
 
 
@@ -340,8 +333,6 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
             if(ids.containerId !== -1 && ids.cardId !== -1){
 
-                console.log(ids.cardId, ids.containerId);
-
                 arraySwap(ids.cardId, ids.containerId);
             };
         }
@@ -353,9 +344,7 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
             if(!ids || !confirmed) return
 
-            if(ids.containerId !== -1 && ids.cardId !== -1){
-
-                console.log("337", ids.cardId, ids.containerId)
+            if(ids.containerId !== null && ids.cardId !== null){
 
                 arraySwap(ids.cardId, ids.containerId)
             }
