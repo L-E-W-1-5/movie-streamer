@@ -212,7 +212,7 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
                 //setTimeout(() => {
 
                     setMessageSlide(true);
-                //}, 1300)
+                //}, 750)
 
             }
             else{
@@ -220,7 +220,7 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
                 expandAnimation.current?.classList.remove("retract")
                 expandAnimation.current?.classList.add("expand")
 
-                console.log(expandAnimation.current?.classList)
+                //console.log(expandAnimation.current?.classList)
 
                 setMessageBox("300px")
             }
@@ -243,7 +243,7 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
                     messageBoard.current.style.setProperty("display", "none", "important")
                 }
                     
-            }, 1700)
+            }, 820)
         }
     }
 

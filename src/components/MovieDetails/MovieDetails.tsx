@@ -47,7 +47,7 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl, closeDeta
 
             film.images.forEach(image => {
 
-                console.log("details element", image.usage, image.original_name)
+                //console.log("details element", image.usage, image.original_name)
 
                 if(image.usage === 'container' && imageRef.current){
 

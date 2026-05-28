@@ -57,16 +57,16 @@
 }
 
 .expand{
-    animation: openMessageBoard 2s forwards;
+    animation: openMessageBoard 1s forwards;
 }
 
 .retract{
-    animation: closeMessageBoard 2s forwards;
+    animation: closeMessageBoard 1s forwards;
 }
 
 .expand-mobile{
     margin-right: 0;
-    animation: openFullMessageBoard 2s forwards;
+    animation: openFullMessageBoard 1s forwards;
 }
 
 @keyframes openMessageBoard{
