@@ -235,27 +235,37 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
 
                 setMessageBox("30px")
                 expandAnimation.current?.classList.remove("expand")
-                expandAnimation.current?.classList.remove("expand-mobile")
+                //expandAnimation.current?.classList.remove("expand-mobile")
                 expandAnimation.current?.classList.add("retract")
             }
             if(messageBox === "100%"){
 
                 setMessageBox("30px")
-                expandAnimation.current?.classList.remove("expand")
+                //expandAnimation.current?.classList.remove("expand")
                 expandAnimation.current?.classList.remove("expand-mobile")
                 expandAnimation.current?.classList.add("retract-mobile")
             }
 
             setMessageSlide(false);
 
-            setTimeout(() => {
+            expandAnimation.current?.addEventListener("animationend", () => {
 
                 if(messageBoard.current){
     
                     messageBoard.current.style.setProperty("display", "none", "important")
-                }
+                };
+
+            }, {once: true})
+
+            // setTimeout(() => {
+
+
+            //     if(messageBoard.current){
+    
+            //         messageBoard.current.style.setProperty("display", "none", "important")
+            //     }
                     
-            }, 820)
+            // }, 820)
         }
     }
 
