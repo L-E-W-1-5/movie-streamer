@@ -192,8 +192,6 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
 
         const screenWidth = window.innerWidth//window.screen.width;
 
-        console.log(screenWidth)
-alert(screenWidth)
         const messageWidth = messageBox.match(/\d+/g)
 
         if(Number(messageWidth![0]) < 50){
@@ -233,16 +231,16 @@ alert(screenWidth)
                     "expand-mobile",
                     "retract",
                     "retract-mobile"
-                )
+                ) 
  
             if(messageBox === "300px"){
-alert(messageBox)
+
                 setMessageBox("30px")
                 
                 expandAnimation.current?.classList.add("retract")
             }
             if(messageBox === "100%"){
-alert(messageBox)
+
                 setMessageBox("30px")
 
                 expandAnimation.current?.classList.add("retract-mobile")
