@@ -201,48 +201,48 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
                 messageBoard.current.style.setProperty("display", "flex", "important")
             }
 
+            expandAnimation.current?.classList.remove(
+                    "expand",
+                    "expand-mobile",
+                    "retract",
+                    "retract-mobile"
+                )
+
             if(screenWidth < 500){
 
-                expandAnimation.current?.classList.remove("retract")
-                expandAnimation.current?.classList.remove("retract-mobile")
                 expandAnimation.current?.classList.add("expand-mobile")
 
-                //setMessageBox("300px")
                 setMessageBox("100%")
 
-                //setTimeout(() => {
-
-                    setMessageSlide(true);
-                //}, 750)
+                setMessageSlide(true);
 
             }
             else{
 
-                expandAnimation.current?.classList.remove("retract-mobile")
-                expandAnimation.current?.classList.remove("retract")
                 expandAnimation.current?.classList.add("expand")
-
-                //console.log(expandAnimation.current?.classList)
 
                 setMessageBox("300px")
             }
-
-            // setMessageBox(330);
         }
         else{
+
+            expandAnimation.current?.classList.remove(
+                    "expand",
+                    "expand-mobile",
+                    "retract",
+                    "retract-mobile"
+                )
  
             if(messageBox === "300px"){
 
                 setMessageBox("30px")
-                expandAnimation.current?.classList.remove("expand")
-                //expandAnimation.current?.classList.remove("expand-mobile")
+                
                 expandAnimation.current?.classList.add("retract")
             }
             if(messageBox === "100%"){
 
                 setMessageBox("30px")
-                //expandAnimation.current?.classList.remove("expand")
-                expandAnimation.current?.classList.remove("expand-mobile")
+
                 expandAnimation.current?.classList.add("retract-mobile")
             }
 
@@ -256,16 +256,6 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
                 };
 
             }, {once: true})
-
-            // setTimeout(() => {
-
-
-            //     if(messageBoard.current){
-    
-            //         messageBoard.current.style.setProperty("display", "none", "important")
-            //     }
-                    
-            // }, 820)
         }
     }
 

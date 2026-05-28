@@ -65,12 +65,12 @@
 }
 
 .expand-mobile{
-    margin-right: 0;
+    /* margin-right: 0; */
     animation: openFullMessageBoard 1s forwards;
 }
 
 .retract-mobile{
-    margin-right: 0;
+    /* margin-right: 0; */
     animation: closeFullMessageBoard 1s forwards;
 }
 
