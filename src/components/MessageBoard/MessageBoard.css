@@ -57,21 +57,21 @@
 }
 
 .expand{
-    animation: openMessageBoard 1s forwards;
+    animation: openMessageBoard 500ms forwards;
 }
 
 .retract{
-    animation: closeMessageBoard 1s forwards;
+    animation: closeMessageBoard 500ms forwards;
 }
 
 .expand-mobile{
     /* margin-right: 0; */
-    animation: openFullMessageBoard 1s forwards;
+    animation: openFullMessageBoard 500ms forwards;
 }
 
 .retract-mobile{
     /* margin-right: 0; */
-    animation: closeFullMessageBoard 1s forwards;
+    animation: closeFullMessageBoard 500ms forwards;
 }
 
 @keyframes openMessageBoard{

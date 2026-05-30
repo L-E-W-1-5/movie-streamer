@@ -36,6 +36,15 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
     })
 
 
+
+     const handleResizeStart = (e: React.MouseEvent  | React.TouchEvent) => {
+
+        e.stopPropagation();
+
+        setIsResizing(true);
+    };
+
+
     const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
 
         e.preventDefault();
@@ -55,40 +64,53 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
     const handleMouseUp = () => {
 
         setIsDragging(false);
-         setIsResizing(false);
+        setIsResizing(false);
     };
 
 
     const handleMouseMove = useCallback ((e: MouseEvent | TouchEvent) => {
 
+        const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+
+        const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+
         if(isDragging){
 
-            const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+            // const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
 
-            const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+            // const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
 
-            setPosition({x: clientX - offset.x, y: clientY - offset.y})
+            const maxX = window.innerWidth - resizeWindow.width;
+
+            const maxY = window.innerHeight - resizeWindow.height;
+
+            setPosition({
+                x: Math.max(0, Math.min(clientX - offset.x, maxX)),
+                y: Math.max(0, Math.min(clientY - offset.y, maxY))
+            });
+
+            //setPosition({x: clientX - offset.x, y: clientY - offset.y})
         };
 
-        if (isResizing && playerSize.current) {
+        if (isResizing && videoRef.current) {
 
-    const rect = playerSize.current.getBoundingClientRect();
+            const rect = videoRef.current.getBoundingClientRect();
 
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+            // const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
 
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+            // const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
 
-    const newWidth = clientX - rect.left;
+            const newWidth = clientX - rect.left;
 
-    const newHeight = clientY - rect.top;
+            const newHeight = clientY - rect.top;
 
-    setWindowSize({
-        width: Math.max(newWidth, 300),
-        height: Math.max(newHeight, 200)
-    });
-}
+            setWindowSize({
+                width: Math.max(newWidth, 300),
+                height: Math.max(newHeight, 200)
+            });
+        }
 
-    }, [isDragging, offset, isResizing])
+    }, [isDragging, offset, isResizing, resizeWindow])
 
 
     useEffect(() => {
@@ -163,6 +185,8 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
             video.src = signedUrl.url;
         }
 
+        let playlistUrl: string
+
         if (Hls.isSupported()){
 
             console.log("HLS.isSupported")
@@ -178,11 +202,18 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
                 video.play()
             });
 
-           // const playlistBlob = new Blob([m3u8PlaylistString], { type: 'application/x-mpegURL' });
+            //this is the woorking line
+            //hls.loadSource(URL.createObjectURL(new Blob([signedUrl.url], {type: 'application/x-mpegURL'})))
 
-            hls.loadSource(URL.createObjectURL(new Blob([signedUrl.url], {type: 'application/x-mpegURL'})))
+            const blobUrl = URL.createObjectURL(
+                new Blob([signedUrl.url], {
+                    type: 'application/x-mpegURL'
+                })
+            );
 
-            //hls.loadSource(signedUrl.url);
+            playlistUrl = blobUrl;
+
+            hls.loadSource(blobUrl);
 
 
         }else{
@@ -194,6 +225,8 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
 
         return () => {
 
+            URL.revokeObjectURL(playlistUrl);
+
             if(hlsRef.current){
             
                 hlsRef.current.destroy();
@@ -204,15 +237,12 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
             video.removeEventListener('canplay', handleCanPlay);
         };
 
+
+
     }, [signedUrl])
 
 
-    const handleResizeStart = (e: React.MouseEvent) => {
-
-        e.stopPropagation();
-
-        setIsResizing(true);
-    };
+   
 
 
   
@@ -221,22 +251,23 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
     return(
 
         <div id="video-drag" className="movie-player-container border-shadow"
+            ref={playerSize}
             
-            onMouseDown={handleMouseDown}
-            onTouchStart={handleMouseDown}
             style={{
                 left: position.x,
                 top: position.y,
-                height: resizeWindow.height,
-                width: resizeWindow.width
+                // height: resizeWindow.height, 
+                // width: resizeWindow.width
             }}
             >
             
 
             <div className="player-navbar d-flex flex-row justify-content-between p-2"
-                ref={playerSize}
+                
+                onMouseDown={handleMouseDown}
+                onTouchStart={handleMouseDown}
             >
-
+                
                 <p className="player-header">{signedUrl.title}</p>
 
                 <button className="player-close-button border-shadow variable-colour" onClick={() => setSignedUrl({title: "", url: "", type: ""})}>close</button>
@@ -260,9 +291,11 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
             />
                 
             <span className="resize-player"
-                onMouseDown={handleResizeStart}
-                
-            >resize</span>
+                onMouseDown={handleResizeStart}      
+                onTouchStart={handleResizeStart}  
+            >
+               
+            </span>
 
         </div>
     )

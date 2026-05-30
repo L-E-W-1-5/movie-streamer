@@ -262,7 +262,7 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
 
 
     return (
-        <div className="dashboard-message-container border-shadow" 
+        <div className="dashboard-message-container user-select-none border-shadow" 
             ref={expandAnimation}
             // style={{maxWidth: messageBox}} 
         >

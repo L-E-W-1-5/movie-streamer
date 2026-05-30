@@ -86,13 +86,13 @@ const MovieCard: React.FC<MovieInfo> = ({film, setSignedUrl}) => {
 
     <>
 
-        <div className='movie-card-container d-flex flex-column' ref={cardContainerRef} onClick={() => showMovieDetails(current => !current)}>
+        <div className='movie-card-container user-select-none d-flex flex-column' ref={cardContainerRef} onClick={() => showMovieDetails(current => !current)}>
 
             <div className="movie-card border-shadow card p-2" ref={cardRef}/> 
 
             <div className="movie-card-headings">
 
-                <h5 className="movie-card-title">{film.title}</h5>
+                <h5 className="movie-card-title user-select-none">{film.title}</h5>
                 {/* user?.username === "demo account" ? "restricted" :  */}
 
                 {/* <p>{film.genre}</p> */}

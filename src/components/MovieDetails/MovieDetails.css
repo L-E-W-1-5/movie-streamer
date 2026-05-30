@@ -1,5 +1,5 @@
 .movie-play-container{
-
+    user-select: none;
     padding: 10px;
     min-height: 100%;
 }
