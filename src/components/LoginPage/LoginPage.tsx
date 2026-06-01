@@ -146,11 +146,11 @@ const LoginPage = () => {
 
     <div className="d-flex flex-column align-items-center gap-4">
 
-        <div className="demo-button" onClick={() => {handleLogin("", "", true)}}
-        >
+       // <div className="demo-button" onClick={() => {handleLogin("", "", true)}}
+       // >
 
-            <p>DEMO</p>
-        </div>
+         //   <p>DEMO</p>
+       // </div>
 
         <div className="login-container border-shadow card d-flex justify-content-center align-items-center p-4 w-auto h-auto">
 
