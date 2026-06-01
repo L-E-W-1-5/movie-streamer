@@ -72,9 +72,9 @@ const LoginPage = () => {
 
         if(isDemo){
 
-            alert("demo button under construction, be back tomorrow. in thr meantime create an account for access");
+            //alert("demo button under construction, be back tomorrow. in thr meantime create an account for access");
 
-            return;
+            //return;
             
             guid = import.meta.env.VITE_DEMO_PASSWORD!
 
@@ -146,11 +146,11 @@ const LoginPage = () => {
 
     <div className="d-flex flex-column align-items-center gap-4">
 
-       // <div className="demo-button" onClick={() => {handleLogin("", "", true)}}
-       // >
+        <div className="demo-button" onClick={() => {handleLogin("", "", true)}}>
 
-         //   <p>DEMO</p>
-       // </div>
+            <p>DEMO</p>
+            
+        </div>
 
         <div className="login-container border-shadow card d-flex justify-content-center align-items-center p-4 w-auto h-auto">
 
