@@ -71,6 +71,10 @@ const LoginPage = () => {
         const pattern = /^[A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
 
         if(isDemo){
+
+            alert("demo button under construction, be back tomorrow. in thr meantime create an account for access");
+
+            return;
             
             guid = import.meta.env.VITE_DEMO_PASSWORD!
 
