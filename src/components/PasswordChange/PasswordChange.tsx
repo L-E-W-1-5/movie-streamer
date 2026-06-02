@@ -135,11 +135,13 @@ const PasswordChange: React.FC<PasswordProps> = ({ setOpenForm }) => {
 
             </label>
 
-            <button className="button-style border-shadow align-self-center" onClick={sendPassword}>change</button>
+            <div className="password-buttons d-flex w-100 flex-row justify-content-around align-items-center">
 
-            <button className="button-style border-shadow align-self-center" onClick={closeForm}>close</button>
+                <button className="button-style border-shadow align-self-center" onClick={sendPassword}>change</button>
 
+                <button className="button-style border-shadow align-self-center" onClick={closeForm}>close</button>
 
+            </div>
         </div>
     )
 

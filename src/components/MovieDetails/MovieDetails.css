@@ -23,6 +23,43 @@
     flex-direction: column;
 }
 
+.movie-details-button-container{
+    width: 98%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.movie-details-button{
+    background: black;
+    color: var(--borderShadow);  
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.movie-details-button:hover{
+  background-color: var(--borderShadow);
+  color: white;
+  animation: increase 0.15s ease-in-out forwards;
+}
+
+.arrow-right {
+  width: 0; 
+  height: 0; 
+  border-top: 17px solid transparent;
+  border-bottom: 17px solid transparent;
+  border-left: 20px solid var(--borderShadow);
+  margin-left: 5.5px;
+}
+
+.movie-details-button:hover .arrow-right {
+    border-left-color: white;
+}
+
 
 @media only screen and (max-width: 765px){
 
@@ -53,6 +90,7 @@
         gap: 10px;
     }
 }
+
 
 @media only screen and (max-width: 650px){
 

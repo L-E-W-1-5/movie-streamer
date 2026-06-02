@@ -23,17 +23,16 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
 
    const hlsRef = useRef<Hls | null>(null);
 
-   const playerSize = useRef<HTMLDivElement | null>(null);
-
    const [isResizing, setIsResizing] = useState(false);
 
-   const [resizeWindow, setWindowSize] = useState<{
+   const [resizeWindow, setResizeWindow] = useState<{
         height: number
         width: number
     }>({
-        height: 300,
-        width: 400
+        height: 180,
+        width: 360
     })
+    
 
 
 
@@ -61,11 +60,18 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
     };
 
 
-    const handleMouseUp = () => {
+    // const handleMouseUp = () => {
+
+    //     setIsDragging(false);
+    //     setIsResizing(false);
+    // };
+
+    const handleMouseUp = useCallback(() => {
 
         setIsDragging(false);
         setIsResizing(false);
-    };
+
+    }, []);
 
 
     const handleMouseMove = useCallback ((e: MouseEvent | TouchEvent) => {
@@ -76,10 +82,6 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
 
         if(isDragging){
 
-            // const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-
-            // const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
-
             const maxX = window.innerWidth - resizeWindow.width;
 
             const maxY = window.innerHeight - resizeWindow.height;
@@ -88,25 +90,19 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
                 x: Math.max(0, Math.min(clientX - offset.x, maxX)),
                 y: Math.max(0, Math.min(clientY - offset.y, maxY))
             });
-
-            //setPosition({x: clientX - offset.x, y: clientY - offset.y})
         };
 
         if (isResizing && videoRef.current) {
 
             const rect = videoRef.current.getBoundingClientRect();
 
-            // const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-
-            // const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
-
             const newWidth = clientX - rect.left;
 
             const newHeight = clientY - rect.top;
 
-            setWindowSize({
-                width: Math.max(newWidth, 300),
-                height: Math.max(newHeight, 200)
+            setResizeWindow({
+                height: Math.max(newHeight, 180),
+                width: Math.max(newWidth, 260)
             });
         }
 
@@ -134,7 +130,7 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
             window.removeEventListener('touchend', handleMouseUp)
         }
 
-    }, [handleMouseMove])
+    }, [handleMouseMove, handleMouseUp])
 
 
     useEffect(() => {
@@ -242,16 +238,10 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
     }, [signedUrl])
 
 
-   
-
-
-  
-
 
     return(
 
         <div id="video-drag" className="movie-player-container border-shadow"
-            ref={playerSize}
             
             style={{
                 left: position.x,
@@ -293,8 +283,7 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
             <span className="resize-player"
                 onMouseDown={handleResizeStart}      
                 onTouchStart={handleResizeStart}  
-            >
-               
+            >        
             </span>
 
         </div>
@@ -302,75 +291,3 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
 }
 
 export default MoviePlayer;
-
-
- {/* <source src={props.url} type="video/mp4"/>
-                <source src={props.url} type="video/webm"/>
-                <source src={props.url} type="video/ogg"/> */}
-
-
-                  // const resizePlayer = (e: React.MouseEvent<HTMLSpanElement>) => {
-
-    //    // const size = playerSize.current?.clientTop;
-
-    //     //const sizeY = playerSize.current?.clientTop
-
-    //     //const sizeX = playerSize.current?.clientWidth;
-
-    //     const sizeY = playerSize.current?.closest('#video-drag')?.clientWidth
-
-    //     const sizeX = playerSize.current?.closest('#video-drag')?.clientHeight
-        
-
-    //     if(!sizeY || !sizeX) return;
-
-    //     const playerPosition = playerSize.current?.getBoundingClientRect();
-
-    //     const playerPositionX = playerPosition?.x
-
-    //     const playerPositionY = playerPosition?.y
-
-    //     const mousePositionX = e.clientX;
-
-    //     const mousePositionY = e.clientY;
-
-    //     console.log("sizeX", playerPositionX, "sizeY", playerPositionY, "mouseX", mousePositionX, "mouseY", mousePositionY);
-
-
-
-    //     setWindowSize({
-    //         height: sizeX,
-    //         width: sizeY
-    //     })
-    // }
-
-    // const setPlayer = (e: React.MouseEvent<HTMLSpanElement>) => {
-
-    //    // const size = playerSize.current?.clientTop;
-
-    //     //const sizeY = playerSize.current?.clientTop
-
-    //     //const sizeX = playerSize.current?.clientWidth;
-
-    //     const sizeY = playerSize.current?.closest('#video-drag')?.clientWidth
-
-    //     const sizeX = playerSize.current?.closest('#video-drag')?.clientHeight
-    //     console.log(sizeX, sizeY)
-
-    //     const playerPosition = playerSize.current?.getBoundingClientRect();
-
-    //     const playerPositionX = playerPosition?.x
-
-    //     const playerPositionY = playerPosition?.y
-
-    //     const mousePositionX = e.clientX;
-
-    //     const mousePositionY = e.clientY;
-
-    //     if(!playerPositionX || !mousePositionX || !playerPositionY || !mousePositionY) return;
-
-    //     setWindowSize({
-    //         height: playerPositionX - mousePositionX,
-    //         width: playerPositionY - mousePositionY
-    //     })
-    // }
