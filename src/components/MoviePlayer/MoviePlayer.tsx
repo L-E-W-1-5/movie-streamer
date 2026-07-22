@@ -30,7 +30,7 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
         width: number
     }>({
         height: 180,
-        width: 360
+        width: 300
     })
     
 
