@@ -16,6 +16,7 @@ const initialMovie: MovieUpload = {
     description: null,
     length: null,
     year: null,
+    media_format: '',
     file: null,
     folder: [],
     images: []
@@ -48,6 +49,8 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
     const [movieUpload, setMovieUpload] = useState<MovieUpload>(initialMovie);
 
     const [uploadProgress, setUploadProgress] = useState<number>(0);
+
+    const [seriesContainer, setSeriesContainer] = useState<boolean>(false);
 
 
 
@@ -132,6 +135,22 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
             case "length":
             setMovieUpload(prev => ({...prev, length: e.target.value}))
             break;
+
+            case "mediaFormat":
+            setMovieUpload(prev => ({...prev, media_format: e.target.value}))
+            break;
+
+            case "seasonNumber":
+            setMovieUpload(prev => ({...prev, season_number: parseInt(e.target.value)}))
+            break;
+
+            case "episodeNumber":
+            setMovieUpload(prev => ({...prev, episode_number: parseInt(e.target.value)}))
+            break;
+
+            case "episodeTitle":
+            setMovieUpload(prev => ({...prev, episode_title: e.target.value}))
+            break;
         }
     }
 
@@ -159,6 +178,27 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
             return
         };
 
+        if(!movieUpload.media_format){
+
+            alert("please select media format first");
+
+            return
+        };
+
+        if(movieUpload.media_format === "series") {
+            if(!movieUpload.season_number) {
+                alert("please enter season number");
+                return;
+            }
+            if(!movieUpload.episode_number) {
+                alert("please enter episode number");
+                return;
+            }
+            if(!movieUpload.episode_title) {
+                alert("please enter episode title");
+                return;
+            }
+        }
 
         let chunks: File[][] = [];
 
@@ -187,8 +227,10 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
                     if(i === 0){
                 
                         formData = createFormData(formData);
+                       // console.log(formData);
                     }
-
+                    
+                    // return;
                     formData.append('isFirstBatch', i === 0 ? "true" : "false");
 
                     formData.append("batchNumber", i.toString());
@@ -200,7 +242,25 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
                     console.log("hls movie")
 
-                    res = await sendHLS(formData);
+                    if(formData.get('media_format') === "series"){
+
+                        const seriesUrl = `${url}/movies/stream?title=${movieUpload.title}&season=${movieUpload.season_number}&episode=${movieUpload.episode_number}`
+
+                        console.log(seriesUrl)
+
+                        res = await sendHLS(formData, seriesUrl);
+                    }
+                    else{
+
+                        const movieUrl = `${url}/movies/stream?title=${movieUpload.title}`
+
+                        console.log(movieUrl)
+
+                        res = await sendHLS(formData, movieUrl);
+                    }
+
+
+                    //TODO: test new queries for series' endpoint and make sure the movie folder is being created correctly in the backend with the new naming convention
 
                     if (!res || !res.ok){
 
@@ -297,6 +357,8 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
         formData.append('title', movieUpload.title);
 
+        formData.append('media_format', movieUpload.media_format);
+
         if(movieUpload.genre){
 
             formData.append('genre', movieUpload.genre);
@@ -329,14 +391,14 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
     }
 
 
-    const sendHLS = async (formData: FormData) => {
+    const sendHLS = async (formData: FormData, endpoint: string) => {
 
 
         if(!user?.token) return;
 
         try{
-//TODO: change to batching of segments instead of sending all at once
-            const res = await fetch(`${url}/movies/stream?title=${movieUpload.title}`, { //hls
+
+            const res = await fetch(endpoint, { //hls
 
                 headers: {"Authorization": `Bearer ${user.token}`},
             
@@ -346,9 +408,9 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
             })
         
-        console.log(res)
+            console.log(res)
 
-        return res;
+            return res;
 
         }catch(err){
 
@@ -458,6 +520,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
             }
 
                 <p>movie file</p>
+
                 <input 
                     className="upload-form-element first-column btn variable-colour border-shadow" 
                     type="file" 
@@ -466,7 +529,9 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
                     {...({ webkitdirectory: true } as React.InputHTMLAttributes<HTMLInputElement>)}
                     onChange={handleFileUpload}
                 />
+
                 <p>images</p>
+
                 <input
                     className="images upload-form-element first-column btn variable-colour border-shadow"
                     type="file"
@@ -495,22 +560,103 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
                     <option value="thriller">Thriller</option>
                 </select>
 
-                <input id="year" className="upload-form-element first-column btn variable-colour border-shadow input-field" type="number" placeholder="movie year" onChange={handleChanges}/>
+                <input 
+                    id="year" 
+                    className="upload-form-element first-column btn variable-colour border-shadow input-field" 
+                    type="number" 
+                    placeholder="movie year" 
+                    onChange={handleChanges}
+                />
 
-                <input id="length" className="upload-form-element first-column btn variable-colour border-shadow input-field" type="text" placeholder="movie length" onChange={handleChanges}/>
+                <input 
+                    id="length" 
+                    className="upload-form-element first-column btn variable-colour border-shadow input-field" 
+                    type="text" 
+                    placeholder="movie length" 
+                    onChange={handleChanges}
+                />
 
-                <textarea id="description" className="upload-form-element upload-form-textarea second-column variable-colour border-shadow input-field" placeholder="enter description here" onChange={handleChanges}/>
+                <select 
+                    id="mediaFormat" 
+                    className="upload-form-element second-column form-select select-element variable-colour border-shadow" 
+                    value={movieUpload.media_format} 
+                    onChange={handleChanges}>
 
-                
+                        <option value="">please select</option>
+                        <option value="movie">Movie</option>
+                        <option value="series" onClick={() => {setSeriesContainer(false)}}>Series</option>
+
+                </select>
+
+                <textarea 
+                    id="description" 
+                    className="upload-form-element upload-form-textarea second-column variable-colour border-shadow input-field" 
+                    placeholder="enter description here" 
+                    onChange={handleChanges}
+                />
+ 
                 
 
                 <div className=" upload-form-buttons d-flex align-self-center mt-3">
                 
-                    <button className="upload-form-button button-style border-shadow" onClick={handleSubmit} >upload</button>
+                    <button 
+                        className="upload-form-button button-style border-shadow" 
+                        onClick={handleSubmit}>
+                        upload
+                    </button>
 
-                    <button className="upload-form-button button-style border-shadow" onClick={stopMenuClosure}>close</button>
+                    <button 
+                        className="upload-form-button button-style border-shadow" 
+                        onClick={stopMenuClosure}>
+                        close
+                    </button>
 
                 </div>
+
+                {movieUpload.media_format === 'series' && !seriesContainer &&
+                
+                    <div className="series-data-container border-shadow">
+
+                        <input
+                            id="episodeTitle" 
+                            type="text"
+                            defaultValue={movieUpload.episode_title || ''}
+                            className="upload-form-element first-column btn variable-colour border-shadow input-field" 
+                            placeholder="episode title"
+                            onChange={handleChanges}
+                        />
+
+                        <input
+                            id="seasonNumber" 
+                            type="number"
+                            defaultValue={movieUpload.season_number || ''}
+                            className="upload-form-element first-column btn variable-colour border-shadow input-field" 
+                            placeholder="season number"
+                            onChange={handleChanges}
+                        />
+
+                        <input
+                            id="episodeNumber" 
+                            type="number"
+                            defaultValue={movieUpload.episode_number || ''}
+                            className="upload-form-element first-column btn variable-colour border-shadow input-field" 
+                            placeholder="episode number"
+                            onChange={handleChanges}
+                        />
+
+                        <button 
+                            className="upload-form-button button-style border-shadow"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setSeriesContainer(true);
+                            }}
+                            >
+                                Done
+                        </button>
+                    
+                    </div>
+                    
+                }
 
         </div>
     )

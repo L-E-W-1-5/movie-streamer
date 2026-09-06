@@ -29,6 +29,8 @@
     content: "";
 }
 
+
+
 @keyframes demoButtonAnimation{
     0%{
         transform: scale(1);
@@ -110,4 +112,15 @@
     align-items: center;
 }
 
+.login-container-responsive{
+    flex-direction: column;
+}
 
+
+@media only screen and (max-height: 500px){
+
+    .login-container-responsive{
+        flex-direction: row-reverse;
+        
+    }
+}

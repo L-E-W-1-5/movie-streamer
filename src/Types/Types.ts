@@ -69,6 +69,10 @@ export type MovieUpload = {
     description: string | null,
     length: string | null,
     year: number | null,
+    media_format: string,
+    season_number?: number | null,
+    episode_number?: number | null,
+    episode_title?: string | null,
     file: File | null,
     folder?: File[],
     images: File[]

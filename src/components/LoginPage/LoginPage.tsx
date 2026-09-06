@@ -144,7 +144,7 @@ const LoginPage = () => {
 
     return (
 
-    <div className="d-flex flex-column align-items-center gap-4">
+    <div className="login-container-responsive d-flex align-items-center gap-4">
 
         <div className="demo-button" onClick={() => {handleLogin("", "", true)}}>
 
