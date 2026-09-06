@@ -21,6 +21,8 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
 
    const videoRef = useRef<HTMLVideoElement | null>(null);
 
+   const containerRef = useRef<HTMLDivElement | null>(null);
+
    const hlsRef = useRef<Hls | null>(null);
 
    const [isResizing, setIsResizing] = useState(false);
@@ -92,17 +94,25 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
             });
         };
 
-        if (isResizing && videoRef.current) {
+        if (isResizing && containerRef.current) {
 
-            const rect = videoRef.current.getBoundingClientRect();
+            const rect = containerRef.current.getBoundingClientRect();
+
+            const maxX = window.innerWidth - rect.left;
+
+            const maxY = window.innerHeight - rect.top;
 
             const newWidth = clientX - rect.left;
 
             const newHeight = clientY - rect.top;
 
             setResizeWindow({
-                height: Math.max(newHeight, 180),
-                width: Math.max(newWidth, 260)
+                height: Math.min(Math.max(newHeight, 180), 
+                maxY
+            ),
+                width: Math.min(Math.max(newWidth, 260), 
+                maxX
+            )
             });
         }
 
@@ -242,12 +252,14 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
     return(
 
         <div id="video-drag" className="movie-player-container border-shadow"
+
+            ref={containerRef}
             
             style={{
                 left: position.x,
                 top: position.y,
-                // height: resizeWindow.height, 
-                // width: resizeWindow.width
+                 height: resizeWindow.height, 
+                 width: resizeWindow.width
             }}
             >
             
@@ -273,11 +285,11 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
                 onLoadedData={() => {
                                 console.log('Video loaded');
                                 }}
-                style={{
+                // style={{
 
-                    height: resizeWindow.height,
-                    width: resizeWindow.width
-                }}
+                //     height: resizeWindow.height,
+                //     width: resizeWindow.width
+                // }}
             />
                 
             <span className="resize-player"

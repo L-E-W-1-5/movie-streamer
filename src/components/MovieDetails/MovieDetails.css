@@ -1,7 +1,8 @@
 .movie-play-container{
     user-select: none;
     padding: 10px;
-    min-height: 100%;
+    /* min-height: 100%; */
+    max-height: 100%;
 }
 
 .movie-details-image{
@@ -13,7 +14,7 @@
     min-height: 250px;
     border-radius: 0.375rem;
     max-height: 370px;
-    min-height: 200px;
+    min-height: 180px;
 }
 
 .movie-info{
@@ -21,6 +22,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    min-height: 0px;
 }
 
 .movie-details-button-container{
