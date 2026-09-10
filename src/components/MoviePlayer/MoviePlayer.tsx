@@ -186,7 +186,7 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
         if (video.canPlayType('application/vnd.apple.mpegurl')) {
         // Native support
 
-        console.log("canPlay - native support")
+            console.log("canPlay - native support")
 
             video.src = signedUrl.url;
         }
@@ -208,10 +208,11 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
                 video.play()
             });
 
-            //this is the woorking line
+            //this is the working line
             //hls.loadSource(URL.createObjectURL(new Blob([signedUrl.url], {type: 'application/x-mpegURL'})))
 
             const blobUrl = URL.createObjectURL(
+
                 new Blob([signedUrl.url], {
                     type: 'application/x-mpegURL'
                 })
