@@ -1,9 +1,10 @@
 import './MovieList.css';
 //import { fakeFilms } from '../../assets/FakeFilms.tsx'
 import MovieCard from '../MovieCard/MovieCard.tsx';
+import SeriesCard from '../SeriesCard/SeriesCard.tsx';
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../UserContext.ts';
-import { type MovieUrl, type MovieDownloadNew } from '../../Types/Types.ts';
+import { type MovieUrl, type MovieDownloadNew, type Series } from '../../Types/Types.ts';
 import { url } from '../../Url';
 import LoadingAnimation from '../LoadingAnimation/LoadingAnimation';
 
@@ -28,6 +29,8 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
     const { user } = useContext(UserContext)
 
     const [loading, setLoading] = useState<boolean>(false);
+
+    const [allSeries, setAllSeries] = useState<Series[]>([]);
 
 
       useEffect(() => {
@@ -60,11 +63,35 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
                 };
 
 
-                if(res.ok && movies.status !== "error") {
+                if(res.ok && movies.status !== "error"){
 
-                    //console.log(movies.payload);
+                    const mediaData = movies.payload
 
-                    setAllMovies(movies.payload);
+                    setAllMovies(mediaData);
+
+                    const groupedSeries = Object.values(mediaData.filter(film => film.media_format === "series")
+                                                            .reduce((groups, episode) => {
+
+                                                                const title = episode.title;
+
+                                                                if(!groups[title]){
+
+                                                                    groups[title] = {
+                                                                        title: episode.title,
+                                                                        episodes: []
+                                                                    }
+                                                                }
+
+                                                                groups[title].episodes.push(episode);
+
+                                                                return groups;
+
+                                                            }, {} as Record<string, Series>)
+                                                        );
+                                                        
+                    setAllSeries(groupedSeries);
+
+                                                    
             
                 }else{
 
@@ -96,9 +123,25 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
                     <>
 
                         {allMovies.map((film:MovieDownloadNew, x:number) => {
+//TODO: add logic to swap between series and movies based on media format
+//TODO: add demop media for demo account to be shown here
+                        // if(user?.username === "demo account"){
+                        //    if(film.description === "demo media"){
+                        //         return <MovieCard key={x} film={film} setSignedUrl={setSignedUrl}/>
+                        //     }
+                        // }else{
+                        //
 
-                            return <MovieCard key={x} film={film} setSignedUrl={setSignedUrl}/>
+                            if(film.media_format === "movie"){ // & state says movies once i have tabs
 
+                                return <MovieCard key={x} film={film} setSignedUrl={setSignedUrl}/>
+                            }
+
+                        })}
+
+                        {allSeries.map((series: Series, x: number) => {
+
+                            return <SeriesCard key={x} series={series} setSignedUrl={setSignedUrl}/>
                         })}
 
                     </>

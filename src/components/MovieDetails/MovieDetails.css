@@ -23,6 +23,7 @@
     align-items: center;
     flex-direction: column;
     min-height: 0px;
+    margin-top: 5px;
 }
 
 .movie-details-button-container{

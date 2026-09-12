@@ -4,19 +4,16 @@ import MovieDetails from '../MovieDetails/MovieDetails'
 import { type MovieUrl, type MovieDownloadNew } from '../../Types/Types'
 import { UserContext } from '../../UserContext'
 
-// type MovieDownload = {
-//     title: string,
-//     url: string,
-//     genre: string
-//     id: string
-// }
+
 
 interface MovieInfo {
+
     film: MovieDownloadNew
     setSignedUrl: React.Dispatch<React.SetStateAction<MovieUrl>>
-}
+};
 
-const MovieCard: React.FC<MovieInfo> = ({film, setSignedUrl}) => {
+
+const MovieCard: React.FC<MovieInfo> = ({ film, setSignedUrl }) => {
 
     const [movieDetails, showMovieDetails] = useState<boolean>(false)
 
@@ -27,26 +24,6 @@ const MovieCard: React.FC<MovieInfo> = ({film, setSignedUrl}) => {
     const { user } = useContext(UserContext)
 
     useEffect(() => {
-
-        // if(user?.username === "demo account"){
-
-        //     if(film)
-
-        //         if(cardContainerRef.current){
-                    
-        //             cardContainerRef.current.style.pointerEvents = "none";
-
-        //             cardContainerRef.current.style.setProperty("opacity", "0.4", "important");
-
-        //             cardContainerRef.current.style.setProperty("filter", "grayscale(1)", "important");
-
-
-                    
-        //              return;
-        //         };
-
-        // }
-
       
         if(cardRef.current && film.images){
 

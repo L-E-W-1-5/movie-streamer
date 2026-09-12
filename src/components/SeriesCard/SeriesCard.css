@@ -1,0 +1,33 @@
+.series-details-container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 65%;
+    background-color: black;
+    z-index: 4;
+    min-height: 335px;
+    border-radius: 0.375rem;
+}
+
+.series-details-img{
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+    min-height: 250px;
+    border-radius: 0.375rem;
+    max-height: 370px;
+    min-height: 180px;
+}
+
+.series-episodes-container{
+    height: 100%;
+    overflow-x: scroll;
+    width: 95%;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}

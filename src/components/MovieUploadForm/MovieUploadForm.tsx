@@ -1,5 +1,5 @@
 import './MovieUploadForm.css'
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import { UserContext } from "../../UserContext";
 import { type MovieDownloadNew, type MovieUpload } from '../../Types/Types';
 import { url } from '../../Url';
@@ -52,6 +52,8 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
     const [seriesContainer, setSeriesContainer] = useState<boolean>(false);
 
+    const uploadController = useRef<AbortController | null>(null);
+
 
 
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,8 +100,6 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-       
 
         if(e.target.files){
 
@@ -155,200 +155,52 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
     }
 
 
-    const handleSubmit = async () => {
+    const handleFormValidation = () => {
 
         if(user?.username === "demo account"){
 
             alert("editing not available for demo account");
 
-            return;
+            return false;
         };
 
         if(!movieUpload.file && !movieUpload.folder){
 
             alert("please select a video to upload first");
 
-            return
+            return false;
         };
 
         if(!movieUpload.title){
 
             alert("please select title first");
 
-            return
+            return false
         };
 
         if(!movieUpload.media_format){
 
             alert("please select media format first");
 
-            return
+            return false;
         };
 
         if(movieUpload.media_format === "series") {
+
             if(!movieUpload.season_number) {
                 alert("please enter season number");
-                return;
+                return false;
             }
             if(!movieUpload.episode_number) {
                 alert("please enter episode number");
-                return;
+                return false;
             }
-            if(!movieUpload.episode_title) {
+            if(!movieUpload.episode_title) { //TODO: consider making episode title optional in the future
                 alert("please enter episode title");
-                return;
+                return false;
             }
         }
-
-        let chunks: File[][] = [];
-
-        let res;
-
-
-        if(movieUpload.folder && movieUpload.folder.length > 0){ 
-
-            let createdMovie = null;
-
-            setUploadProgress(1);
-
-            chunks = chunkArray(movieUpload.folder, 50);
-        
-            try{
-
-                for (let i = 0; i < chunks.length; i++) {
-
-                    console.log(chunks[i])
-
-                    
-
-                    let formData = new FormData();
-
-            
-                    if(i === 0){
-                
-                        formData = createFormData(formData);
-                       // console.log(formData);
-                    }
-                    
-                    // return;
-                    formData.append('isFirstBatch', i === 0 ? "true" : "false");
-
-                    formData.append("batchNumber", i.toString());
-        
-                    chunks[i].forEach((file) => {
-
-                        formData.append('hls_files[]', file, file.webkitRelativePath || file.name);
-                    })
-
-                    console.log("hls movie")
-
-                    if(formData.get('media_format') === "series"){
-
-                        const seriesUrl = `${url}/movies/stream?title=${movieUpload.title}&season=${movieUpload.season_number}&episode=${movieUpload.episode_number}`
-
-                        console.log(seriesUrl)
-
-                        res = await sendHLS(formData, seriesUrl);
-                    }
-                    else{
-
-                        const movieUrl = `${url}/movies/stream?title=${movieUpload.title}`
-
-                        console.log(movieUrl)
-
-                        res = await sendHLS(formData, movieUrl);
-                    }
-
-
-                    //TODO: test new queries for series' endpoint and make sure the movie folder is being created correctly in the backend with the new naming convention
-
-                    if (!res || !res.ok){
-
-                        setUploadProgress(0);
-                        
-                        throw new Error(`batch ${i + 1} upload failed ${res ? `with status ${res.status}` : ''}`);
-                    }
-
-                    setUploadProgress(Math.round(((i + 1) / chunks.length) * 100));
-
-                    if(i === 0){
-
-                        const data = await res.json();
-
-                        createdMovie = data.payload;
-                    }
-
-                }     
-
-                setUploadProgress(100);
-                
-                if(createdMovie) await checkResponse(createdMovie);
-        
-            }catch(err){
-
-                console.error(err);
-
-                setUploadProgress(0);
-                alert("movie upload failed");
-            
-            }finally{
-
-                setUploadProgress(0);
-            }
-
-        
-        // if(movieUpload.folder && movieUpload.folder.length > 0){
-            
-        //     movieUpload.folder.forEach((file) => {
-                
-        //         formData.append('hls_files[]', file, file.webkitRelativePath || file.name);
-                
-        //         //TODO: create batches of the segments here 
-        //     })
-            
-        }else{
-
-            let formData = new FormData();
-
-            formData = createFormData(formData);
-            
-            if(movieUpload.file) formData.append('movie', movieUpload.file);  
-
-            if(formData.has('movie')){
-
-            console.log("single movie")
-
-            const res = await sendSingleMovie(formData);
-
-            if(res && res.ok){
-
-                const data = await res.json();
-
-                checkResponse(data.payload);
-
-            }else{
-
-                alert("Error, correct response not received from server")
-            }
-        };
- 
-                
-        }
-        // else{
-
-        //     console.log("hls movie")
-
-        //     const res = await sendHLS(formData);
-            
-        //     if(res instanceof Response){
-                
-        //         checkResponse(res);
-                
-        //     }else{
-                
-        //         alert("Error, correct response not received from server")
-        //     }
-        // }
+        return true;
     };
 
 
@@ -379,6 +231,24 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
             formData.append('length', movieUpload.length)
         }
 
+        if(movieUpload.media_format === "series"){
+
+            if(movieUpload.season_number){
+
+                formData.append('season_number', movieUpload.season_number.toString())
+            }
+
+            if(movieUpload.episode_number){
+
+                formData.append('episode_number', movieUpload.episode_number.toString())
+            }
+
+            if(movieUpload.episode_title){
+
+                formData.append('episode_title', movieUpload.episode_title)
+            }
+        }
+
         if(movieUpload.images && movieUpload.images.length > 0){
 
             movieUpload.images.forEach((image) => {
@@ -388,13 +258,150 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
         }
 
         return formData;
-    }
+    };
 
 
-    const sendHLS = async (formData: FormData, endpoint: string) => {
+    const handleSubmit = async () => {
+
+        if (!handleFormValidation()) return;
+        
+        console.log("movieUpload", movieUpload);
+
+        uploadController.current = new AbortController();
+
+        let chunks: File[][] = [];
+
+        let res, endpoint;
+
+        if(movieUpload.media_format === "series"){
+
+            endpoint = `${url}/movies/stream?title=${movieUpload.title}&season=${movieUpload.season_number}&episode=${movieUpload.episode_number}`;
+       
+        } else {
+
+            endpoint = `${url}/movies/stream?title=${movieUpload.title}`;
+        }
 
 
-        if(!user?.token) return;
+        if(movieUpload.folder && movieUpload.folder.length > 0){ 
+
+            let createdMovie = null;
+
+            setUploadProgress(1);
+
+            chunks = chunkArray(movieUpload.folder, 5); // Adjust the chunk size as needed
+        
+            try{
+
+                //const maxRetries = 3; // Maximum number of retries for each batch
+                //TODO: impliment retries
+
+                for (let i = 0; i < chunks.length; i++) {    
+                    
+                    console.log(`starting batch ${i + 1}/${chunks.length}`)
+
+                    let formData = new FormData();
+            
+                    if(i === 0){
+                
+                        formData = createFormData(formData);
+                        console.log(formData);
+                    }
+                    
+                    formData.append('isFirstBatch', i === 0 ? "true" : "false");
+
+                    formData.append("batchNumber", i.toString());
+        
+                    chunks[i].forEach((file) => {
+
+                        formData.append('hls_files[]', file, file.webkitRelativePath || file.name);
+                    })
+
+                    console.log(`uploading batch ${i + 1} of ${chunks.length}`);
+
+                    res = await sendHLS(formData, endpoint, uploadController.current.signal);
+
+                    if (!res || !res.ok){
+
+                        setUploadProgress(0);
+                        
+                        throw new Error(`batch ${i + 1} upload failed ${res ? `with status ${res.status}` : ''}`);
+                    }
+
+                    setUploadProgress(Math.round(((i + 1) / chunks.length) * 100));
+
+                    if(i === 0){
+
+                        const data = await res.json();
+
+                        createdMovie = data.payload;
+                    }
+
+                }     
+
+                setUploadProgress(100);
+                
+                if(createdMovie) await checkResponse(createdMovie);
+        
+            }catch(err){
+
+                console.error(err);
+
+                if(err instanceof DOMException && err.name === "AbortError"){
+
+                    alert("movie upload cancelled");
+
+                    uploadController.current = null;
+
+                } else {
+
+                    alert("movie upload failed");
+                }
+            
+            }finally{
+
+                setUploadProgress(0);
+            }
+            
+        }else{
+
+            let formData = new FormData();
+
+            formData = createFormData(formData);
+            
+            if(movieUpload.file) formData.append('movie', movieUpload.file);  
+
+            if(formData.has('movie')){
+
+            console.log("single movie")
+
+            const res = await sendSingleMovie(formData, uploadController.current?.signal);
+
+            if(res && res.ok){
+
+                const data = await res.json();
+
+                checkResponse(data.payload);
+
+            }else{
+
+                alert("Error, correct response not received from server")
+            }
+        };
+ 
+                
+        }
+    };
+
+
+    const sendHLS = async (formData: FormData, endpoint: string, signal: AbortSignal) => {
+
+        if(!user?.token) {
+            
+            throw new Error("No authentication token found.");
+        }
+
+        console.log("endpoint", endpoint);
 
         try{
 
@@ -404,7 +411,9 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
             
                 method: "POST",
 
-                body: formData
+                body: formData,
+
+                signal
 
             })
         
@@ -418,9 +427,8 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
         }      
     }
 
-    const sendSingleMovie = async (formData: FormData) => {
 
-
+    const sendSingleMovie = async (formData: FormData, signal: AbortSignal) => {
 
         if(!user?.token) return;
 
@@ -430,7 +438,9 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
             
             method: "POST",
 
-            body: formData
+            body: formData,
+
+            signal
         });
 
         return res;
@@ -464,7 +474,11 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
                     length: createdMovie.length,
                     timestamp: createdMovie.timestamp,
                     times_played: createdMovie.times_played,
-                    images: createdMovie.images ? createdMovie.images : null
+                    images: createdMovie.images ? createdMovie.images : null,
+                    media_format: createdMovie.media_format,
+                    season_number: createdMovie.season_number,
+                    episode_number: createdMovie.episode_number,
+                    episode_title: createdMovie.episode_title
                 };
 
             setAllMovies(prev => [...prev, newUpload]);
@@ -514,7 +528,10 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
                     </div>
                     
-                    <button className="upload-loading-button button-style border-shadow">cancel</button>
+                    <button className="upload-loading-button button-style border-shadow"
+                        onClick={() => uploadController.current?.abort()}>
+                        cancel
+                    </button>
                     
                 </div>
             }

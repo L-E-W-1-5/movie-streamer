@@ -49,8 +49,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 60%;
-    height: 65%;
+    width: 60vw;
+    height: 65vh;
     background-color: black;
     z-index: 4;
     min-height: 335px;

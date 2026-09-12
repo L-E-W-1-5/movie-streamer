@@ -34,10 +34,19 @@ export interface MovieDownloadNew {
     genre: string | null,
     timestamp: Date,
     times_played: number,
-    images?: Array<MovieImage> | null
+    images?: Array<MovieImage> | null,
     // image?: File[] | null
-    image?: ImageUpload[] | null
+    image?: ImageUpload[] | null,
+    media_format: string,
+    season_number?: number | null,
+    episode_number?: number | null,
+    episode_title?: string | null
 };
+
+export interface Series {
+    title: string,
+    episodes: Array<MovieDownloadNew>,
+}
 
 export type ImageUpload = {
     file: File,
