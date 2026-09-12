@@ -70,7 +70,7 @@ const MovieCard: React.FC<MovieInfo> = ({ film, setSignedUrl }) => {
 
             <div className="movie-card-headings">
 
-                <h5 className="movie-card-title user-select-none">{film.title}</h5>
+                <h5 className="movie-card-title user-select-none">{film.episode_title ? film.episode_title :film.episode_number ? film.episode_number : film.title}</h5>
                 {/* user?.username === "demo account" ? "restricted" :  */}
 
                 {/* <p>{film.genre}</p> */}
