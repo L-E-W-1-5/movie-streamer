@@ -567,7 +567,9 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
                     onChange={handleChanges}
                 />
 
-                <select id="genre" className="upload-form-element first-column form-select select-element variable-colour border-shadow" value={movieUpload.genre} onChange={handleChanges}>
+                <select id="genre" className="upload-form-element first-column form-select select-element variable-colour border-shadow" 
+                value={movieUpload.genre} 
+                onChange={handleChanges}>
                     <option value="">please select</option>
                     <option value="action">Action</option>
                     <option value="comedy">Comedy</option>
@@ -616,16 +618,16 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
                 <div className=" upload-form-buttons d-flex align-self-center mt-3">
                 
-                    <button 
+                       <button 
                         className="upload-form-button button-style border-shadow" 
-                        onClick={handleSubmit}>
-                        upload
+                        onClick={stopMenuClosure}>
+                        close
                     </button>
 
                     <button 
                         className="upload-form-button button-style border-shadow" 
-                        onClick={stopMenuClosure}>
-                        close
+                        onClick={handleSubmit}>
+                        upload
                     </button>
 
                 </div>

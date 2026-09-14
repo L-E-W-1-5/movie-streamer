@@ -20,11 +20,28 @@ const SeriesCard: React.FC<SeriesCardProps> = ({ series, setSignedUrl }) => {
 
     const [seriesDetails, showSeriesDetails] = useState<boolean>(false);
 
+    const [selectedSeason, setSelectedSeason] = useState<number | null>(null);
+
+    const seasons = [...new Set(
+
+                series.episodes
+
+                .map(episode => episode.season_number)
+
+                .filter((season): season is number => season !== null && season !== undefined)
+
+                .sort((a, b) => a - b)
+    )];
+
+        
+    console.log("selected season", selectedSeason)
+
+
 
     return (
     <>
 
-        <div className='movie-card-container user-select-none d-flex flex-column mt-1' 
+        <div className='movie-card-container user-select-none d-flex flex-column mt-1 ' 
         ref={cardContainerRef} 
         onClick={() => showSeriesDetails(current => !current)}>
 
@@ -44,20 +61,39 @@ const SeriesCard: React.FC<SeriesCardProps> = ({ series, setSignedUrl }) => {
 
         {seriesDetails &&
         
-           <div className="series-details-container ">
+           <div className="series-details-container border-shadow">
                 
                 <div className="d-flex flex-column align-items-center justify-content-between h-100 w-100">
 
-                    <img className="series-details-img" ref={imageRef} alt={`${series.title} image`}></img>
+                    <img className="series-details-image" ref={imageRef}></img>
 
-                 <div className="series-episodes-container d-flex"> 
+                    <h5>{series.title}</h5>
 
-                    
+                    <select onChange={(e) => setSelectedSeason(Number(e.target.value))}>
 
-                        {series.episodes.map((episode: MovieDownloadNew, x: number) => (
+                        <option value="">Select Season</option>
 
-                            <MovieCard key={x} film={episode} setSignedUrl={setSignedUrl}/>
+                        {seasons.map((season) => (
+
+                            <option key={season} value={season}>
+
+                                Season {season}
+
+                            </option>
                         ))}
+
+                    </select>
+
+                    <div className="series-episodes-container d-flex"> 
+
+                        {series.episodes
+                            .filter((episode) => episode.season_number === selectedSeason)
+                            .map((episode: MovieDownloadNew, x: number) => {
+
+                                return <MovieCard key={x} film={episode} setSignedUrl={setSignedUrl}/>
+                                                
+                            })
+                        }
 
                     </div>
 

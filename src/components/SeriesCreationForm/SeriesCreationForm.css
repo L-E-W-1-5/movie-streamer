@@ -1,0 +1,10 @@
+.series-upload-form{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(0,0,0);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    min-width: 600px;
+}

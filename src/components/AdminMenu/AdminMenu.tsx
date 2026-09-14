@@ -2,6 +2,7 @@ import './AdminMenu.css'
 import MovieUploadForm from '../MovieUploadForm/MovieUploadForm';
 import MovieEditForm from '../MovieEditForm/MovieEditForm';
 import UserEditForm from '../UserEditForm/UserEditForm';
+import SeriesCreationForm from '../SeriesCreationForm/SeriesCreationForm';
 import { useCallback, useEffect, useRef, useState, useContext } from 'react';
 import { type MovieDownloadNew } from '../../Types/Types';
 import PasswordChange from '../PasswordChange/PasswordChange';
@@ -86,6 +87,10 @@ const AdminMenu: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminFor
             case 'password':
                 setOpenForm('password');
             break;
+
+            case 'series':
+                setOpenForm('series');
+            break;
         }
     }
 
@@ -105,6 +110,7 @@ const AdminMenu: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminFor
         {user?.admin && 
             <>
                 <button className="admin-menu-button p-2" onClick={(e) => formOpen('upload', e)}>upload movie</button>
+                <button className="admin-menu-button p-2" onClick={(e) => formOpen('series', e)}>create series</button>
                 <button className="admin-menu-button p-2" onClick={(e) => formOpen('movie', e)}>edit movies</button>
                 <button className="admin-menu-button p-2" onClick={(e) => formOpen('users', e)}>edit accounts</button>
             </>
@@ -120,6 +126,11 @@ const AdminMenu: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminFor
             <MovieUploadForm setOpenForm={setOpenForm} setAllMovies={setAllMovies}/>
         }
 
+        {openForm === 'series' && 
+        
+            <SeriesCreationForm setOpenForm={setOpenForm}/>
+        }
+
         {openForm === 'movie' &&
         
             <MovieEditForm setOpenForm={setOpenForm} allMovies={allMovies} setAllMovies={setAllMovies}/>
@@ -130,7 +141,6 @@ const AdminMenu: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminFor
             <UserEditForm openForm={openForm} setOpenForm={setOpenForm}/>
         }
 
-  
 
     </div>
 

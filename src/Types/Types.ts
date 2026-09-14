@@ -48,6 +48,14 @@ export interface Series {
     episodes: Array<MovieDownloadNew>,
 }
 
+export type SeriesUpload = {
+    title: string,
+    genre?: string,
+    description?: string | null,
+    year?: number | null,
+    images: File[],
+}
+
 export type ImageUpload = {
     file: File,
     usage: string,
