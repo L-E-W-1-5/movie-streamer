@@ -92,6 +92,96 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
     }
 
 
+ 
+
+    return(
+
+    <>
+
+        <div className="movie-edit-form border-shadow container-style d-flex flex-column justify-content-around align-items-center"
+            ref={scrollRef}
+        >
+
+            <div className="map-container d-flex flex-column justify-content-center align-items-center gap-1">
+            
+                {allMovies.map((movie: MovieDownloadNew, index: number) => {
+
+                    return (
+
+                    <div key={index} className="d-flex flex-column justify-content-center align-items-center gap-1 w-100">
+           
+                    
+
+                        <div className="record-container border-shadow p-2 mb-2" onClick={(e) => setEditForm(movie, e)}>
+
+                            <span className="edit-field-item">{movie.id}</span>
+                            <span className="edit-field-item">{movie.title}</span>
+                            <span className="edit-field-item">{movie.genre}</span>
+                            <span className="edit-field-item flex-fill">{`${movie.timestamp}`}</span>
+
+                        </div>
+
+                        {movieEditContainer?.movie === movie &&
+                    
+                            <div className="movie-edit-container" style={{top: movieEditContainer.position.top}}>
+
+                                <MovieEditDetails movie={movie} setAllMovies={setAllMovies} setMovieEditContainer={setMovieEditContainer}/>
+
+                            </div>
+
+                        }
+                    
+                    </div>
+
+                    )
+                })}
+
+                
+
+            </div>
+
+            
+
+            <button className="button-min-height button-style border-shadow" onClick={stopMenuClosure}>close</button>
+
+            {/* <button onClick={sortImages}>sort images</button> */}
+
+        </div>
+
+        
+
+    </>
+    )
+}
+
+export default MovieEditForm
+
+
+
+            // for(let i = 0; i < movie.images.length; i++){
+
+            //     if(i === 0 && !hasCard){
+
+            //         movie.images[i].usage = 'card';
+
+            //         formData.append('imagesUp[]', movie.images[i].key);
+
+            //         formData.append(movie.images[i].key, 'card')
+            //     }
+            //     if(i === 1 && !hasContainer){
+
+            //         movie.images[i].usage = 'container';
+
+            //         formData.append('imagesUp[]', movie.images[i].key);
+
+            //         formData.append(movie.images[i].key, 'container')
+            //     }
+            // }
+
+
+
+
+            
     // const sortImages = async () => {
 
     //     const formData = new FormData();
@@ -188,7 +278,7 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
     //         if(res.ok && response.status === "success"){
 
-    //             //TODO: set allMovies here
+    //             // -- set allMovies here
 
     //             console.log(response.payload);
     //         }
@@ -198,88 +288,3 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
     //         console.log(err)
     //     }
     // }
- 
-
-    return(
-
-    <>
-
-        <div className="movie-edit-form border-shadow container-style d-flex flex-column justify-content-around align-items-center"
-            ref={scrollRef}
-        >
-
-            <div className="map-container d-flex flex-column justify-content-center align-items-center gap-1">
-            
-                {allMovies.map((movie: MovieDownloadNew, index: number) => {
-
-                    return (
-
-                    <div key={index} className="d-flex flex-column justify-content-center align-items-center gap-1 w-100">
-           
-                    
-
-                        <div className="record-container border-shadow p-2 mb-2" onClick={(e) => setEditForm(movie, e)}>
-
-                            <span className="edit-field-item">{movie.id}</span>
-                            <span className="edit-field-item">{movie.title}</span>
-                            <span className="edit-field-item">{movie.genre}</span>
-                            <span className="edit-field-item flex-fill">{`${movie.timestamp}`}</span>
-
-                        </div>
-
-                        {movieEditContainer?.movie === movie &&
-                    
-                            <div className="movie-edit-container" style={{top: movieEditContainer.position.top}}>
-
-                                <MovieEditDetails movie={movie} setAllMovies={setAllMovies} setMovieEditContainer={setMovieEditContainer}/>
-
-                            </div>
-
-                        }
-                    
-                    </div>
-
-                    )
-                })}
-
-                
-
-            </div>
-
-            
-
-            <button className="button-min-height button-style border-shadow" onClick={stopMenuClosure}>close</button>
-
-            {/* <button onClick={sortImages}>sort images</button> */}
-
-        </div>
-
-        
-
-    </>
-    )
-}
-
-export default MovieEditForm
-
-
-
-            // for(let i = 0; i < movie.images.length; i++){
-
-            //     if(i === 0 && !hasCard){
-
-            //         movie.images[i].usage = 'card';
-
-            //         formData.append('imagesUp[]', movie.images[i].key);
-
-            //         formData.append(movie.images[i].key, 'card')
-            //     }
-            //     if(i === 1 && !hasContainer){
-
-            //         movie.images[i].usage = 'container';
-
-            //         formData.append('imagesUp[]', movie.images[i].key);
-
-            //         formData.append(movie.images[i].key, 'container')
-            //     }
-            // }

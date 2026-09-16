@@ -5,7 +5,8 @@ import { type SeriesUpload } from "../../Types/Types";
 
 type SeriesCreationProps = {
     setOpenForm: React.Dispatch<React.SetStateAction<string | null>>
-}
+};
+
 
 export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm }) => {
 
@@ -28,6 +29,8 @@ export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm 
         })
 
         console.log("seriesDetails", seriesDetails);
+
+        //TODO: create the fetch request after creating the route for series' upload
     };
 
     const stopMenuClosure = (e: React.MouseEvent) => {
@@ -35,16 +38,14 @@ export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm 
         e.stopPropagation()
 
         setOpenForm(null)
-
-        //showUploadForm(false);
-    }
+    };
 
 
     return (
 
         <div>
 
-            <form onSubmit={handleSubmit} className="series-upload-form border-shadow container-style p-3 gap-2">
+            <form onSubmit={handleSubmit} className="upload-form border-shadow container-style p-3 gap-2">
 
                 <input 
                     className="upload-form-element first-column btn variable-colour border-shadow"

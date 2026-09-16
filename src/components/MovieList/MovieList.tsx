@@ -35,6 +35,8 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
 
       useEffect(() => {
 
+        //TODO: create fetch for series once the route is created
+
 
         const fetchAllMovies = async () => {
 
@@ -123,8 +125,10 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
                     <>
 
                         {allMovies.map((film:MovieDownloadNew, x:number) => {
-//TODO: add logic to swap between series and movies based on media format
-//TODO: add demop media for demo account to be shown here
+
+//TODO: add logic to swap between series and movies based on media format (with nav button state)
+//TODO: add demo media for demo account to be shown here
+
                         // if(user?.username === "demo account"){
                         //    if(film.description === "demo media"){
                         //         return <MovieCard key={x} film={film} setSignedUrl={setSignedUrl}/>

@@ -20,6 +20,8 @@ const Dashboard = () => {
 
     const [allMovies, setAllMovies] = useState<Array<MovieDownloadNew>>([]);
 
+    //TODO: create series' state here?
+
     const [signedUrl, setSignedUrl] = useState<MovieUrl>({url: "", type: "", title: ""})
 
     const [messageSlide, setMessageSlide] = useState<boolean>(false); 
