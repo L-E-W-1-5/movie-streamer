@@ -43,6 +43,21 @@ export interface MovieDownloadNew {
     episode_title?: string | null
 };
 
+export type MovieUpload = {
+    title: string,
+    genre: string,
+    description: string | null,
+    length: string | null,
+    year: number | null,
+    media_format: string,
+    season_number?: number | null,
+    episode_number?: number | null,
+    episode_title?: string | null,
+    file: File | null,
+    folder?: File[],
+    images: File[]
+};
+
 export interface Series {
     title: string,
     episodes: Array<MovieDownloadNew>,
@@ -54,6 +69,15 @@ export type SeriesUpload = {
     description?: string | null,
     year?: number | null,
     images: File[],
+}
+
+export type SeriesDownload = {
+    id: number,
+    title: string,
+    description: string,
+    genre: string,
+    year: number,
+    images?: MovieImage[]
 }
 
 export type ImageUpload = {
@@ -80,17 +104,3 @@ export type MovieUrl = {
     title: string
 }
 
-export type MovieUpload = {
-    title: string,
-    genre: string,
-    description: string | null,
-    length: string | null,
-    year: number | null,
-    media_format: string,
-    season_number?: number | null,
-    episode_number?: number | null,
-    episode_title?: string | null,
-    file: File | null,
-    folder?: File[],
-    images: File[]
-};

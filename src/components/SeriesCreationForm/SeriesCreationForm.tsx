@@ -1,6 +1,8 @@
 import "./SeriesCreationForm.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { type SeriesUpload } from "../../Types/Types";
+import { url } from '../../Url';
+import { UserContext } from "../../UserContext";
 
 
 type SeriesCreationProps = {
@@ -10,10 +12,12 @@ type SeriesCreationProps = {
 
 export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm }) => {
 
+    const { user } = useContext(UserContext)
+
     const [seriesDetails, setSeriesDetails] = useState<SeriesUpload | null>(null);
 
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
         e.preventDefault();
     
@@ -22,16 +26,39 @@ export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm 
         console.log("formData", formData);
 
         setSeriesDetails({
-            title: formData.get("series-title") as string,
-            genre: formData.get("series-genre") as string,
-            description: formData.get("series-description") as string | null,
-            images: formData.getAll("series-images") as File[],
+            title: formData.get("title") as string,
+            genre: formData.get("genre") as string,
+            description: formData.get("description") as string | null,
+            year: formData.get("year") as number | null,
+            images: formData.getAll("images[]") as File[],
         })
 
-        console.log("seriesDetails", seriesDetails);
+       console.log("seriesDetails", seriesDetails);
 
         //TODO: create the fetch request after creating the route for series' upload
+
+        try{
+            const res = await fetch(`${url}/movies/series`, {
+
+                headers: {"Authorization": `Bearer ${user?.token}`},
+            
+                method: "POST",
+
+                body: formData,
+            })
+
+            const reply = await res.json();
+
+            console.log("series reply payload", reply.payload)
+        
+        }catch(err){
+
+            console.log(err)
+        };
     };
+
+
+
 
     const stopMenuClosure = (e: React.MouseEvent) => {
 
@@ -48,37 +75,47 @@ export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm 
             <form onSubmit={handleSubmit} className="upload-form border-shadow container-style p-3 gap-2">
 
                 <input 
-                    className="upload-form-element first-column btn variable-colour border-shadow"
                     id="series-images" 
-                    name="series-images"
+                    name="images[]"
+                    className="upload-form-element first-column btn variable-colour border-shadow"
                     type="file" 
                     multiple
                     {...({ webkitdirectory: true } as React.InputHTMLAttributes<HTMLInputElement>)}
                 />
  
                 <input 
-                    className="upload-form-element first-column btn variable-colour border-shadow input-field" 
                     id="series-title" 
-                    name="series-title" 
+                    name="title" 
+                    className="upload-form-element first-column btn variable-colour border-shadow input-field" 
                     type="text" 
                     placeholder="Series Title"
                 />
 
-                <select id="series-genre" name="series-genre"
+                <select 
+                    id="series-genre" 
+                    name="genre"
                     className="upload-form-element first-column form-select select-element variable-colour border-shadow" >       
-                    <option value="">please select</option>
-                    <option value="action">Action</option>
-                    <option value="comedy">Comedy</option>
-                    <option value="fantasy">Fantasy</option>
-                    <option value="horror">Horror</option>
-                    <option value="sci-fi">Sci-Fi</option>
-                    <option value="thriller">Thriller</option>
+                        <option value="">please select</option>
+                        <option value="action">Action</option>
+                        <option value="comedy">Comedy</option>
+                        <option value="fantasy">Fantasy</option>
+                        <option value="horror">Horror</option>
+                        <option value="sci-fi">Sci-Fi</option>
+                        <option value="thriller">Thriller</option>
                 </select>
+
+                <input
+                    id="series-year"
+                    name="year"
+                    className="upload-form-element first-column btn variable-colour border-shadow input-field" 
+                    type="number"
+                    placeholder="series year"
+                />
 
                 <textarea 
                     id="series-description" 
+                    name="description" 
                     className="upload-form-element upload-form-textarea second-column variable-colour border-shadow input-field" 
-                    name="series-description" 
                     placeholder="Series Description"
                 />
 

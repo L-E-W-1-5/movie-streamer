@@ -305,6 +305,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
                     if(i === 0){
                 
                         formData = createFormData(formData);
+                        
                         console.log(formData);
                     }
                     
@@ -514,6 +515,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
 
     return(
+        
         <div className="upload-form border-shadow container-style p-3 gap-2">
 
                 {uploadProgress > 0 &&
@@ -635,7 +637,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
                 {movieUpload.media_format === 'series' && !seriesContainer &&
                 
                     <div className="series-data-container border-shadow">
-
+{/* TODO: add a dropdown to select series the episode belongs to. will need to render series' here*/}
                         <input
                             id="episodeTitle" 
                             type="text"

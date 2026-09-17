@@ -35,18 +35,48 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
 
       useEffect(() => {
 
-        //TODO: create fetch for series once the route is created
+        if(!user?.token){
+                
+            return;
+        };
 
+        setLoading(true);
 
-        const fetchAllMovies = async () => {
+        const fetchSeries = async () => {
 
-            setLoading(true);
+            try{
 
-            if(!user?.token){
+                const res = await fetch(`${url}/movies/series`, {
 
-                return;
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${user.token}` 
+                    }
+                })
+
+                const series = await res.json();
+
+                console.log(series)
+
+                if(res.ok && series.status === "success"){
+
+                    setAllSeries(series.payload)
+                    
+                }else{
+
+                    alert(`${series.status}: failed to get series or no series in the database at this time`);//${movies.payload}
+                };
+
+                
+            }catch(err) {
+
+                console.log(err)
             }
-
+        }
+            
+            
+        const fetchMedia = async () => {
+                
             try{
 
                 const res = await fetch(`${url}/movies`, {
@@ -71,35 +101,11 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
 
                     setAllMovies(mediaData);
 
-                    const groupedSeries = Object.values(mediaData.filter(film => film.media_format === "series")
-                                                            .reduce((groups, episode) => {
-
-                                                                const title = episode.title;
-
-                                                                if(!groups[title]){
-
-                                                                    groups[title] = {
-                                                                        title: episode.title,
-                                                                        episodes: []
-                                                                    }
-                                                                }
-
-                                                                groups[title].episodes.push(episode);
-
-                                                                return groups;
-
-                                                            }, {} as Record<string, Series>)
-                                                        );
-                                                        
-                    setAllSeries(groupedSeries);
-
-                                                    
-            
                 }else{
 
                     alert(`${movies.status}: failed to get movies or no movies in the database at this time`);//${movies.payload}
                 };
-        
+
             }catch(err){
 
                 console.log(err);
@@ -108,10 +114,13 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
                 
                 setLoading(false);
             }
-        };
 
-        fetchAllMovies();
+        }                                              
+                
+        fetchMedia()
 
+        fetchSeries()
+            
     }, [user, setAllMovies]);
 
 
@@ -172,3 +181,28 @@ export default MovieList
 //                     <h1>LOADING...</h1>
                 
 //             </div>
+
+
+
+
+ // const groupedSeries = Object.values(mediaData.filter(film => film.media_format === "series")
+                    //                                         .reduce((groups, episode) => {
+
+                    //                                             const title = episode.title;
+
+                    //                                             if(!groups[title]){
+
+                    //                                                 groups[title] = {
+                    //                                                     title: episode.title,
+                    //                                                     episodes: []
+                    //                                                 }
+                    //                                             }
+
+                    //                                             groups[title].episodes.push(episode);
+
+                    //                                             return groups;
+
+                    //                                         }, {} as Record<string, Series>)
+                    //                                     );
+                                                        
+                    // setAllSeries(groupedSeries);
