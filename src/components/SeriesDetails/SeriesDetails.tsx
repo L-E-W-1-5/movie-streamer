@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { type Series, type MovieDownloadNew, type MovieUrl } from '../../Types/Types'
 import MovieCard from '../MovieCard/MovieCard';
 
@@ -7,29 +7,46 @@ type SeriesDetailsProps = {
     series: Series
     showSeriesDetails: React.Dispatch<React.SetStateAction<boolean>>
     setSignedUrl: React.Dispatch<React.SetStateAction<MovieUrl>>
+    allMedia: MovieDownloadNew[]
 }
 
 
-export const SeriesDetails: React.FC<SeriesDetailsProps> = ({ series, showSeriesDetails, setSignedUrl }) => {
+export const SeriesDetails: React.FC<SeriesDetailsProps> = ({ series, showSeriesDetails, setSignedUrl, allMedia }) => {
 
     const imageRef = useRef<HTMLImageElement | null>(null);
 
     const [selectedSeason, setSelectedSeason] = useState<number | null>(null);
+
+    const [seasons, setSeasons] = useState<number[]>([])
+
+    const [seriesEpisodes, setSeriesEpisodes] = useState<MovieDownloadNew[]>([])
     
     //TODO: get all episodes by series id (once series_id added to media table)
     //THEN sort by season etc..
     //maybe have this and the seasons set inside a useEffect
-    
-    const seasons = [...new Set(
-    
-                        series.episodes
-    
-                        .map(episode => episode.season_number)
-    
-                        .filter((season): season is number => season !== null && season !== undefined)
-    
-                        .sort((a, b) => a - b)
-                    )];
+
+    console.log(series, allMedia)
+
+
+
+    useEffect(() => {
+
+        const seriesEpisodes = allMedia.filter(episode => episode.series_id === series.id)
+                                       
+            
+        const seriesSeasons = [...new Set(seriesEpisodes.map(episode => episode.season_number)
+                                        .filter((season): season is number => season !== null && season !== undefined)
+                                        .sort((a, b) => a - b)
+                                    )]
+
+        setSeasons(seriesSeasons)
+
+        setSeriesEpisodes(seriesEpisodes)
+
+
+    }, [series, allMedia])
+
+
 
     return(
 
@@ -58,7 +75,7 @@ export const SeriesDetails: React.FC<SeriesDetailsProps> = ({ series, showSeries
 
                     <div className="series-episodes-container d-flex"> 
 
-                        {series.episodes
+                        {seriesEpisodes
                         
                             .filter((episode) => episode.season_number === selectedSeason)
 

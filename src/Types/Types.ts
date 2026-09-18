@@ -40,7 +40,8 @@ export interface MovieDownloadNew {
     media_format: string,
     season_number?: number | null,
     episode_number?: number | null,
-    episode_title?: string | null
+    episode_title?: string | null,
+    series_id?: number | null
 };
 
 export type MovieUpload = {
@@ -59,8 +60,13 @@ export type MovieUpload = {
 };
 
 export interface Series {
+    id: number,
     title: string,
-    episodes: Array<MovieDownloadNew>,
+    description?: string | null,
+    genre?: string| null,
+    year?: number | null,
+    images?: MovieImage[] | null
+    // episodes: Array<MovieDownloadNew>,
 }
 
 export type SeriesUpload = {

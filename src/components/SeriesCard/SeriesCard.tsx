@@ -1,15 +1,16 @@
 import './SeriesCard.css'
 import { useRef, useState } from 'react'
-import { type MovieUrl, type Series } from '../../Types/Types' 
+import { type MovieDownloadNew, type MovieUrl, type Series } from '../../Types/Types' 
 import SeriesDetails from '../SeriesDetails/SeriesDetails'
 
 interface SeriesCardProps {
     key: number,
     series: Series,
-    setSignedUrl: React.Dispatch<React.SetStateAction<MovieUrl>>
+    setSignedUrl: React.Dispatch<React.SetStateAction<MovieUrl>>,
+    allMedia: MovieDownloadNew[]
 }
 
-const SeriesCard: React.FC<SeriesCardProps> = ({ series, setSignedUrl }) => {
+const SeriesCard: React.FC<SeriesCardProps> = ({ series, setSignedUrl, allMedia }) => {
 
     const cardRef = useRef<HTMLDivElement | null>(null);
 
@@ -40,7 +41,7 @@ const SeriesCard: React.FC<SeriesCardProps> = ({ series, setSignedUrl }) => {
 
         {seriesDetails &&
        
-            <SeriesDetails series={series} showSeriesDetails={showSeriesDetails} setSignedUrl={setSignedUrl}/>    
+            <SeriesDetails series={series} showSeriesDetails={showSeriesDetails} setSignedUrl={setSignedUrl} allMedia={allMedia}/>    
         
         }
 

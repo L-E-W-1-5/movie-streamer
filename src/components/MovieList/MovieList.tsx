@@ -56,7 +56,7 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
 
                 const series = await res.json();
 
-                console.log(series)
+                console.log("series fetch", series)
 
                 if(res.ok && series.status === "success"){
 
@@ -154,7 +154,7 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
 
                         {allSeries.map((series: Series, x: number) => {
 
-                            return <SeriesCard key={x} series={series} setSignedUrl={setSignedUrl}/>
+                            return <SeriesCard key={x} series={series} setSignedUrl={setSignedUrl} allMedia={allMovies}/>
                         })}
 
                     </>
