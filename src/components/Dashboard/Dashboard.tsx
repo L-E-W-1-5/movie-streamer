@@ -5,7 +5,7 @@ import MoviePlayer from '../MoviePlayer/MoviePlayer';
 import DashNavbar from '../DashNavbar/DashNavbar';
 import { useContext, useState } from 'react';
 import AdminMenu from '../AdminMenu/AdminMenu';
-import { type MovieUrl, type MovieDownloadNew } from '../../Types/Types';
+import { type MovieUrl, type MovieDownloadNew, type Series } from '../../Types/Types';
 import { UserContext } from '../../UserContext';
 import { url } from '../../Url';
 
@@ -20,7 +20,7 @@ const Dashboard = () => {
 
     const [allMovies, setAllMovies] = useState<Array<MovieDownloadNew>>([]);
 
-    //TODO: create series' state here?
+    const [allSeries, setAllSeries] = useState<Series[]>([]);
 
     const [signedUrl, setSignedUrl] = useState<MovieUrl>({url: "", type: "", title: ""})
 
@@ -107,7 +107,7 @@ const Dashboard = () => {
 
             {interacted &&
 
-                <AdminMenu showAdminForm={showAdminForm} setAllMovies={setAllMovies} allMovies={allMovies} adminForm={adminForm} logout={logout} />
+                <AdminMenu showAdminForm={showAdminForm} setAllMovies={setAllMovies} allMovies={allMovies} allSeries={allSeries} setAllSeries={setAllSeries} adminForm={adminForm} logout={logout} />
             }
 
             
@@ -126,7 +126,7 @@ const Dashboard = () => {
                    
                 <>
 
-                    <MovieList allMovies={allMovies} setAllMovies={setAllMovies} setSignedUrl={setSignedUrl} messageSlide={messageSlide}/>
+                    <MovieList allMovies={allMovies} setAllMovies={setAllMovies} allSeries={allSeries} setAllSeries={setAllSeries} setSignedUrl={setSignedUrl} messageSlide={messageSlide}/>
 
                 </>
 

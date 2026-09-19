@@ -56,7 +56,8 @@ export type MovieUpload = {
     episode_title?: string | null,
     file: File | null,
     folder?: File[],
-    images: File[]
+    images: File[],
+    series_id?: number | null
 };
 
 export interface Series {

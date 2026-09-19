@@ -20,17 +20,19 @@ import LoadingAnimation from '../LoadingAnimation/LoadingAnimation';
 type MovieListProps = {
     allMovies: Array<MovieDownloadNew>;
     setAllMovies: React.Dispatch<React.SetStateAction<MovieDownloadNew[]>>;
+    allSeries: Series[];
+    setAllSeries: React.Dispatch<React.SetStateAction<Series[]>>
     setSignedUrl: React.Dispatch<React.SetStateAction<MovieUrl>>;
     messageSlide: boolean;
 }
 
-const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSignedUrl, messageSlide }) => {
+const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, allSeries, setAllSeries, setSignedUrl, messageSlide }) => {
 
     const { user } = useContext(UserContext)
 
     const [loading, setLoading] = useState<boolean>(false);
 
-    const [allSeries, setAllSeries] = useState<Series[]>([]);
+   // const [allSeries, setAllSeries] = useState<Series[]>([]);
 
 
       useEffect(() => {
@@ -121,7 +123,7 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, setSigne
 
         fetchSeries()
             
-    }, [user, setAllMovies]);
+    }, [user, setAllMovies, setAllSeries]);
 
 
     return (

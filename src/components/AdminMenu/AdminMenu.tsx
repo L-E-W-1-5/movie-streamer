@@ -4,7 +4,7 @@ import MovieEditForm from '../MovieEditForm/MovieEditForm';
 import UserEditForm from '../UserEditForm/UserEditForm';
 import SeriesCreationForm from '../SeriesCreationForm/SeriesCreationForm';
 import { useCallback, useEffect, useRef, useState, useContext } from 'react';
-import { type MovieDownloadNew } from '../../Types/Types';
+import { type MovieDownloadNew, type Series } from '../../Types/Types';
 import PasswordChange from '../PasswordChange/PasswordChange';
 import { UserContext } from '../../UserContext';
 
@@ -14,14 +14,16 @@ import { UserContext } from '../../UserContext';
 
 type AdminProps = {
     adminForm: boolean;
-    allMovies: MovieDownloadNew[];
     showAdminForm: React.Dispatch<React.SetStateAction<boolean>>;
+    allMovies: MovieDownloadNew[];
     setAllMovies: React.Dispatch<React.SetStateAction<MovieDownloadNew[]>>;
+    allSeries: Series[];
+    setAllSeries: React.Dispatch<React.SetStateAction<Series[]>>
     logout: () => void;
     
 }
 
-const AdminMenu: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminForm, allMovies, logout}) => {
+const AdminMenu: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, allSeries, setAllSeries, adminForm, allMovies, logout}) => {
 
 
     const [openForm, setOpenForm] = useState<string | null>(null);
@@ -123,12 +125,12 @@ const AdminMenu: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, adminFor
        
         {openForm === 'upload' &&
 
-            <MovieUploadForm setOpenForm={setOpenForm} setAllMovies={setAllMovies}/>
+            <MovieUploadForm setOpenForm={setOpenForm} setAllMovies={setAllMovies} series={allSeries} setAllSeries={setAllSeries}/>
         }
 
         {openForm === 'series' && 
         
-            <SeriesCreationForm setOpenForm={setOpenForm}/>
+            <SeriesCreationForm setOpenForm={setOpenForm} setAllSeries={setAllSeries}/>
         }
 
         {openForm === 'movie' &&

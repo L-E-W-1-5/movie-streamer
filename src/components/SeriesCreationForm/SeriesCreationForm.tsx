@@ -1,16 +1,17 @@
 import "./SeriesCreationForm.css";
 import { useContext, useState } from "react";
-import { type SeriesUpload } from "../../Types/Types";
+import { type SeriesUpload, type Series } from "../../Types/Types";
 import { url } from '../../Url';
 import { UserContext } from "../../UserContext";
 
 
 type SeriesCreationProps = {
     setOpenForm: React.Dispatch<React.SetStateAction<string | null>>
+    setAllSeries: React.Dispatch<React.SetStateAction<Series[]>>
 };
 
 
-export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm }) => {
+export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm, setAllSeries }) => {
 
     const { user } = useContext(UserContext)
 
@@ -35,8 +36,6 @@ export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm 
 
        console.log("seriesDetails", seriesDetails);
 
-        //TODO: create the fetch request after creating the route for series' upload
-
         try{
             const res = await fetch(`${url}/movies/series`, {
 
@@ -50,6 +49,16 @@ export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm 
             const reply = await res.json();
 
             console.log("series reply payload", reply.payload)
+
+            //TODO: test that this is adding to state correctly.
+            if(res.ok && reply.status === "success"){
+
+                setAllSeries(prev => [...prev, reply.payload]);
+
+                alert("series added successfully");
+
+                setOpenForm(null);
+            }
         
         }catch(err){
 

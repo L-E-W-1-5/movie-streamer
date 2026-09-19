@@ -1,8 +1,9 @@
 import './MovieUploadForm.css'
 import { useState, useContext, useRef } from "react";
 import { UserContext } from "../../UserContext";
-import { type MovieDownloadNew, type MovieUpload } from '../../Types/Types';
+import { type MovieDownloadNew, type MovieUpload, type Series } from '../../Types/Types';
 import { url } from '../../Url';
+import SeriesCreationForm from '../SeriesCreationForm/SeriesCreationForm';
 
 
 
@@ -37,12 +38,14 @@ type UploadFormProps = {
    // showUploadForm: React.Dispatch<React.SetStateAction<boolean>>
     setAllMovies: React.Dispatch<React.SetStateAction<MovieDownloadNew[]>>
     setOpenForm: React.Dispatch<React.SetStateAction<string | null>>
+    series: Series[]
+    setAllSeries: React.Dispatch<React.SetStateAction<Series[]>>
 }
 
 
 
 
-const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies }) => {
+const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies, series, setAllSeries }) => {
 
     const { user } = useContext(UserContext);
 
@@ -51,6 +54,8 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
     const [uploadProgress, setUploadProgress] = useState<number>(0);
 
     const [seriesContainer, setSeriesContainer] = useState<boolean>(false);
+
+    const [addSeriesContainer, showAddSeriesContainer] = useState<string | null>(null)
 
     const uploadController = useRef<AbortController | null>(null);
 
@@ -114,6 +119,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
     function handleChanges<T extends HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement> (e: React.ChangeEvent<T>){
 
         const { id } = e.target;
+        console.log(id);
 
         switch(id){
             case "description":
@@ -151,6 +157,11 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
             case "episodeTitle":
             setMovieUpload(prev => ({...prev, episode_title: e.target.value}))
             break;
+            //TODO: create case for series_select and complete the rest of the route accordingly
+            case "seriesId":
+                console.log("series id case");
+            setMovieUpload(prev => ({...prev, series_id: parseInt(e.target.value)}))
+            break;
         }
     }
 
@@ -187,6 +198,10 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
         if(movieUpload.media_format === "series") {
 
+            if(!movieUpload.series_id){
+                alert("please enter which series this episode is a part of");
+                return false;
+            }
             if(!movieUpload.season_number) {
                 alert("please enter season number");
                 return false;
@@ -232,6 +247,11 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
         }
 
         if(movieUpload.media_format === "series"){
+
+            if(movieUpload.series_id){
+
+                formData.append('series_id', movieUpload.series_id.toString())
+            }
 
             if(movieUpload.season_number){
 
@@ -479,7 +499,8 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
                     media_format: createdMovie.media_format,
                     season_number: createdMovie.season_number,
                     episode_number: createdMovie.episode_number,
-                    episode_title: createdMovie.episode_title
+                    episode_title: createdMovie.episode_title,
+                    series_id: createdMovie.series_id
                 };
 
             setAllMovies(prev => [...prev, newUpload]);
@@ -636,8 +657,41 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
 
                 {movieUpload.media_format === 'series' && !seriesContainer &&
                 
-                    <div className="series-data-container border-shadow">
-{/* TODO: add a dropdown to select series the episode belongs to. will need to render series' here*/}
+                    <div className="series-data-container border-shadow p-2 gap-1">
+
+                        <select
+                        id="seriesId" 
+                        className="upload-form-element first-column form-select select-element variable-colour border-shadow" 
+                        onChange={handleChanges}
+                        defaultValue=""
+                        required>
+
+                            <option value="" disabled>
+                                select a series..
+                            </option>
+
+                            {series.map((series) => (
+
+                                <option key={series.id} value={series.id}>
+
+                                    {series.title}
+
+                                </option>
+                            ))}
+
+                        </select>
+
+                        <button 
+                            className="upload-form-button button-style border-shadow"
+                            onClick={() => showAddSeriesContainer("true")}>
+                                add series
+                        </button>
+
+                        {addSeriesContainer && 
+
+                            <SeriesCreationForm setOpenForm={showAddSeriesContainer} setAllSeries={setAllSeries}/>
+                        }
+
                         <input
                             id="episodeTitle" 
                             type="text"
@@ -666,7 +720,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies 
                         />
 
                         <button 
-                            className="upload-form-button button-style border-shadow"
+                            className="upload-form-button button-style border-shadow mt-2"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 setSeriesContainer(true);
