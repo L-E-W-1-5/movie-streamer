@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { type Series, type MovieDownloadNew, type MovieUrl } from '../../Types/Types'
 import MovieCard from '../MovieCard/MovieCard';
+import './SeriesDetails.css'
 
 
 type SeriesDetailsProps = {
@@ -27,9 +28,37 @@ export const SeriesDetails: React.FC<SeriesDetailsProps> = ({ series, showSeries
 
     console.log(series, allMedia)
 
-
-
     useEffect(() => {
+
+        if(imageRef.current && series.images && series.images[0].url){
+
+                let cardSelected = false;
+
+                series.images.forEach(image => {
+
+                    if(image.usage === 'series-container'){
+
+                        imageRef.current?.style.setProperty("background-image", `url(${image.url})`) //, "important"
+
+                        cardSelected = true;
+                    
+                        return;
+                    };
+
+                });
+
+                if(cardSelected === false){
+
+                    console.log("fallback", series.title)   
+                    
+                    if(series.images[0].url){
+
+                        imageRef.current.style.setProperty("background-image", `url(${series.images[0].url})`) 
+                    }
+
+                };
+
+        };
 
         const seriesEpisodes = allMedia.filter(episode => episode.series_id === series.id)
                                        
