@@ -1,7 +1,8 @@
 import './MovieEditForm.css'
 import { useState, useEffect, useRef } from 'react';
 import MovieEditDetails from '../MovieEditDetails/MovieEditDetails'
-import { type MovieDownloadNew } from '../../Types/Types';
+import SeriesEditDetails from '../SeriesEditDetails/SeriesEditDetails';
+import { type MovieDownloadNew, type Series } from '../../Types/Types';
 //import { url } from '../../Url'
 //import { UserContext } from '../../UserContext';
 
@@ -18,10 +19,12 @@ type MovieEditProps = {
     allMovies: MovieDownloadNew[];
     //showMovieEditForm: React.Dispatch<React.SetStateAction<boolean>>
     setAllMovies: React.Dispatch<React.SetStateAction<MovieDownloadNew[]>>;
+    allSeries: Series[];
+    setAllSeries: React.Dispatch<React.SetStateAction<Series[]>>
     setOpenForm: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAllMovies}) => {
+const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAllMovies, allSeries, setAllSeries}) => {
 
     //const [movieDetails, showMovieDetails] = useState<MovieDownloadNew | null>(null);
   
@@ -29,11 +32,21 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
     const [movieEditContainer, setMovieEditContainer] = useState<{
         movie: MovieDownloadNew,
-        position: {top: number,
-                    left: number;}
+        position: {
+            top: number,
+            left: number
+        }
         } | null>(null);
 
         const scrollRef = useRef<HTMLDivElement>(null);
+
+    const [seriesEditContainer, setSeriesEditContainer] = useState<{
+        series: Series,
+        position: {
+            top: number,
+            left: number
+        }
+    } | null>(null)
 
    
 
@@ -70,9 +83,7 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
     // }
 
 
-    const setEditForm = (movie: MovieDownloadNew, e: React.MouseEvent) => {
-
-        e.stopPropagation();
+    const getContainerPosition = (e: React.MouseEvent) => {
 
         const screenHeight = window.innerHeight;
 
@@ -82,6 +93,16 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
         const top = scrollContainerTop - (containerPosition?.top || 0) + (screenHeight > 600 ? 350 : 200);
 
+        return top;
+    }
+
+
+    const setEditForm = (movie: MovieDownloadNew, e: React.MouseEvent) => {
+
+        e.stopPropagation();
+
+        const top = getContainerPosition(e)
+
         setMovieEditContainer({
             movie,
             position: { 
@@ -89,6 +110,23 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
                 left: 100
             }
         })
+    };
+
+
+    const setSeriesForm = (series: Series, e: React.MouseEvent) => {
+
+        e.stopPropagation();
+
+        const top = getContainerPosition(e)
+
+        setSeriesEditContainer({
+            series,
+            position: {
+                top: top,
+                left: 100
+            }
+        })
+
     }
 
 
@@ -132,6 +170,30 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
                         }
                     
                     </div>
+
+                    )
+                })}
+
+                {allSeries.map((series: Series, index: number) => {
+                    
+                    return (
+                    
+                        <div key={index} className="d-flex flex-column justify-content-center align-items-center gap-1 w-100">
+
+                            <div className="record-container border-shadow p-2 mb-2" onClick={(e) => setSeriesForm(series, e)}>
+
+                                <span className="edit-field-item">{series.id}</span>
+                                <span className="edit-field-item">{series.title}</span>
+                                <span className="edit-field-item">{series.genre}</span>
+
+                            </div>
+
+                            {seriesEditContainer &&
+                            
+                                <SeriesEditDetails series={series} setAllSeries={setAllSeries} setSeriesEditContainer={setSeriesEditContainer}></SeriesEditDetails>
+                            }
+
+                        </div>
 
                     )
                 })}

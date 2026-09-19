@@ -135,7 +135,7 @@ const AdminMenu: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, allSerie
 
         {openForm === 'movie' &&
         
-            <MovieEditForm setOpenForm={setOpenForm} allMovies={allMovies} setAllMovies={setAllMovies}/>
+            <MovieEditForm setOpenForm={setOpenForm} allMovies={allMovies} setAllMovies={setAllMovies} allSeries={allSeries} setAllSeries={setAllSeries}/>
         }
 
         {openForm === 'users' && 
