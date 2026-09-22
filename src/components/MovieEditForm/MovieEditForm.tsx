@@ -28,17 +28,15 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
     //const [movieDetails, showMovieDetails] = useState<MovieDownloadNew | null>(null);
   
-    //const { user } = useContext(UserContext);
+    const scrollRef = useRef<HTMLDivElement>(null);
 
     const [movieEditContainer, setMovieEditContainer] = useState<{
-        movie: MovieDownloadNew,
+        media: MovieDownloadNew,
         position: {
             top: number,
             left: number
         }
         } | null>(null);
-
-        const scrollRef = useRef<HTMLDivElement>(null);
 
     const [seriesEditContainer, setSeriesEditContainer] = useState<{
         series: Series,
@@ -48,8 +46,9 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
         }
     } | null>(null)
 
-   
 
+
+   
     useEffect(() => {
 
         if(!scrollRef.current) return;
@@ -104,7 +103,7 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
         const top = getContainerPosition(e)
 
         setMovieEditContainer({
-            movie,
+            media: movie,
             position: { 
                 top: top,
                 left: 100
@@ -148,8 +147,6 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
                     <div key={index} className="d-flex flex-column justify-content-center align-items-center gap-1 w-100">
            
-                    
-
                         <div className="record-container border-shadow p-2 mb-2" onClick={(e) => setEditForm(movie, e)}>
 
                             <span className="edit-field-item">{movie.id}</span>
@@ -159,9 +156,9 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
                         </div>
 
-                        {movieEditContainer?.movie === movie &&
+                        {movieEditContainer?.media === movie &&
                     
-                            <div className="movie-edit-container" style={{top: movieEditContainer.position.top}}>
+                            <div className="media-edit-container" style={{top: movieEditContainer.position.top}}>
 
                                 <MovieEditDetails movie={movie} setAllMovies={setAllMovies} setMovieEditContainer={setMovieEditContainer}/>
 
@@ -188,9 +185,14 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
                             </div>
 
-                            {seriesEditContainer &&
+                            {seriesEditContainer?.series === series &&
+
+                                <div className="media-edit-container" style={{top: seriesEditContainer.position.top}}>
+                                
                             
-                                <SeriesEditDetails series={series} setAllSeries={setAllSeries} setSeriesEditContainer={setSeriesEditContainer}></SeriesEditDetails>
+                                    <SeriesEditDetails series={series} setAllSeries={setAllSeries} allMedia={allMovies} setAllMovies={setAllMovies} setSeriesEditContainer={setSeriesEditContainer}></SeriesEditDetails>
+                            
+                                </div>
                             }
 
                         </div>

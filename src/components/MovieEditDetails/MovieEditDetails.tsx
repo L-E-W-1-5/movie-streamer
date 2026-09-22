@@ -11,7 +11,7 @@ type MovieDetailsProps = {
     movie: MovieDownloadNew
     setAllMovies: React.Dispatch<React.SetStateAction<MovieDownloadNew[]>>
     setMovieEditContainer: React.Dispatch<React.SetStateAction<{
-        movie: MovieDownloadNew,
+        media: MovieDownloadNew,
         position: {
             top: number,
             left: number
@@ -554,7 +554,7 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
                 <span>{movie.length ? `length of movie: ${movie.length}` : ""}</span>
                 <span>{movie.key}</span>
 
-                <div className="d-flex flex-row gap-5 mb-4 mt-4">
+                <div className="movie-edit-details-button-container">
 
                     <button className="button-style border-shadow" onClick={handleDelete}>delete</button>
 
