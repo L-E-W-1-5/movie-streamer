@@ -93,7 +93,7 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
         const top = scrollContainerTop - (containerPosition?.top || 0) + (screenHeight > 600 ? 350 : 200);
 
         return top;
-    }
+    };
 
 
     const setEditForm = (movie: MovieDownloadNew, e: React.MouseEvent) => {
@@ -177,7 +177,8 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
                     
                         <div key={index} className="d-flex flex-column justify-content-center align-items-center gap-1 w-100">
 
-                            <div className="record-container border-shadow p-2 mb-2" onClick={(e) => setSeriesForm(series, e)}>
+                            <div className="record-container border-shadow p-2 mb-2" 
+                            onClick={(e) => setSeriesForm(series, e)}>
 
                                 <span className="edit-field-item">{series.id}</span>
                                 <span className="edit-field-item">{series.title}</span>

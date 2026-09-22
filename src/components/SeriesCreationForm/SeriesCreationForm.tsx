@@ -103,14 +103,16 @@ export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm,
                 <select 
                     id="series-genre" 
                     name="genre"
-                    className="upload-form-element first-column form-select select-element variable-colour border-shadow" >       
-                        <option value="">please select</option>
+                    className="upload-form-element first-column form-select select-element variable-colour border-shadow" 
+                    >       
+                        <option value="" disabled>please select</option>
                         <option value="action">Action</option>
                         <option value="comedy">Comedy</option>
                         <option value="fantasy">Fantasy</option>
                         <option value="horror">Horror</option>
                         <option value="sci-fi">Sci-Fi</option>
                         <option value="thriller">Thriller</option>
+                        
                 </select>
 
                 <input

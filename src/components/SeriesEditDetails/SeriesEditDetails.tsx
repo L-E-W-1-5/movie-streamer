@@ -34,28 +34,50 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
         }
     } | null>(null)
 
-    const handleepisodeEditContainer = (episode: MovieDownloadNew, e: React.MouseEvent) => {
+    const [seriesEditContainer, showSeriesEditContainer] = useState<boolean>(false);
 
-        e.preventDefault();
+
+
+
+    const getContainerPosition = (e: React.MouseEvent) => {
+
+        const screenHeight = window.innerHeight;
+
+        const containerPosition = e.currentTarget.closest('.series-edit-details-container')?.getBoundingClientRect();
+
+        const scrollContainerTop = e.currentTarget.closest('.series-edit-details-container')?.scrollTop || 0;
+
+        const top = scrollContainerTop - (containerPosition?.top || 0) + (screenHeight > 600 ? 350 : 200);
+
+        return top;
+    };
+
+
+    const handleEpisodeEditContainer = (episode: MovieDownloadNew, e: React.MouseEvent) => {
+
         e.stopPropagation();
+
+        const top = getContainerPosition(e);
 
         setEpisodeEdit({
             media: episode,
             position: {
-                top: 100,
+                top: top,
                 left: 100
             }
         })
+    };
 
-    }
 
     const editSeriesDetails = () => {
 
-//TODO: finish this function to edit series details/images
+        //TODO: finish this function to edit series details/images
+        showSeriesEditContainer(current => !current);
+
         setAllSeries(prev => [...prev])
 
         console.log(series)
-    }
+    };
 
 //TODO: add a delete button and function for the entire series and make the backend route.
 
@@ -71,6 +93,49 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
                 <span>{series.year}</span>
             </div>
 
+            {seriesEditContainer && 
+            
+                <div className="edit-series-properties">
+
+                    <div className="series-edit-form">
+
+                        <input id="title"
+                        defaultValue={series.title}
+                        />
+
+                        <select
+                        defaultValue={series?.genre || ""}
+                        >
+
+                            <option value="" disabled>please select</option>
+                            <option value="action">Action</option>
+                            <option value="comedy">Comedy</option>
+                            <option value="fantasy">Fantasy</option>
+                            <option value="horror">Horror</option>
+                            <option value="sci-fi">Sci-Fi</option>
+                            <option value="thriller">Thriller</option>
+
+                        </select>
+
+                        <input id=""
+                        type="number"
+                        defaultValue={series?.year || ""}
+                        />
+
+                    </div>
+
+                    <div className="series-edit-details-button-container">
+
+                        <button>close</button>
+                        <button>edit</button>
+                        <button>delete</button>
+
+                    </div>
+
+                </div>
+
+            }
+
 
             <div className="series-edit-container-episode-list">
 
@@ -81,7 +146,8 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
 
                         <div  key={index} className="d-flex flex-column justify-content-center align-items-center gap-1 w-100">
 
-                            <div className="series-record-container border-shadow p-2 mb-2" onClick={(e) => handleepisodeEditContainer(episode, e)}>
+                            <div className="series-record-container border-shadow p-2 mb-2" 
+                            onClick={(e) => handleEpisodeEditContainer(episode, e)}>
 
                                 <span className="edit-field-item">{episode.id}</span>
                                 <span className="edit-field-item">{episode.title}</span>

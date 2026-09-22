@@ -41,6 +41,27 @@
     color: var(--borderShadow);
 }
 
+.edit-series-properties{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    height: 100%;
+    background-color: black;
+    outline: 8px solid rgba(234, 28, 135, 0.616);
+    box-shadow: 0px 0px 40px var(--borderShadow);
+    border-radius: 0.375rem;
+    z-index: 2;
+}
+
+.series-edit-form{
+    display: flex;
+    flex-direction: column;
+    
+}
+
 .series-edit-details-button-container{
     display: flex;
     flex-direction: row;

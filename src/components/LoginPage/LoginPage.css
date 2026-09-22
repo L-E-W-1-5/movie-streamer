@@ -87,8 +87,11 @@
     color: white;
 }
 
+
+/* TODO: redo the border of containers with semi transparent border */
 .border-shadow{
     border: 0.1px solid var(--borderShadow)!important;
+    /* outline: 8px solid rgba(234, 28, 135, 0.616); */
     box-shadow: 0 0px 20px var(--borderShadow);
 }
 
