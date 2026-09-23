@@ -1,6 +1,6 @@
 import { type MovieDownloadNew, type Series } from "../../Types/Types"
 import './SeriesEditDetails.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import MovieEditDetails from "../MovieEditDetails/MovieEditDetails"
 
 
@@ -36,7 +36,24 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
 
     const [seriesEditContainer, showSeriesEditContainer] = useState<boolean>(false);
 
+    const [seasons, setSeasons] = useState<number[] | []>([]);
 
+    const [selectedSeason, setSelectedSeason] = useState<number | null>(null);
+
+
+
+
+    useEffect(() => {
+
+        const seasonArray = allMedia.filter(episode => episode.series_id === series.id)
+                                .map(e => e.season_number)
+                                .filter((season): season is number => season !== null && season !== undefined)
+                                .sort((a, b) => a - b)
+
+        
+        setSeasons(seasonArray)
+
+    }, [allMedia, series])
 
 
     const getContainerPosition = (e: React.MouseEvent) => {
@@ -71,16 +88,31 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
 
     const editSeriesDetails = () => {
 
-        //TODO: finish this function to edit series details/images
         showSeriesEditContainer(current => !current);
-
-        setAllSeries(prev => [...prev])
-
-        console.log(series)
+        
     };
 
-//TODO: add a delete button and function for the entire series and make the backend route.
 
+    const closeContainer = (e: React.MouseEvent) => {
+
+        e.stopPropagation()
+
+        showSeriesEditContainer(false)
+
+    };
+
+
+    //TODO: make function to update series details/images
+    const handleSeriesChanges = <T extends HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(e: React.ChangeEvent<T>) => {
+
+        const { id, value } = e.target;
+
+        setAllSeries(prev => [...prev, series])
+
+        console.log(id, value)
+    }
+
+    //TODO: add a delete button and function for the entire series and make the backend route.
 
     return (
 
@@ -93,53 +125,28 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
                 <span>{series.year}</span>
             </div>
 
-            {seriesEditContainer && 
-            
-                <div className="edit-series-properties">
 
-                    <div className="series-edit-form">
+            <select
+            defaultValue=""
+            onChange={(e) => {setSelectedSeason(Number(e.target.value))}}
+            >
 
-                        <input id="title"
-                        defaultValue={series.title}
-                        />
+                <option value="" disabled>Select Season</option>
 
-                        <select
-                        defaultValue={series?.genre || ""}
-                        >
+                {seasons.map(season => {
 
-                            <option value="" disabled>please select</option>
-                            <option value="action">Action</option>
-                            <option value="comedy">Comedy</option>
-                            <option value="fantasy">Fantasy</option>
-                            <option value="horror">Horror</option>
-                            <option value="sci-fi">Sci-Fi</option>
-                            <option value="thriller">Thriller</option>
+                    return (
 
-                        </select>
+                        <option key={season} value={season}>{season}</option>
+                    )
+                })}
 
-                        <input id=""
-                        type="number"
-                        defaultValue={series?.year || ""}
-                        />
-
-                    </div>
-
-                    <div className="series-edit-details-button-container">
-
-                        <button>close</button>
-                        <button>edit</button>
-                        <button>delete</button>
-
-                    </div>
-
-                </div>
-
-            }
+            </select>
 
 
             <div className="series-edit-container-episode-list">
 
-                {allMedia.filter(x => x.media_format === "series" && x.series_id === series.id)
+                {allMedia.filter(x => x.series_id === series.id && x.season_number === selectedSeason)
                 .map((episode: MovieDownloadNew, index: number) => {
 
                     return (
@@ -192,6 +199,67 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
                 </button>
 
             </div>
+
+
+            {seriesEditContainer && 
+            
+                <div className="edit-series-properties">
+
+                    <div className="series-edit-form">
+
+                        <input id="series-title"
+                        defaultValue={series.title}
+                        onChange={handleSeriesChanges}
+                        />
+
+                        <select id="series-genre"
+                        defaultValue={series?.genre || ""}
+                        onChange={handleSeriesChanges}
+                        >
+                            <option value="" disabled>please select</option>
+                            <option value="action">Action</option>
+                            <option value="comedy">Comedy</option>
+                            <option value="fantasy">Fantasy</option>
+                            <option value="horror">Horror</option>
+                            <option value="sci-fi">Sci-Fi</option>
+                            <option value="thriller">Thriller</option>
+
+                        </select>
+
+                        <input id="series-year"
+                        type="number"
+                        defaultValue={series?.year || ""}
+                        onChange={handleSeriesChanges}
+                        />
+
+                        <textarea id="series-description"
+                        defaultValue={series?.description || ""}
+                        onChange={handleSeriesChanges}
+                        />
+
+                    </div>
+
+
+                    {/* TODO: create the images here */}
+
+
+                    <div className="series-edit-details-button-container">
+
+                        <button
+                        onClick={closeContainer}
+                        >
+                            close
+                        </button>
+
+                        <button>update</button>
+
+                        <button>delete</button>
+
+                    </div>
+
+                </div>
+
+            }
 
         </div>
     )

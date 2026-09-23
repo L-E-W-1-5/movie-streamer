@@ -78,6 +78,7 @@ export type SeriesUpload = {
     images: File[],
 }
 
+//dont need V
 export type SeriesDownload = {
     id: number,
     title: string,

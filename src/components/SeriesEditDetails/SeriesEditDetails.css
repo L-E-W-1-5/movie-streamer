@@ -53,13 +53,14 @@
     outline: 8px solid rgba(234, 28, 135, 0.616);
     box-shadow: 0px 0px 40px var(--borderShadow);
     border-radius: 0.375rem;
+    padding: 10px;
     z-index: 2;
 }
 
 .series-edit-form{
     display: flex;
     flex-direction: column;
-    
+
 }
 
 .series-edit-details-button-container{

@@ -87,9 +87,11 @@ export const SeriesDetails: React.FC<SeriesDetailsProps> = ({ series, showSeries
 
                     <h5>{series.title}</h5>
 
-                    <select onChange={(e) => setSelectedSeason(Number(e.target.value))}>
+                    <select 
+                    defaultValue=""
+                    onChange={(e) => setSelectedSeason(Number(e.target.value))}>
 
-                        <option value="">Select Season</option>
+                        <option value="" disabled>Select Season</option>
 
                         {seasons.map((season) => (
 
