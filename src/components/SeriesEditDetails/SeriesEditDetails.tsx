@@ -207,6 +207,11 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
             seriesEdit.image.forEach(image => {
 
                 formData.append('image[]', image.file, image.name)
+                
+                if(image.usage){
+
+                    formData.append(image.name, image.usage)
+                }
             })
         }
 

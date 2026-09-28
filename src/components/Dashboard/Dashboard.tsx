@@ -8,6 +8,7 @@ import AdminMenu from '../AdminMenu/AdminMenu';
 import { type MovieUrl, type MovieDownloadNew, type Series } from '../../Types/Types';
 import { UserContext } from '../../UserContext';
 import { url } from '../../Url';
+import { WindowFocus } from '../WindowFocus/WindowFocus';
 
 
 
@@ -112,13 +113,14 @@ const Dashboard = () => {
 
             
 
-            {signedUrl.title !== "" && 
+            {signedUrl.title !== "" &&       
 
-            <div>
+                <WindowFocus level={3}>
                 
-                <MoviePlayer setSignedUrl={setSignedUrl} signedUrl={signedUrl}/>
-                
-            </div>}
+                    <MoviePlayer setSignedUrl={setSignedUrl} signedUrl={signedUrl}/>
+                    
+                </WindowFocus>
+            }
 
             
 
