@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState, useContext } from 'react';
 import { type MovieDownloadNew, type Series } from '../../Types/Types';
 import PasswordChange from '../PasswordChange/PasswordChange';
 import { UserContext } from '../../UserContext';
+import { WindowFocus } from '../WindowFocus/WindowFocus';
 
 
 
@@ -103,53 +104,75 @@ const AdminMenu: React.FC<AdminProps> = ({ showAdminForm, setAllMovies, allSerie
 
     <>
 
-    <div ref={menuRef} 
-    id={adminForm ? "admin-menu-open" : "admin-menu-closed"}
-    className="admin-menu-container d-flex flex-column p-2"
+        <div ref={menuRef} 
+        id={adminForm ? "admin-menu-open" : "admin-menu-closed"}
+        className="admin-menu-container d-flex flex-column p-2"
         
-    >
+        >
 
-        {user?.admin && 
-            <>
-                <button className="admin-menu-button p-2" onClick={(e) => formOpen('upload', e)}>upload movie</button>
-                <button className="admin-menu-button p-2" onClick={(e) => formOpen('series', e)}>create series</button>
-                <button className="admin-menu-button p-2" onClick={(e) => formOpen('movie', e)}>edit movies</button>
-                <button className="admin-menu-button p-2" onClick={(e) => formOpen('users', e)}>edit accounts</button>
-            </>
-        }
+            {user?.admin && 
+                <>
+                    <button className="admin-menu-button p-2" onClick={(e) => formOpen('upload', e)}>upload movie</button>
+                    <button className="admin-menu-button p-2" onClick={(e) => formOpen('series', e)}>create series</button>
+                    <button className="admin-menu-button p-2" onClick={(e) => formOpen('movie', e)}>edit movies</button>
+                    <button className="admin-menu-button p-2" onClick={(e) => formOpen('users', e)}>edit accounts</button>
+                </>
+            }
 
             <button className="admin-menu-button p-2" onClick={(e) => formOpen('password', e)}>change password</button>
+
             <button className="admin-menu-button p-2" onClick={logout}>logout</button>
             
         
        
-        {openForm === 'upload' &&
+            {openForm === 'upload' &&
 
-            <MovieUploadForm setOpenForm={setOpenForm} setAllMovies={setAllMovies} series={allSeries} setAllSeries={setAllSeries}/>
-        }
+                <WindowFocus level={1}>
 
-        {openForm === 'series' && 
+                    <MovieUploadForm setOpenForm={setOpenForm} setAllMovies={setAllMovies} series={allSeries} setAllSeries={setAllSeries}/> 
         
-            <SeriesCreationForm setOpenForm={setOpenForm} setAllSeries={setAllSeries}/>
-        }
+                </WindowFocus>
+            }
 
-        {openForm === 'movie' &&
+            {openForm === 'series' && 
+
+                <WindowFocus level={1}>
         
-            <MovieEditForm setOpenForm={setOpenForm} allMovies={allMovies} setAllMovies={setAllMovies} allSeries={allSeries} setAllSeries={setAllSeries}/>
-        }
+                    <SeriesCreationForm setOpenForm={setOpenForm} setAllSeries={setAllSeries}/>
 
-        {openForm === 'users' && 
+                </WindowFocus>
+            }
+
+            {openForm === 'movie' &&
+
+                <WindowFocus level={1}>
         
-            <UserEditForm openForm={openForm} setOpenForm={setOpenForm}/>
-        }
-
-
-    </div>
-
-        {openForm === 'password' &&
+                    <MovieEditForm setOpenForm={setOpenForm} allMovies={allMovies} setAllMovies={setAllMovies} allSeries={allSeries} setAllSeries={setAllSeries}/>
         
-            <PasswordChange setOpenForm={setOpenForm}/>
-        }
+                </WindowFocus>
+            }
+
+            {openForm === 'users' &&
+        
+                <WindowFocus level={1}>
+        
+                    <UserEditForm openForm={openForm} setOpenForm={setOpenForm}/>
+
+                </WindowFocus>
+            }
+
+            {openForm === 'password' &&
+
+                <WindowFocus level={1}>
+        
+                    <PasswordChange setOpenForm={setOpenForm}/>
+        
+                </WindowFocus>
+            }
+
+        </div>
+
+        
     </>
     )
 }

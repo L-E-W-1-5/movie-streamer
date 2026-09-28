@@ -1,0 +1,10 @@
+.background-focus{
+    position: fixed;
+    inset: 0;
+    backdrop-filter: blur(2px);
+    background-color: rgba(0, 0, 0, 0.362);
+}
+
+.window-focus{
+    position: fixed;
+}

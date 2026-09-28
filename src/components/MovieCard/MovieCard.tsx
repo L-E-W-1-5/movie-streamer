@@ -3,6 +3,7 @@ import './MovieCard.css'
 import MovieDetails from '../MovieDetails/MovieDetails'
 import { type MovieUrl, type MovieDownloadNew } from '../../Types/Types'
 import { UserContext } from '../../UserContext'
+import { WindowFocus } from '../WindowFocus/WindowFocus'
 
 
 
@@ -81,15 +82,18 @@ const MovieCard: React.FC<MovieInfo> = ({ film, setSignedUrl }) => {
         </div>
 
         {movieDetails && 
+
         
-            <div className='movie-details-container container-style border-shadow d-flex flex-column justify-content-around align-items-center'>
+            <WindowFocus level={1}>
+            {/* <div className='movie-details-container container-style border-shadow d-flex flex-column justify-content-around align-items-center'> */}
 
-
+    
                 <MovieDetails film={film} setSignedUrl={setSignedUrl} closeDetails={showMovieDetails}/>
+    
 
+            {/* </div> */}
+            </WindowFocus>
 
-            </div>
-        
         }
         
         

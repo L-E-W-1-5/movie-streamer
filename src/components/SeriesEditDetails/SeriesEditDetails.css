@@ -63,6 +63,22 @@
 
 }
 
+.series-image-viewport{
+    cursor: default;
+}
+
+.series-image-viewport:hover .series-image-display{
+    display: block;
+}
+
+.series-image-display{
+    display: none;
+    height: 200px;
+    width: 200px;
+    position: fixed;
+    top: 75%;
+}
+
 .series-edit-details-button-container{
     display: flex;
     flex-direction: row;

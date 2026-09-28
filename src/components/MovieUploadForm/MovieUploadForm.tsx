@@ -3,7 +3,8 @@ import { useState, useContext, useRef } from "react";
 import { UserContext } from "../../UserContext";
 import { type MovieDownloadNew, type MovieUpload, type Series } from '../../Types/Types';
 import { url } from '../../Url';
-import SeriesCreationForm from '../SeriesCreationForm/SeriesCreationForm';
+import { SeriesData } from './SeriesData';
+import { WindowFocus } from '../WindowFocus/WindowFocus';
 
 
 
@@ -54,8 +55,6 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies,
     const [uploadProgress, setUploadProgress] = useState<number>(0);
 
     const [seriesContainer, setSeriesContainer] = useState<boolean>(false);
-
-    const [addSeriesContainer, showAddSeriesContainer] = useState<string | null>(null)
 
     const uploadController = useRef<AbortController | null>(null);
 
@@ -656,8 +655,25 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies,
                 </div>
 
                 {movieUpload.media_format === 'series' && !seriesContainer &&
+
+                    <WindowFocus level={2}>
                 
-                    <div className="series-data-container border-shadow p-2 gap-1">
+                        <SeriesData handleChanges={handleChanges} series={series} movieUpload={movieUpload} setSeriesContainer={setSeriesContainer} setAllSeries={setAllSeries}/>
+                    
+                    </WindowFocus>
+                }
+
+        </div>
+    )
+}
+
+
+export default MovieUploadForm
+
+
+/*
+
+ <div className="series-data-container border-shadow p-2 gap-1">
 
                         <select
                         id="seriesId" 
@@ -730,12 +746,5 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies,
                         </button>
                     
                     </div>
-                    
-                }
 
-        </div>
-    )
-}
-
-
-export default MovieUploadForm
+*/

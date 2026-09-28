@@ -1,4 +1,4 @@
-import { type MovieDownloadNew, type Series } from "../../Types/Types"
+import { type MovieDownloadNew, type MovieImage, type Series } from "../../Types/Types"
 import './SeriesEditDetails.css'
 import { useState, useEffect } from 'react'
 import MovieEditDetails from "../MovieEditDetails/MovieEditDetails"
@@ -39,6 +39,8 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
     const [seasons, setSeasons] = useState<number[] | []>([]);
 
     const [selectedSeason, setSelectedSeason] = useState<number | null>(null);
+
+    const [seriesEdit, setSeriesEdit] = useState<Series>(series);
 
 
 
@@ -86,9 +88,9 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
     };
 
 
-    const editSeriesDetails = () => {
+    const openSeriesDetails = () => {
 
-        showSeriesEditContainer(current => !current);
+        showSeriesEditContainer(true);
         
     };
 
@@ -107,9 +109,47 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
 
         const { id, value } = e.target;
 
-        setAllSeries(prev => [...prev, series])
+        switch(id) {
 
-        console.log(id, value)
+            case "series-title":
+                setSeriesEdit(prev => ({...prev, title: value}))
+            break;
+
+            case "series-genre":
+                setSeriesEdit(prev => ({...prev, genre: value}))
+            break;
+
+            case "series-year":
+                setSeriesEdit(prev => ({...prev, year: Number(value)}))
+            break;
+
+            case "series-description":
+                setSeriesEdit(prev => ({...prev, description: value}))
+            break;
+        }
+
+        console.log(seriesEdit)
+    };
+
+
+    const makeFormData = () => {
+
+
+    }
+
+
+    const handleSubmit = () => {
+
+        makeFormData()
+
+        setAllSeries(prev => ({...prev}))
+    }
+
+
+    const handleDeleteImage = (image: MovieImage) => {
+
+        console.log(image)
+
     }
 
     //TODO: add a delete button and function for the entire series and make the backend route.
@@ -184,18 +224,18 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
             <div className="series-edit-details-button-container">
 
                 <button className="button-style border-shadow"
-                onClick={editSeriesDetails}
-                >             
-                    edit
-                </button>
-
-                <button className="button-style border-shadow"
                 onClick={(e) => {
                     e.stopPropagation()
                     setSeriesEditContainer(null)
                     }}
                 >
                     close
+                </button>
+
+                <button className="button-style border-shadow"
+                onClick={openSeriesDetails}
+                >             
+                    edit
                 </button>
 
             </div>
@@ -241,6 +281,41 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
 
 
                     {/* TODO: create the images here */}
+                    <div className="d-flex flex-row gap-5">
+
+                        {series.images && series.images[0] && series.images.map((image: MovieImage, x: number) => {
+
+                                return (
+    
+                                    <div className="series-image-viewport" key={x} >
+
+                                        <div>
+
+                                            <p>
+
+                                                <u>{x + 1 === 1 ? "card image" : x + 1 === 2 ? "open image" : "extra image"}</u>
+                                            
+                                            </p>
+                                        
+                                        </div>                                                    
+                    
+                                        <p> {image.original_name}
+
+                                            <button className='delete-cross' onClick={() => handleDeleteImage(image)}></button>
+                                                                
+                                        </p>   
+
+                                        <img className="series-image-display" src={image.url}/>
+
+                                    </div>
+                                )
+
+                            })
+                            //  onClick={(e) => changeImagePosition(e, x, image)}
+                        
+                        }
+
+                    </div>
 
 
                     <div className="series-edit-details-button-container">
@@ -251,7 +326,10 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
                             close
                         </button>
 
-                        <button>update</button>
+                        <button
+                        onClick={handleSubmit}
+                        >
+                            update</button>
 
                         <button>delete</button>
 

@@ -132,7 +132,8 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl, closeDeta
 
     return(
         
-        <div className="movie-play-container d-flex flex-column justify-content-between align-items-center h-100 w-100">
+
+        <div className="movie-play-container container-style border-shadow d-flex flex-column justify-content-between align-items-center">
 
             <img className="movie-details-image" ref={imageRef}></img>
 
@@ -162,6 +163,8 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl, closeDeta
 
 
         </div>
+
+   
 
     )
 }

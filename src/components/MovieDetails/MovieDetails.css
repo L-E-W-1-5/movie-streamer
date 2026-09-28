@@ -1,8 +1,17 @@
 .movie-play-container{
+    position: fixed;
+    background-color: black;
+    height: 60%;
+    width: 65%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     user-select: none;
     padding: 10px;
     /* min-height: 100%; */
     max-height: 100%;
+    z-index: 4;
+    color: var(--borderShadow)
 }
 
 .movie-details-image{
@@ -74,6 +83,10 @@
         width: 100%;
         max-height: 320px;
     }
+    
+    .movie-play-container{
+        width: 100%;
+    }
 }
 
 @media only screen and (max-height: 720px){
@@ -94,6 +107,26 @@
     }
 }
 
+@media only screen and (max-height: 720px){
+
+    @media only screen and (max-width: 600px){
+
+     .movie-play-container{
+        height: 65%;
+        width: 100%;
+    }
+}
+}
+
+@media only screen and (max-height: 720px){
+
+    .movie-play-container{
+        height: 93%;
+        width: 70%;
+    }
+
+}
+
 
 @media only screen and (max-width: 650px){
 
@@ -106,5 +139,12 @@
 
     .movie-details-image{
         max-height: 220px;
+    }
+}
+
+@media only screen and (max-height: 350px){
+
+    .movie-play-container{
+        height: 100%;
     }
 }

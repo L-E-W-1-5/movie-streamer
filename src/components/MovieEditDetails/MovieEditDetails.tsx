@@ -397,23 +397,23 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
         switch(id){
 
             case "title":
-            setEdit(prev => ({...prev, title: value}))
+                setEdit(prev => ({...prev, title: value}))
             break;
            
             case "description":
-            setEdit(prev => ({...prev, description: value}))
+                setEdit(prev => ({...prev, description: value}))
             break;
 
             case "genre":
-            setEdit(prev => ({...prev, genre: value}))
+                setEdit(prev => ({...prev, genre: value}))
             break;
 
             case "year":
-            setEdit(prev => ({...prev, year: parseInt(value)}))
+                setEdit(prev => ({...prev, year: parseInt(value)}))
             break;
 
             case "length":
-            setEdit(prev => ({...prev, length: value}))
+                setEdit(prev => ({...prev, length: value}))
             break;
         };
     };
