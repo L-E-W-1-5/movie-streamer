@@ -163,9 +163,9 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
             console.log("filesArrayBefore", filesArray)
 
 
-            filesArray.forEach((file, index) => {
+            filesArray.forEach((file) => {
 
-                console.log(file, index, cardSet, containerSet)
+                console.log(file, cardSet, containerSet)
 
                 if(!cardSet && movie.images){
 
@@ -662,9 +662,21 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
                                                 return  <div className="image-viewport" key={x} >
                                                     
-                                                           <div onClick={(e) => changeImagePosition(e, x, image)}><p><u>{x + 1 === 1 ? "card image" : x + 1 === 2 ? "open image" : "extra image"}</u></p></div>
+                                                            <div onClick={(e) => changeImagePosition(e, x, image)}>
 
-                                                            <p> {image.original_name}<button className='delete-cross' onClick={() => handleDeleteImage(image)}></button></p>   
+                                                                <p>
+
+                                                                    <u>{x + 1 === 1 ? "card image" : x + 1 === 2 ? "open image" : "extra image"}</u>
+                                                                
+                                                                </p>
+                                                           
+                                                            </div>
+
+                                                            <p> {image.original_name}
+                                                                
+                                                                <button className='delete-cross' onClick={() => handleDeleteImage(image)}></button>
+                                                                
+                                                            </p>   
 
                                                             <img className="image-display" src={image.url}/>
 

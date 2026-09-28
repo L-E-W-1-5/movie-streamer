@@ -36,6 +36,19 @@
 }
 
 
+@media only screen and (max-width: 1200px){
+
+    .series-details-container{
+        width: 80%;
+    }
+}
+
+@media only screen and (max-width: 765px){
+
+    .series-details-container{
+        width: 100%;
+    }
+}
 
 @media only screen and (max-height: 470px){
 

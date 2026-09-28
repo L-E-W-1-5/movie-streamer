@@ -1,4 +1,4 @@
-import { type MovieDownloadNew, type MovieImage, type Series } from "../../Types/Types"
+import { type MovieDownloadNew, type MovieImage, type Series, type ImageUpload } from "../../Types/Types"
 import './SeriesEditDetails.css'
 import { useState, useEffect } from 'react'
 import MovieEditDetails from "../MovieEditDetails/MovieEditDetails"
@@ -106,8 +106,49 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
 
 
     //TODO: make function to upload new images
-    const handleImageUpload = () => {
-        
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+        if(e.target.files){
+
+            const filesArray = Array.from(e.target.files)
+
+            const newImages: ImageUpload[] = [];
+
+            let cardSet = false, containerSet = false
+            
+            series.images?.forEach(image => {
+
+                if(image.usage === 'series-card') cardSet = true;
+
+                if(image.usage === 'series-container') containerSet = true;
+            })
+
+            filesArray.forEach((file) => {
+
+                if(!cardSet){
+
+                    newImages.push({file: file, usage: 'series-card', name: file.name});
+
+                    cardSet = true;
+
+                    return;
+                }
+
+                if(!containerSet){
+
+                    newImages.push({file: file, usage: 'series-container', name: file.name})
+
+                    containerSet = true;
+
+                    return;
+                }
+
+                newImages.push({file: file, usage: 'other', name: file.name});
+            })
+
+            setSeriesEdit(prev => ({...prev, image: newImages}));
+        }
+
     }
  
 
@@ -161,6 +202,14 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
             formData.append('year', seriesEdit.year.toString());
         }
 
+        if(seriesEdit.image){
+
+            seriesEdit.image.forEach(image => {
+
+                formData.append('image[]', image.file, image.name)
+            })
+        }
+
         return formData;
     };
 
@@ -170,6 +219,8 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
         const data = makeFormData()
 
         console.log(data);
+
+        //TODO: ready for fetch here..
 
         setAllSeries(prev => ({...prev}))
     }
@@ -320,7 +371,7 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
 
                     <div className="d-flex flex-row gap-5">
 
-                        {series.images && series.images[0] && series.images.map((image: MovieImage, x: number) => {
+                        {series.images && series.images.map((image: MovieImage, x: number) => {
 
                                 return (
     

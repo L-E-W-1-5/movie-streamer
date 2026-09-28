@@ -113,7 +113,7 @@ export const SeriesDetails: React.FC<SeriesDetailsProps> = ({ series, showSeries
                             .map((episode: MovieDownloadNew, x: number) => {
 
                                 return <MovieCard key={x} film={episode} setSignedUrl={setSignedUrl}/>
-                                                
+                                                       
                             })
                         }
 

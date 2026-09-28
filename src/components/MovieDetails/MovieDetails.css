@@ -73,6 +73,14 @@
 }
 
 
+
+@media only screen and (max-width: 1200px){
+
+    .movie-play-container{
+        width: 80%;
+    }
+}
+
 @media only screen and (max-width: 765px){
 
     .movie-play-container{

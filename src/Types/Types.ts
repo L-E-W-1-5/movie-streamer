@@ -66,7 +66,8 @@ export interface Series {
     description?: string | null,
     genre?: string| null,
     year?: number | null,
-    images?: MovieImage[] | null
+    images?: MovieImage[] | null,
+    image?: ImageUpload[] | null
     // episodes: Array<MovieDownloadNew>,
 }
 

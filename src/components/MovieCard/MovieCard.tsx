@@ -84,7 +84,7 @@ const MovieCard: React.FC<MovieInfo> = ({ film, setSignedUrl }) => {
         {movieDetails && 
 
         
-            <WindowFocus level={1}>
+            <WindowFocus level={2}>
             {/* <div className='movie-details-container container-style border-shadow d-flex flex-column justify-content-around align-items-center'> */}
 
     
