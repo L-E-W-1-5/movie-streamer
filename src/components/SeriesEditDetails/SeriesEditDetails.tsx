@@ -2,6 +2,7 @@ import { type MovieDownloadNew, type MovieImage, type Series } from "../../Types
 import './SeriesEditDetails.css'
 import { useState, useEffect } from 'react'
 import MovieEditDetails from "../MovieEditDetails/MovieEditDetails"
+import { WindowFocus } from "../WindowFocus/WindowFocus"
 
 
 type SeriesEditDetailsProps = {
@@ -104,7 +105,12 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
     };
 
 
-    //TODO: make function to update series details/images
+    //TODO: make function to upload new images
+    const handleImageUpload = () => {
+        
+    }
+ 
+
     const handleSeriesChanges = <T extends HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(e: React.ChangeEvent<T>) => {
 
         const { id, value } = e.target;
@@ -134,13 +140,36 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
 
     const makeFormData = () => {
 
+        const formData = new FormData();
 
-    }
+        formData.append('id', seriesEdit.id.toString());
 
+        formData.append('title', seriesEdit.title);
 
+        if(seriesEdit.genre){
+
+            formData.append('genre', seriesEdit.genre);
+        };
+
+        if(seriesEdit.description){
+
+            formData.append('description', seriesEdit.description);
+        }
+
+        if(seriesEdit.year){
+
+            formData.append('year', seriesEdit.year.toString());
+        }
+
+        return formData;
+    };
+
+//TODO: finish handleSubmit and the fetch request
     const handleSubmit = () => {
 
-        makeFormData()
+        const data = makeFormData()
+
+        console.log(data);
 
         setAllSeries(prev => ({...prev}))
     }
@@ -167,6 +196,7 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
 
 
             <select
+            className="btn variable-colour border-shadow"
             defaultValue=""
             onChange={(e) => {setSelectedSeason(Number(e.target.value))}}
             >
@@ -207,7 +237,11 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
                     
                             <div className="media-edit-container" style={{top: episodeEdit.position.top}}>
 
-                                <MovieEditDetails movie={episode} setAllMovies={setAllMovies} setMovieEditContainer={setEpisodeEdit}/>
+                                <WindowFocus level={3}>
+
+                                    <MovieEditDetails movie={episode} setAllMovies={setAllMovies} setMovieEditContainer={setEpisodeEdit}/>
+
+                                </WindowFocus>
 
                             </div>
 
@@ -245,14 +279,16 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
             
                 <div className="edit-series-properties">
 
-                    <div className="series-edit-form">
+                    <div className="series-edit-form mt-2">
 
                         <input id="series-title"
+                        className="series-edit-details-element first-column btn variable-colour border-shadow"
                         defaultValue={series.title}
                         onChange={handleSeriesChanges}
                         />
 
                         <select id="series-genre"
+                        className="series-edit-details-element first-column btn variable-colour border-shadow"
                         defaultValue={series?.genre || ""}
                         onChange={handleSeriesChanges}
                         >
@@ -267,12 +303,14 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
                         </select>
 
                         <input id="series-year"
+                        className="series-edit-details-element first-column btn variable-colour border-shadow"
                         type="number"
                         defaultValue={series?.year || ""}
                         onChange={handleSeriesChanges}
                         />
 
                         <textarea id="series-description"
+                        className="series-edit-details-element second-column btn variable-colour border-shadow"
                         defaultValue={series?.description || ""}
                         onChange={handleSeriesChanges}
                         />
@@ -280,7 +318,6 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
                     </div>
 
 
-                    {/* TODO: create the images here */}
                     <div className="d-flex flex-row gap-5">
 
                         {series.images && series.images[0] && series.images.map((image: MovieImage, x: number) => {
@@ -317,6 +354,18 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
 
                     </div>
 
+                    <label className="d-flex flex-column">add image:
+
+                        <input
+                        className="variable-colour border-shadow container-style"
+                        id="series-images"
+                        type="file"
+                        multiple
+                        {...({ webkitdirectory: true } as React.InputHTMLAttributes<HTMLInputElement>)}
+                        onChange={handleImageUpload}
+                        />
+
+                    </label>
 
                     <div className="series-edit-details-button-container">
 

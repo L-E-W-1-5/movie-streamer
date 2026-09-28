@@ -50,10 +50,11 @@
 }
 
 .media-edit-container{
-    position: absolute;
+    position: fixed;
     left: 50%;
+    top: 50%;
     transform: translate(-50%, -50%);
-    width: 85%;
+    width: 65%;
     background-color: black;
     z-index: 2;
 }
@@ -90,7 +91,7 @@
 
 @media only screen and (max-width: 500px){
     
-    .movie-edit-container{
+    .media-edit-container{
         width: 100%;
     }
 }
@@ -106,6 +107,8 @@
         margin-top: 20px;
     }
 }
+
+
 
 
 /*

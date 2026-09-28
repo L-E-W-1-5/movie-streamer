@@ -2,6 +2,7 @@ import './SeriesCard.css'
 import { useRef, useState, useEffect } from 'react'
 import { type MovieDownloadNew, type MovieUrl, type Series } from '../../Types/Types' 
 import SeriesDetails from '../SeriesDetails/SeriesDetails'
+import { WindowFocus } from '../WindowFocus/WindowFocus'
 
 interface SeriesCardProps {
     key: number,
@@ -81,9 +82,12 @@ const SeriesCard: React.FC<SeriesCardProps> = ({ series, setSignedUrl, allMedia 
 
 
         {seriesDetails &&
+
+            <WindowFocus level={1}>
        
-            <SeriesDetails series={series} showSeriesDetails={showSeriesDetails} setSignedUrl={setSignedUrl} allMedia={allMedia}/>    
+                <SeriesDetails series={series} showSeriesDetails={showSeriesDetails} setSignedUrl={setSignedUrl} allMedia={allMedia}/>    
         
+            </WindowFocus>
         }
 
     </>

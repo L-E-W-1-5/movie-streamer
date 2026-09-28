@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import MovieEditDetails from '../MovieEditDetails/MovieEditDetails'
 import SeriesEditDetails from '../SeriesEditDetails/SeriesEditDetails';
 import { type MovieDownloadNew, type Series } from '../../Types/Types';
+import { WindowFocus } from '../WindowFocus/WindowFocus';
 //import { url } from '../../Url'
 //import { UserContext } from '../../UserContext';
 
@@ -158,11 +159,15 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
                         {movieEditContainer?.media === movie &&
                     
-                            <div className="media-edit-container" style={{top: movieEditContainer.position.top}}>
+                                 <WindowFocus level={2}>
 
-                                <MovieEditDetails movie={movie} setAllMovies={setAllMovies} setMovieEditContainer={setMovieEditContainer}/>
+                                    {/* <div className="media-edit-container" > */}
 
-                            </div>
+                                        <MovieEditDetails movie={movie} setAllMovies={setAllMovies} setMovieEditContainer={setMovieEditContainer}/>
+                            
+                                    {/* </div> */}
+                                    
+                                 </WindowFocus>
 
                         }
                     
@@ -188,12 +193,15 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
                             {seriesEditContainer?.series === series &&
 
-                                <div className="media-edit-container" style={{top: seriesEditContainer.position.top}}>
-                                
+                                <WindowFocus level={2}>
+
+                                    <div className="media-edit-container">       
                             
-                                    <SeriesEditDetails series={series} setAllSeries={setAllSeries} allMedia={allMovies} setAllMovies={setAllMovies} setSeriesEditContainer={setSeriesEditContainer}></SeriesEditDetails>
+                                        <SeriesEditDetails series={series} setAllSeries={setAllSeries} allMedia={allMovies} setAllMovies={setAllMovies} setSeriesEditContainer={setSeriesEditContainer}></SeriesEditDetails>
                             
-                                </div>
+                                    </div>
+
+                                </WindowFocus>
                             }
 
                         </div>

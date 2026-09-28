@@ -539,6 +539,8 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
     return(
 
+    <div className="media-edit-container" >
+
         <div className="movie-record d-flex flex-column justify-content-around align-items-center w-100 border-shadow container-style">
             
             {!editForm &&
@@ -556,11 +558,11 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
                 <div className="movie-edit-details-button-container">
 
+                    <button className="button-style border-shadow" onClick={closeForm}>close</button>
+
                     <button className="button-style border-shadow" onClick={handleDelete}>delete</button>
 
                     <button className="button-style border-shadow" onClick={handleEditOptions}>edit</button>
-
-                    <button className="button-style border-shadow" onClick={closeForm}>close</button>
             
                 </div>
 
@@ -691,9 +693,9 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
                         <div className="two-column-container d-flex gap-3">
 
-                            <button className="button-style border-shadow align-self-center" onClick={updateMovieDetails}>update</button>
-
                             <button className="button-style border-shadow align-self-center" onClick={closeEdit}>close</button>
+
+                            <button className="button-style border-shadow align-self-center" onClick={updateMovieDetails}>update</button>
 
                         </div>
 
@@ -704,6 +706,8 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
             }
 
         </div>
+    
+    </div>
     )
 }
 

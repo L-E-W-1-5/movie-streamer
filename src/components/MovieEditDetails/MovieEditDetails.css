@@ -12,7 +12,7 @@
     color: var(--borderShadow);
     /* overflow: hidden; */
     overflow: hidden;
-    max-height: 500px;
+    /* max-height: 500px; */
 }
 
 .movie-edit-details-button-container{
@@ -28,8 +28,9 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
     width: 100%;
-    max-height: 350px;
-    overflow-y: scroll;
+    height: 100%;
+    /* max-height: 350px;
+    overflow-y: scroll; */
 }
 
 .edit-pre-form{
@@ -88,8 +89,9 @@
 
 @media only screen and (max-height: 600px){
 
-    .movie-record{
+    .form-grid{
         max-height: 350px;
+        overflow-y: scroll;
     }
 }
 
