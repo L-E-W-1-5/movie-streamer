@@ -340,7 +340,44 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
     //TODO: add a delete button and function for the entire series and make the backend route.
     const deleteSeries = async () => {
 
-        console.log("delete series")
+        console.log(JSON.stringify(series))
+
+        const willDelete = confirm("are you sure you wish to delete this series?");
+
+        if (!willDelete) return;
+
+        if(!user?.token || user.username === "demo account"){
+
+            alert("unable to delete media using a demo account");
+        };
+
+        try{
+
+            const res = await fetch(`${url}/movies/delete_series`, {
+
+                method: 'POST',
+
+                headers: {
+                    'Content-Type': "application/json",
+                    'Authorization': `Bearer: ${user?.token}`
+                },
+
+                body: JSON.stringify({series})
+            })
+
+            const response = await res.json();
+
+            if(res.ok && response.status === "success"){
+
+                setAllSeries(series => series.filter(item => item.id !== seriesEdit.id))
+                
+            };
+
+
+        }catch(err){
+
+            console.log(err);
+        }
     }
 
     return (
