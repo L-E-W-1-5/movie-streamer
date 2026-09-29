@@ -1,8 +1,10 @@
 import { type MovieDownloadNew, type MovieImage, type Series, type ImageUpload } from "../../Types/Types"
 import './SeriesEditDetails.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import MovieEditDetails from "../MovieEditDetails/MovieEditDetails"
 import { WindowFocus } from "../WindowFocus/WindowFocus"
+import { url } from '../../Url'
+import { UserContext } from '../../UserContext'
 
 
 type SeriesEditDetailsProps = {
@@ -42,6 +44,8 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
     const [selectedSeason, setSelectedSeason] = useState<number | null>(null);
 
     const [seriesEdit, setSeriesEdit] = useState<Series>(series);
+
+    const { user } = useContext(UserContext);
 
 
 
@@ -175,7 +179,7 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
             break;
         }
 
-        console.log(seriesEdit)
+       // console.log(seriesEdit)
     };
 
 
@@ -218,26 +222,126 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
         return formData;
     };
 
-//TODO: finish handleSubmit and the fetch request
-    const handleSubmit = () => {
+
+    const handleSubmit = async () => {
+
+        if(!user?.token || user?.username === "demo account"){
+
+            alert("editing not available for demo account");
+
+            return;
+        }
 
         const data = makeFormData()
 
         console.log(data);
 
-        //TODO: ready for fetch here..
+        //try
+        const res = await fetch(`${url}/movies/update_series`, {
 
-        setAllSeries(prev => ({...prev}))
+            headers: {"Authorization": `Bearer ${user?.token}`},
+
+            method: 'POST',
+
+            body: data
+        })
+
+        const response = await res.json();
+        
+        if(res.ok && response.status === "success"){
+
+            console.log(response)
+
+            const newImages = (response.payload.images && response.payload.images.length > 0) 
+                ? response.payload.images : [];
+            
+            setAllSeries(prevSeries => 
+
+                prevSeries.map(series => {
+
+                    if(series.id !== seriesEdit.id) return series;
+
+                    return {
+                        ...series,
+                        ...seriesEdit,
+                        images: [
+                            ...(series.images ?? []),
+                            ...newImages
+                        ].filter(Boolean)
+                    };
+                })
+            )
+
+            alert("series updated successfully")
+
+            setSeriesEditContainer(null)
+        };
+
     }
 
 
-    const handleDeleteImage = (image: MovieImage) => {
+    const handleDeleteImage = async (image: MovieImage) => {
 
-        console.log(image)
+        if(!user?.token || user?.username === "demo account"){
+
+            alert("editing not available for demo account");
+
+            return;
+        };
+
+        const confirmed = confirm("are you sure you want to delete this image?");
+
+        if(!confirmed) return;
+
+        try{
+
+            const res = await fetch(`${url}/movies/image_delete`, {
+                method: 'POST',
+
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer: ${user.token}`
+                },
+
+                body: JSON.stringify({image})
+            })
+
+            const response = await res.json()
+
+            if(res.ok || response.status === "success"){
+
+                setAllSeries(prev => {
+
+                    return prev.map(item => 
+
+                        item.id === series.id ? {
+
+                            ...item,
+
+                            images: item.images?.filter(img => img.id !== response.payload.id)
+
+                        } : item
+
+                    )
+                })
+
+                alert("image deleted");
+
+                setSeriesEditContainer(null)
+            }
+        
+        }catch(err){
+
+            console.log(err)
+        }
 
     }
 
     //TODO: add a delete button and function for the entire series and make the backend route.
+    const deleteSeries = async () => {
+
+        console.log("delete series")
+    }
 
     return (
 
@@ -426,17 +530,25 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
                     <div className="series-edit-details-button-container">
 
                         <button
+                        className="button-style border-shadow"
                         onClick={closeContainer}
                         >
                             close
                         </button>
 
                         <button
+                        className="button-style border-shadow"
                         onClick={handleSubmit}
                         >
-                            update</button>
+                            update
+                        </button>
 
-                        <button>delete</button>
+                        <button
+                        className="button-style border-shadow"
+                        onClick={deleteSeries}
+                        >
+                            delete
+                        </button>
 
                     </div>
 

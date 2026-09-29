@@ -133,6 +133,8 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
                 })
 
                 alert("Image deleted");
+
+                setMovieEditContainer(null);
             };
 
 
@@ -481,12 +483,12 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
 
             if(res.ok && response.status === "success"){
 
+                const newImages = (response.payload.images && response.payload.images.length > 0) 
+                    ? response.payload.images : [];
                 
                 setAllMovies(prevMovies => {
 
                     return prevMovies.map(movie => {
-
-                        const newImages = (response.payload.images && response.payload.images.length > 0) ? response.payload.images : [];
 
                         const updatedImages = movie.images ? [...movie.images, ...newImages].filter(Boolean) : newImages ? [...newImages] : []
 
@@ -496,9 +498,11 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
                             images: updatedImages   
                         } : movie
                     });
-                });
+                })
 
                 alert("movie updated successfully");
+
+                setMovieEditContainer(null);
             };
 
         }catch(err){

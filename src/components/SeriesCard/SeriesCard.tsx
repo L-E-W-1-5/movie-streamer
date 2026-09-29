@@ -21,7 +21,7 @@ const SeriesCard: React.FC<SeriesCardProps> = ({ series, setSignedUrl, allMedia 
 
     useEffect(() => {
 
-        if(cardRef.current && series.images && series.images[0].url){
+        if(cardRef.current && series.images && series.images[0]?.url){
 
                 let cardSelected = false;
 

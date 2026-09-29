@@ -56,6 +56,8 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
         if(movieEditContainer || seriesEditContainer){
 
+            console.log("hidden true")
+
             scrollRef.current.style.setProperty("overflow-y", "hidden", "important")
             
         }else{
@@ -63,7 +65,7 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
             scrollRef.current.style.setProperty("overflow-y", "scroll", "important")
         }
 
-    }, [movieEditContainer, seriesEditContainer])
+    }, [movieEditContainer, seriesEditContainer, allMovies, allSeries])
 
     
 
