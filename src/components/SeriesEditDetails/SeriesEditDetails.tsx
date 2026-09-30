@@ -340,8 +340,6 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
     //TODO: add a delete button and function for the entire series and make the backend route.
     const deleteSeries = async () => {
 
-        console.log(JSON.stringify(series))
-
         const willDelete = confirm("are you sure you wish to delete this series?");
 
         if (!willDelete) return;
@@ -365,11 +363,12 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
                 body: JSON.stringify({series})
             })
 
-            const response = await res.json();
+            const { payload, status} = await res.json();
 
-            if(res.ok && response.status === "success"){
+            if(res.ok && status === "success"){
 
-                setAllSeries(series => series.filter(item => item.id !== seriesEdit.id))
+                setAllSeries(series => series.filter(item => item.id !== payload.id))
+               // setAllMovies(media => media.filter(x => x.series_id !== payload.id))
                 
             };
 

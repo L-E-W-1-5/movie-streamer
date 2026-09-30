@@ -27,9 +27,11 @@ const SeriesCard: React.FC<SeriesCardProps> = ({ series, setSignedUrl, allMedia 
 
                 series.images.forEach(image => {
 
+                    console.log(image)
+
                     if(image.usage === 'series-card'){
 
-                        cardRef.current?.style.setProperty("background-image", `url(${image.url})`) //, "important"
+                        cardRef.current?.style.setProperty("background-image", `url("${image.url}")`) //, "important"
 
                         cardSelected = true;
                     

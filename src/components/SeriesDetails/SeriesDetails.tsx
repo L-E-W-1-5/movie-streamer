@@ -26,7 +26,6 @@ export const SeriesDetails: React.FC<SeriesDetailsProps> = ({ series, showSeries
     //THEN sort by season etc..
     //maybe have this and the seasons set inside a useEffect
 
-    console.log(series, allMedia)
 
     useEffect(() => {
 
@@ -38,7 +37,9 @@ export const SeriesDetails: React.FC<SeriesDetailsProps> = ({ series, showSeries
 
                     if(image.usage === 'series-container'){
 
-                        imageRef.current?.style.setProperty("background-image", `url(${image.url})`) //, "important"
+                       // console.log("here?")
+
+                        imageRef.current?.style.setProperty("background-image", `url("${image.url}")`) //, "important"
 
                         cardSelected = true;
                     
@@ -48,10 +49,20 @@ export const SeriesDetails: React.FC<SeriesDetailsProps> = ({ series, showSeries
                 });
 
                 if(cardSelected === false){
-
-                    console.log("fallback", series.title)   
                     
+                    const cardImage = series.images.find(image => image.usage === 'other')
+
+                   // console.log(cardImage)
+
+                    if(cardImage?.url) {
+
+                        imageRef.current.style.setProperty("background-image", `url("${cardImage.url}")`)
+
+                        return
+                    }
+
                     if(series.images[0].url){
+
 
                         imageRef.current.style.setProperty("background-image", `url(${series.images[0].url})`) 
                     }
