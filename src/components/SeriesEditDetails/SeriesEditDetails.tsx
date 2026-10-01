@@ -153,6 +153,183 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
             setSeriesEdit(prev => ({...prev, image: newImages}));
         }
 
+    };
+
+
+    const handleDeleteImage = async (image: MovieImage) => {
+
+        if(!user?.token || user?.username === "demo account"){
+
+            alert("editing not available for demo account");
+
+            return;
+        };
+
+        const confirmed = confirm("are you sure you want to delete this image?");
+
+        if(!confirmed) return;
+
+        try{
+
+            const res = await fetch(`${url}/movies/image_delete`, {
+                method: 'POST',
+
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer: ${user.token}`
+                },
+
+                body: JSON.stringify({image})
+            })
+
+            const response = await res.json()
+
+            if(res.ok || response.status === "success"){
+
+                setAllSeries(prev => {
+
+                    return prev.map(item => 
+
+                        item.id === series.id ? {
+
+                            ...item,
+
+                            images: item.images?.filter(img => img.id !== response.payload.id)
+
+                        } : item
+
+                    )
+                })
+
+                alert("image deleted");
+
+                setSeriesEditContainer(null)
+            }
+        
+        }catch(err){
+
+            console.log(err)
+        }
+
+    };
+
+
+    const handleImagePosition = async (image: MovieImage) => {
+
+        const images = series.images;
+
+        if(!images || images.length < 2) return;
+
+        const currentUsage = image.usage;
+
+        let confirmed;
+
+        let targetUsage: "series-card" | "series-container" | null = null;
+
+        if(currentUsage === 'series-card'){
+
+            confirmed = confirm("would you like to change this to the series container?")
+       
+            targetUsage = "series-container"
+        }
+
+        else if(currentUsage === 'series-container'){
+
+            confirmed = confirm("would you like to change this to the series card?")
+        
+            targetUsage = "series-card"
+        }
+
+        else{
+
+            confirmed = prompt("where would you like to use this image? type 1 for card & 2 for container");
+
+            if(confirmed === "1") targetUsage = "series-card"
+
+            if(confirmed === "2") targetUsage = "series-container"
+        }
+
+        if(!confirmed || !targetUsage) return;
+
+        swapPositions(image, targetUsage);
+    };
+
+
+    const swapPositions = (image: MovieImage, targetUsage: string) => {
+
+        const images = series.images;
+
+        const targetImage = series.images?.find(img => img.usage === targetUsage);
+
+        if(!targetImage || !images) return;
+
+
+        const updates = [
+
+            {
+                id: image.id,
+                usage: targetImage.usage
+            },
+            {
+                id: targetImage.id,
+                usage: image.usage
+            }
+            
+        ]
+
+        postImagePositions(updates)
+    }
+
+
+    const postImagePositions = async (updates: {id: number, usage: string}[]) => {
+
+        try{
+
+            const res = await fetch(`${url}/movies/update_image_usage`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer: ${user?.token}`
+                },
+
+                method: "POST",
+                body: JSON.stringify({updates})
+            })
+
+            const { payload, status } = await res.json();
+
+            if(res.ok && status === 'success'){
+
+                console.log(payload);
+
+                setAllSeries(prev => {
+
+                   return prev.map(item => 
+
+                        item.id === series.id ?
+                        {
+                            ...item,
+                            images: item.images?.map(img => 
+                                payload.find((updated: MovieImage) => updated.id === img.id) ?? img
+                            )
+                        } 
+                        : item
+                    ) 
+                })   
+
+                setSeriesEditContainer(null)
+            }
+            
+            else if(!res.ok || status === "error"){
+
+                console.log(payload)
+
+                alert(payload);
+            }
+        
+        }catch(err) {
+
+            console.log(err)
+        }
     }
  
 
@@ -280,62 +457,6 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
     }
 
 
-    const handleDeleteImage = async (image: MovieImage) => {
-
-        if(!user?.token || user?.username === "demo account"){
-
-            alert("editing not available for demo account");
-
-            return;
-        };
-
-        const confirmed = confirm("are you sure you want to delete this image?");
-
-        if(!confirmed) return;
-
-        try{
-
-            const res = await fetch(`${url}/movies/image_delete`, {
-                method: 'POST',
-
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer: ${user.token}`
-                },
-
-                body: JSON.stringify({image})
-            })
-
-            const response = await res.json()
-
-            if(res.ok || response.status === "success"){
-
-                setAllSeries(prev => {
-
-                    return prev.map(item => 
-
-                        item.id === series.id ? {
-
-                            ...item,
-
-                            images: item.images?.filter(img => img.id !== response.payload.id)
-
-                        } : item
-
-                    )
-                })
-
-                alert("image deleted");
-
-                setSeriesEditContainer(null)
-            }
-        
-        }catch(err){
-
-            console.log(err)
-        }
-
-    }
 
     //TODO: add a delete button and function for the entire series and make the backend route.
     const deleteSeries = async () => {
@@ -347,6 +468,8 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
         if(!user?.token || user.username === "demo account"){
 
             alert("unable to delete media using a demo account");
+
+            return;
         };
 
         try{
@@ -357,7 +480,7 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
 
                 headers: {
                     'Content-Type': "application/json",
-                    'Authorization': `Bearer: ${user?.token}`
+                    'Authorization': `Bearer: ${user.token}`
                 },
 
                 body: JSON.stringify({series})
@@ -367,11 +490,21 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
 
             if(res.ok && status === "success"){
 
-                setAllSeries(series => series.filter(item => item.id !== payload.id))
-               // setAllMovies(media => media.filter(x => x.series_id !== payload.id))
+                console.log(payload);
+
+                setAllSeries(series => series.filter(item => item.id !== payload.seriesReturn.series.id));
+
+                setAllMovies(media => media.filter(item =>
+                    
+                    !payload.episodeReturn.episodes.some((episode: MovieDownloadNew) => 
+
+                        episode.id === item.id
+
+                    )));
                 
             };
 
+            setSeriesEditContainer(null)
 
         }catch(err){
 
@@ -516,7 +649,17 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
 
                     <div className="d-flex flex-row gap-5">
 
-                        {series.images && series.images.map((image: MovieImage, x: number) => {
+                        {series.images && series.images.sort((a, b) => {
+
+                            const usageObject: {[key: string]: number} = {'series-card': 1, 'series-container': 2};
+
+                            const aOrder = usageObject[a.usage] || 3;
+
+                            const bOrder = usageObject[b.usage] || 3;
+
+                            return aOrder - bOrder
+
+                        }).map((image: MovieImage, x: number) => {
 
                                 return (
     
@@ -524,10 +667,16 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
 
                                         <div>
 
-                                            <p>
+                                            <p className="d-flex flex-row gap-2">
 
-                                                <u>{x + 1 === 1 ? "card image" : x + 1 === 2 ? "open image" : "extra image"}</u>
-                                            
+                                                <u>{image.usage}</u>
+
+                                                <small 
+                                                onClick={() => handleImagePosition(image)}
+                                                className="mt-1" 
+                                                style={{cursor: "pointer"}}>
+                                                    <i>change position</i>
+                                                </small>
                                             </p>
                                         
                                         </div>                                                    
