@@ -9,7 +9,7 @@
     border-left: 0.1px solid var(--borderShadow)!important;
     border-bottom: 0.1px solid var(--borderShadow)!important;
     overflow: hidden;
-    max-height: 220px;
+    max-height: 260px;
 
 }
 
@@ -55,7 +55,7 @@
         top: 50px;
     }
     100%{
-        top: -200px;
+        top: -230px;
         visibility: hidden;
     }
 }

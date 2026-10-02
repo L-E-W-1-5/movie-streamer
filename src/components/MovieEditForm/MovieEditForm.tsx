@@ -4,6 +4,7 @@ import MovieEditDetails from '../MovieEditDetails/MovieEditDetails'
 import SeriesEditDetails from '../SeriesEditDetails/SeriesEditDetails';
 import { type MovieDownloadNew, type Series } from '../../Types/Types';
 import { WindowFocus } from '../WindowFocus/WindowFocus';
+import { MediaFormNavbar } from '../MediaFormNavbar/MediaFormNavbar';
 //import { url } from '../../Url'
 //import { UserContext } from '../../UserContext';
 
@@ -25,9 +26,14 @@ type MovieEditProps = {
     setOpenForm: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
+export type MediaType = MovieDownloadNew | Series;
+
+
 const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAllMovies, allSeries, setAllSeries}) => {
 
-    //const [movieDetails, showMovieDetails] = useState<MovieDownloadNew | null>(null);
+    const [allMedia, setAllMedia ] = useState<MediaType[]>([]);
+
+    const [filteredList, setFilteredList] = useState<MediaType[]>([]) 
   
     const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -45,7 +51,26 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
             top: number,
             left: number
         }
-    } | null>(null)
+    } | null>(null);
+
+
+
+
+    useEffect(() => {
+
+        setAllMedia([
+            ...allMovies,
+            ...allSeries
+        ])
+
+        setFilteredList([
+            ...allMovies,
+            ...allSeries
+        ])
+
+        
+
+    }, [allMovies, allSeries, setAllMedia])
 
 
 
@@ -72,15 +97,7 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
         e.stopPropagation()
 
         setOpenForm(null)
-
-        //showMovieEditForm(false);
     }
-
-
-    // const setMovieDetails = (movie: MovieDownloadNew) => {
-
-    //     showMovieDetails(movie)
-    // }
 
 
     const getContainerPosition = (e: React.MouseEvent) => {
@@ -97,11 +114,7 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
     };
 
 
-    const setEditForm = (movie: MovieDownloadNew, e: React.MouseEvent) => {
-
-        e.stopPropagation();
-
-        const top = getContainerPosition(e)
+    const setMovieForm = (movie: MovieDownloadNew, top: number) => {
 
         setMovieEditContainer({
             media: movie,
@@ -113,11 +126,7 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
     };
 
 
-    const setSeriesForm = (series: Series, e: React.MouseEvent) => {
-
-        e.stopPropagation();
-
-        const top = getContainerPosition(e)
+    const setSeriesForm = (series: Series, top: number) => {
 
         setSeriesEditContainer({
             series,
@@ -126,7 +135,22 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
                 left: 100
             }
         })
+    }
 
+    const setMediaForm = (media: MediaType, e: React.MouseEvent) => {
+
+        e.stopPropagation();
+
+        const top = getContainerPosition(e)
+
+        if("media_format" in media){
+
+            setMovieForm(media, top)
+        
+        }else{
+
+            setSeriesForm(media, top)
+        }
     }
 
 
@@ -136,68 +160,59 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
 
     <>
 
-        <div className="movie-edit-form border-shadow container-style d-flex flex-column justify-content-around align-items-center"
+        <div className="movie-edit-form border-shadow container-style d-flex flex-column align-items-center"
             ref={scrollRef}
         >
 
-            <div className="map-container d-flex flex-column justify-content-center align-items-center gap-1">
-            
-                {allMovies.map((movie: MovieDownloadNew, index: number) => {
+        {allMedia && filteredList && <MediaFormNavbar setFilteredList={setFilteredList} filteredList={filteredList} allMedia={allMedia}/>}
 
-                    return (
+            <div className="map-container d-flex flex-column align-items-center gap-1">
 
-                    <div key={index} className="d-flex flex-column justify-content-center align-items-center gap-1 w-100">
-           
-                        <div className="record-container border-shadow p-2 mb-2" onClick={(e) => setEditForm(movie, e)}>
 
-                            <span className="edit-field-item">{movie.id}</span>
-                            <span className="edit-field-item">{movie.title}</span>
-                            <span className="edit-field-item">{movie.genre}</span>
-                            <span className="edit-field-item flex-fill">{`${movie.timestamp}`}</span>
+                {filteredList && filteredList.map((media: MediaType, index: number) => {
 
-                        </div>
+                    const isMovie = "media_format" in media;
 
-                        {movieEditContainer?.media === movie &&
-                    
-                                 <WindowFocus level={2}>
+                    return(
 
-                                    {/* <div className="media-edit-container" > */}
-
-                                        <MovieEditDetails movie={movie} setAllMovies={setAllMovies} setMovieEditContainer={setMovieEditContainer}/>
-                            
-                                    {/* </div> */}
-                                    
-                                 </WindowFocus>
-
-                        }
-                    
-                    </div>
-
-                    )
-                })}
-
-                {allSeries.map((series: Series, index: number) => {
-                    
-                    return (
-                    
                         <div key={index} className="d-flex flex-column justify-content-center align-items-center gap-1 w-100">
+           
+                            <div className="record-container flex-row"
+                            onClick={(e) => setMediaForm(media, e)}
+                            >
 
-                            <div className="record-container border-shadow p-2 mb-2" 
-                            onClick={(e) => setSeriesForm(series, e)}>
+                                <div className="record-container-part1 d-flex flex-column p-2 mb-2">
 
-                                <span className="edit-field-item">{series.id}</span>
-                                <span className="edit-field-item">{series.title}</span>
-                                <span className="edit-field-item">{series.genre}</span>
+                                    <span className="edit-field-item">{media.id}</span>
+                                    <span className="edit-field-item">{media.title}</span>
+                                    <span className="edit-field-item">{media.genre}</span>
+                                    { isMovie && <span className="edit-field-item flex-fill">{new Date(media.timestamp).toLocaleString("en-GB", {timeStyle: 'short', dateStyle: 'short'})}</span>}
+
+                                </div>
+
+                                <div className="record-container-part2 d-flex justify-content-center align-items-center">
+                                    <h3>{isMovie ? media.media_format === "movie" ? "Movie" : "Episode" : "Series"}</h3>
+                                </div>
 
                             </div>
 
-                            {seriesEditContainer?.series === series &&
+                            {isMovie && movieEditContainer?.media === media &&
+                    
+                                 <WindowFocus level={2}>
+
+                                        <MovieEditDetails movie={media} setAllMovies={setAllMovies} setMovieEditContainer={setMovieEditContainer}/>
+                                    
+                                 </WindowFocus>
+
+                            }
+
+                            {!isMovie && seriesEditContainer?.series === media &&
 
                                 <WindowFocus level={2}>
 
                                     <div className="media-edit-container">       
                             
-                                        <SeriesEditDetails series={series} setAllSeries={setAllSeries} allMedia={allMovies} setAllMovies={setAllMovies} setSeriesEditContainer={setSeriesEditContainer}></SeriesEditDetails>
+                                        <SeriesEditDetails series={media} setAllSeries={setAllSeries} allMedia={allMovies} setAllMovies={setAllMovies} setSeriesEditContainer={setSeriesEditContainer}></SeriesEditDetails>
                             
                                     </div>
 
@@ -205,18 +220,20 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
                             }
 
                         </div>
-
                     )
                 })}
-
                 
 
             </div>
 
             
+            <div className="media-form-footer">
 
-            <button className="button-min-height button-style border-shadow" onClick={stopMenuClosure}>close</button>
+                <button className="button-min-height button-style border-shadow" onClick={stopMenuClosure}>
+                    close
+                </button>
 
+            </div>
             {/* <button onClick={sortImages}>sort images</button> */}
 
         </div>
@@ -361,3 +378,92 @@ export default MovieEditForm
     //         console.log(err)
     //     }
     // }
+
+
+
+    {/* {allMovies.map((movie: MovieDownloadNew, index: number) => {
+
+                    return (
+
+                    <div key={index} className="d-flex flex-column justify-content-center align-items-center gap-1 w-100">
+           
+                        <div className="record-container flex-row"
+                        onClick={(e) => setMovieForm(movie, e)}
+                        >
+                        
+                            <div className="record-container-part1 d-flex flex-column p-2 mb-2">
+
+                                <span className="edit-field-item">{movie.id}</span>
+                                <span className="edit-field-item">{movie.title}</span>
+                                <span className="edit-field-item">{movie.genre}</span>
+                                <span className="edit-field-item flex-fill">{new Date(movie.timestamp).toLocaleString("en-GB", {timeStyle: 'short', dateStyle: 'short'})}</span>
+
+                            </div>
+
+                            <div className="record-container-part2 d-flex justify-content-center align-items-center">
+                                <h3>Movie</h3>
+                            </div>
+
+                        </div>
+
+                        {movieEditContainer?.media === movie &&
+                    
+                                 <WindowFocus level={2}>
+
+                                        <MovieEditDetails movie={movie} setAllMovies={setAllMovies} setMovieEditContainer={setMovieEditContainer}/>
+                                    
+                                 </WindowFocus>
+
+                        }
+
+                        
+                    
+                    </div>
+
+                    )
+                })}
+
+                {allSeries.map((series: Series, index: number) => {
+                    
+                    return (
+                    
+                        <div key={index} className="d-flex flex-column justify-content-center align-items-center gap-1 w-100">
+
+                            <div className="record-container flex-row"
+                            onClick={(e) => setSeriesForm(series, e)}
+                            >
+
+                                <div className="record-container-part1 d-flex flex-column p-2 mb-2">
+
+                                    <span className="edit-field-item">{series.id}</span>
+                                    <span className="edit-field-item">{series.title}</span>
+                                    <span className="edit-field-item">{series.genre}</span>
+
+                                </div>
+
+                                <div className="record-container-part2 d-flex h-100 justify-content-center align-items-center">
+                                
+                                    <h3>Series</h3>
+                            
+                                </div>
+
+                        </div>
+
+
+                            {seriesEditContainer?.series === series &&
+
+                                <WindowFocus level={2}>
+
+                                    <div className="media-edit-container">       
+                            
+                                        <SeriesEditDetails series={series} setAllSeries={setAllSeries} allMedia={allMovies} setAllMovies={setAllMovies} setSeriesEditContainer={setSeriesEditContainer}></SeriesEditDetails>
+                            
+                                    </div>
+
+                                </WindowFocus>
+                            }
+
+                        </div>
+
+                    )
+                })} */}

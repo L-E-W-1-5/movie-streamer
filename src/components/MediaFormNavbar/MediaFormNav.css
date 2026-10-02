@@ -1,0 +1,16 @@
+.media-form-nav{
+    display: flex;
+    min-height: 50px;
+    width: 100%;
+    position: sticky;
+    top: 0px;
+    background-color: black;
+    z-index: 10;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 20px 40px black;
+}
+
+.media-nav-element{
+    background-color: black;
+}

@@ -68,7 +68,6 @@ export interface Series {
     year?: number | null,
     images?: MovieImage[] | null,
     image?: ImageUpload[] | null
-    // episodes: Array<MovieDownloadNew>,
 }
 
 export type SeriesUpload = {

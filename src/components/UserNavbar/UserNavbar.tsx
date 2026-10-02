@@ -53,12 +53,10 @@ const UserNavbar: React.FC<UserNavbarProps> = ({allUsers, setFilteredUsers}) => 
     }
 
     const handleGo = () => {
-//e: React.KeyboardEvent<HTMLInputElement>
-       // if(e.key !== 'Enter') return
 
-        const filteredUsers = [...allUsers].filter(user => {return user.username.toLowerCase().includes(searchUsers.toLowerCase())})
-
-        //const filteredUsers = [...allUsers].filter(user => {return user.name.toLowerCase() === searchUsers.toLowerCase()})
+        const filteredUsers = [...allUsers]
+            .filter(user => {return user.username.toLowerCase()
+            .includes(searchUsers.toLowerCase())})
 
         setFilteredUsers(filteredUsers)
     }
@@ -68,9 +66,16 @@ const UserNavbar: React.FC<UserNavbarProps> = ({allUsers, setFilteredUsers}) => 
 
         <div className="d-flex flex-row justify-content-around align-items-center p-2">
         
-            <input className="btn variable-colour border-shadow input-field" type="text" placeholder="search" onChange={handleSearch} onKeyDown={handleGo}></input>
+            <input 
+            className="btn variable-colour border-shadow input-field" 
+            type="text" 
+            placeholder="search" 
+            onChange={handleSearch} 
+            onKeyDown={handleGo}>
+            </input>
 
-            <select className="user-sort-element form-select variable-colour border-shadow" onChange={handleSort}>
+            <select className="user-sort-element form-select variable-colour border-shadow" 
+            onChange={handleSort}>
 
                 <option selected>--sort--</option>
 

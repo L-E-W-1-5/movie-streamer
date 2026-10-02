@@ -4,19 +4,14 @@
     left: 50%;
     width: 70%;
     height: 85%;
-    background-color: black;
     transform: translate(-50%, -50%); 
+    background-color: black;
     z-index: 2;
     background-color: black;
     border-radius: 0.375rem;
     padding-bottom: 40px;
-    overflow-y: scroll;
+    overflow-y: hidden;
 }
-/* 
-.edit-form-button{
-    width: 30%;
-    bottom: 10px;
-} */
 
 .edit-form-button:hover{
     background-color: var(--borderShadow);
@@ -26,9 +21,10 @@
 .map-container{
     padding-top: 30px;
     width: 90%;
-    /* height: 90%; */
-    /* overflow-y: auto; */
-    padding-bottom: 20px;
+    padding-bottom: 30px;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
 }
 
 .record-container{
@@ -40,6 +36,19 @@
     border: 1px solid var(--borderShadow);
     border-radius: 0.375rem; 
     color: var(--borderShadow);
+    justify-content: space-between;
+    min-height: 5lh;
+}
+
+.record-container-part1{
+    min-width: 25%;
+    max-width: 25%;
+}
+
+
+.record-container-part2{
+    width: 70%;
+    max-width: 70%;
 }
 
 .record-container:hover{
@@ -64,10 +73,25 @@
     border-radius: 0.375rem;
 }
 
-.button-min-height{
+
+.media-form-footer{
+    width: 100%;
+    min-height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 -20px 40px black;
+    z-index: 10;
+}
+
+
+.button-min-height {
+    flex-shrink: 0;
     min-height: 40px;
     min-width: 100px;
+    margin: 10px 0;
 }
+
 
 
 @keyframes listSelect {
