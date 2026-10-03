@@ -318,7 +318,7 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
 
                 setSeriesEditContainer(null)
             }
-            
+
             else if(!res.ok || status === "error"){
 
                 console.log(payload)
@@ -647,7 +647,7 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
                     </div>
 
 
-                    <div className="d-flex flex-row gap-5">
+                    <div className="series-image-view d-flex flex-row gap-5">
 
                         {series.images && series.images.sort((a, b) => {
 

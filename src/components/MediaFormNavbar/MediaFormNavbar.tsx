@@ -89,7 +89,21 @@ export const MediaFormNavbar = ({ setFilteredList, allMedia, filteredList }: Med
         }
 
         setFilteredList(sorted)
-    }
+    };
+
+
+    const searchMedia = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+        const search = e.target.value.toLowerCase();
+
+        console.log(search);
+
+        const searchResult = allMedia.filter(media => media.title.toLowerCase().includes(search));
+
+        console.log(searchResult);
+
+        setFilteredList(searchResult)
+    };
 
 
     return (
@@ -125,6 +139,7 @@ export const MediaFormNavbar = ({ setFilteredList, allMedia, filteredList }: Med
 
             <input
             className="media-nav-element btn variable-colour border-shadow"
+            onChange={searchMedia}
             type="text"
             placeholder="search.."
             />
