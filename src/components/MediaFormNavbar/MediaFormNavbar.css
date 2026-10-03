@@ -9,8 +9,13 @@
     justify-content: space-around;
     align-items: center;
     box-shadow: 0 20px 40px black;
+    box-sizing: border-box;
+    padding: 0 10px;
+    gap: 5px;
 }
 
 .media-nav-element{
     background-color: black;
+    min-width: 0;
+    max-width: 180px;
 }

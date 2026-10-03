@@ -1,4 +1,4 @@
-import './MediaFormNav.css'
+import './MediaFormNavbar.css'
 import { type MediaType } from '../MovieEditForm/MovieEditForm'
 
 

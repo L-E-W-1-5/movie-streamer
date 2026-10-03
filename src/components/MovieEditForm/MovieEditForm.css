@@ -11,6 +11,7 @@
     border-radius: 0.375rem;
     padding-bottom: 40px;
     overflow-y: hidden;
+    box-sizing: border-box;
 }
 
 .edit-form-button:hover{
