@@ -25,6 +25,14 @@
     gap: 50px;
 }
 
+.dash-nav-toggle-button{
+    cursor: pointer;
+}
+
+.toggle-button-selected{
+    color: var(--borderShadow);
+}
+
 .dash-searchbar{
     flex-shrink: 2;
     min-width: 40px;

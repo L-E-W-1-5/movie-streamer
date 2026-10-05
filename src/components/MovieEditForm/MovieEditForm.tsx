@@ -2,7 +2,7 @@ import './MovieEditForm.css'
 import { useState, useEffect, useRef } from 'react';
 import MovieEditDetails from '../MovieEditDetails/MovieEditDetails'
 import SeriesEditDetails from '../SeriesEditDetails/SeriesEditDetails';
-import { type MovieDownloadNew, type Series } from '../../Types/Types';
+import { type MovieDownloadNew, type Series, type MediaType } from '../../Types/Types';
 import { WindowFocus } from '../WindowFocus/WindowFocus';
 import { MediaFormNavbar } from '../MediaFormNavbar/MediaFormNavbar';
 //import { url } from '../../Url'
@@ -26,7 +26,7 @@ type MovieEditProps = {
     setOpenForm: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-export type MediaType = MovieDownloadNew | Series;
+
 
 
 const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAllMovies, allSeries, setAllSeries}) => {

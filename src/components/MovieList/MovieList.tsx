@@ -1,129 +1,21 @@
 import './MovieList.css';
-//import { fakeFilms } from '../../assets/FakeFilms.tsx'
 import MovieCard from '../MovieCard/MovieCard.tsx';
 import SeriesCard from '../SeriesCard/SeriesCard.tsx';
-import { useState, useEffect, useContext } from 'react';
-import { UserContext } from '../../UserContext.ts';
-import { type MovieUrl, type MovieDownloadNew, type Series } from '../../Types/Types.ts';
-import { url } from '../../Url';
-import LoadingAnimation from '../LoadingAnimation/LoadingAnimation';
+import { type MovieUrl, type MovieDownloadNew, type MediaType } from '../../Types/Types.ts';
 
 
-
-// type MovieDownload = {
-//     title: string,
-//     url: string,
-//     genre: string
-//     id: string
-// }
 
 type MovieListProps = {
     allMovies: Array<MovieDownloadNew>;
-    setAllMovies: React.Dispatch<React.SetStateAction<MovieDownloadNew[]>>;
-    allSeries: Series[];
-    setAllSeries: React.Dispatch<React.SetStateAction<Series[]>>
+    // setAllMovies: React.Dispatch<React.SetStateAction<MovieDownloadNew[]>>;
+   // allSeries: Series[];
+    // setAllSeries: React.Dispatch<React.SetStateAction<Series[]>>
     setSignedUrl: React.Dispatch<React.SetStateAction<MovieUrl>>;
     messageSlide: boolean;
+    allMedia: MediaType[];
 }
 
-const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, allSeries, setAllSeries, setSignedUrl, messageSlide }) => {
-
-    const { user } = useContext(UserContext)
-
-    const [loading, setLoading] = useState<boolean>(false);
-
-   // const [allSeries, setAllSeries] = useState<Series[]>([]);
-
-
-      useEffect(() => {
-
-        if(!user?.token){
-                
-            return;
-        };
-
-        setLoading(true);
-
-        const fetchSeries = async () => {
-
-            try{
-
-                const res = await fetch(`${url}/movies/series`, {
-
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${user.token}` 
-                    }
-                })
-
-                const series = await res.json();
-
-                console.log("series fetch", series)
-
-                if(res.ok && series.status === "success"){
-
-                    setAllSeries(series.payload)
-                    
-                }else{
-
-                    alert(`${series.status}: failed to get series or no series in the database at this time`);//${movies.payload}
-                };
-
-                
-            }catch(err) {
-
-                console.log(err)
-            }
-        }
-            
-            
-        const fetchMedia = async () => {
-                
-            try{
-
-                const res = await fetch(`${url}/movies`, {
-
-                    mode: 'cors',
-
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${user.token}`
-                    }
-                });
-
-                const movies = await res.json() as {
-                    payload: MovieDownloadNew[];
-                    status: string;
-                };
-
-
-                if(res.ok && movies.status !== "error"){
-
-                    const mediaData = movies.payload
-
-                    setAllMovies(mediaData);
-
-                }else{
-
-                    alert(`${movies.status}: failed to get movies or no movies in the database at this time`);//${movies.payload}
-                };
-
-            }catch(err){
-
-                console.log(err);
-            
-            }finally{
-                
-                setLoading(false);
-            }
-
-        }                                              
-                
-        fetchMedia()
-
-        fetchSeries()
-            
-    }, [user, setAllMovies, setAllSeries]);
+const MovieList: React.FC<MovieListProps> = ({ allMedia, allMovies, setSignedUrl, messageSlide }) => {
 
 
     return (
@@ -132,44 +24,25 @@ const MovieList: React.FC<MovieListProps> = ({ allMovies, setAllMovies, allSerie
 
             <div className="movie-list-container d-flex flex-row flex-wrap p-2 gap-2 w-100">
 
-                {allMovies && 
-                    <>
+                {allMedia && 
+                
+                    allMedia.map((media, index) => {
 
-                        {allMovies.map((film:MovieDownloadNew, x:number) => {
+                        if("media_format" in media && media.media_format === "movie"){
 
-//TODO: add logic to swap between series and movies based on media format (with nav button state)
-//TODO: add demo media for demo account to be shown here
+                            return <MovieCard key={index} film={media} setSignedUrl={setSignedUrl}/>
+                        }
+                        if(!("media_format" in media)){
 
-                        // if(user?.username === "demo account"){
-                        //    if(film.description === "demo media"){
-                        //         return <MovieCard key={x} film={film} setSignedUrl={setSignedUrl}/>
-                        //     }
-                        // }else{
-                        //
-
-                            if(film.media_format === "movie"){ // & state says movies once i have tabs
-
-                                return <MovieCard key={x} film={film} setSignedUrl={setSignedUrl}/>
-                            }
-
-                        })}
-
-                        {allSeries.map((series: Series, x: number) => {
-
-                            return <SeriesCard key={x} series={series} setSignedUrl={setSignedUrl} allMedia={allMovies}/>
-                        })}
-
-                    </>
+                            return <SeriesCard key={index} series={media} setSignedUrl={setSignedUrl} allMedia={allMovies}/>
+                        }
+                    })
                 }  
 
             </div>
 
 
-            {loading && 
-
-                <LoadingAnimation/>
-
-                }
+            
 
         </div>
     )
@@ -208,3 +81,37 @@ export default MovieList
                     //                                     );
                                                         
                     // setAllSeries(groupedSeries);
+
+
+
+
+
+
+
+{/* <>
+
+                        {allMovies.map((film:MovieDownloadNew, x:number) => {
+
+//TODO: add logic to swap between series and movies based on media format (with nav button state)
+//TODO: add demo media for demo account to be shown here
+
+                        // if(user?.username === "demo account"){
+                        //    if(film.description === "demo media"){
+                        //         return <MovieCard key={x} film={film} setSignedUrl={setSignedUrl}/>
+                        //     }
+                        // }else{
+                        //
+
+                            if(film.media_format === "movie"){ // & state says movies once i have tabs
+
+                                return <MovieCard key={x} film={film} setSignedUrl={setSignedUrl}/>
+                            }
+
+                        })}
+
+                        {allSeries.map((series: Series, x: number) => {
+
+                            return <SeriesCard key={x} series={series} setSignedUrl={setSignedUrl} allMedia={allMovies}/>
+                        })}
+
+                    </> */}

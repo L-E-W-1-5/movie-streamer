@@ -112,3 +112,5 @@ export type MovieUrl = {
     title: string
 }
 
+export type MediaType = MovieDownloadNew | Series;
+
