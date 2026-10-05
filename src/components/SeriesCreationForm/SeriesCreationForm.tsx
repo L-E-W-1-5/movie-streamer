@@ -53,7 +53,10 @@ export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm,
             //TODO: test that this is adding to state correctly.
             if(res.ok && reply.status === "success"){
 
-                setAllSeries(prev => [...prev, reply.payload]);
+                setAllSeries(prev => [
+                    ...prev, 
+                    reply.payload
+                ]);
 
                 alert("series added successfully");
 
@@ -83,6 +86,7 @@ export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm,
 
             <form onSubmit={handleSubmit} className="upload-form border-shadow container-style p-3 gap-2">
 
+                <label>images
                 <input 
                     id="series-images" 
                     name="images[]"
@@ -91,6 +95,7 @@ export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm,
                     multiple
                     {...({ webkitdirectory: true } as React.InputHTMLAttributes<HTMLInputElement>)}
                 />
+                </label>
  
                 <input 
                     id="series-title" 

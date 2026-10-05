@@ -137,9 +137,9 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl, closeDeta
 
             <img className="movie-details-image" ref={imageRef}></img>
 
-            <h3>{`${film.title} - ${film.year}`}</h3>
-
             <div className="movie-info">
+
+                <h3>{`${film.title} - ${film.year}`}</h3>
             
                 <h4>{film.genre}</h4>
 

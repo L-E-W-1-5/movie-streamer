@@ -1,6 +1,6 @@
 .media-form-nav{
     display: flex;
-    min-height: 50px;
+    min-height: 60px;
     width: 100%;
     position: sticky;
     top: 0px;
@@ -12,10 +12,16 @@
     box-sizing: border-box;
     padding: 0 10px;
     gap: 5px;
+    margin-top: 10px;
 }
 
 .media-nav-element{
     background-color: black;
+    color: var(--borderShadow);
     min-width: 0;
     max-width: 180px;
+}
+
+.media-nav-element::placeholder{
+    color: var(--borderShadow);
 }

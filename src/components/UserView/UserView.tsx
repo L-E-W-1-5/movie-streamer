@@ -93,8 +93,8 @@ const UserView: React.FC<{userEdit: UserEdit}> = ({ userEdit }) => {
             <span>{user?.username === "demo account" ? "**demo**" : userEdit.username}</span>
             <span className="edit-field-item-user flex-fill">{user?.username === "demo account" ? "**demo**" : userEdit.email}</span>
             <span className="edit-field-item-user flex-fill">{`is logged in: ${userEdit.is_loggedin}`}</span>
-            <span className="edit-field-item-user flex-fill">{`last login: ${userEdit.last_login}`}</span>
-            <span className="edit-field-item-user flex-fill">{`time created: ${userEdit.time_created}`}</span>
+            <span className="edit-field-item-user flex-fill">{`last login: ${new Date(userEdit.last_login).toLocaleString()}`}</span>
+            <span className="edit-field-item-user flex-fill">{`time created: ${new Date(userEdit.time_created).toLocaleString()}`}</span>
             <span className="edit-field-item-user flex-fill">{`failed login attempts: ${userEdit.login_attempts}`}</span>
             <span>{`verified: ${userEdit.is_verified}`}</span>
             <span>{`admin: ${userEdit.is_admin}`}</span> 

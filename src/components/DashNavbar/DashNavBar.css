@@ -1,0 +1,41 @@
+.dashboard-nav{
+    margin-top: 0%;
+    width: 100%;
+    height: 50px;
+    min-height: 50px;
+    background-color: black;
+    z-index: 4;
+}
+
+.dash-nav-tools{
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    max-width: 50%;
+    align-items: center;
+    justify-content: space-around;
+    gap: 10px;
+}
+
+.dash-nav-toggle-buttons{
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 50px;
+}
+
+.dash-searchbar{
+    flex-shrink: 2;
+    min-width: 40px;
+    width: 300px;
+}
+
+@media only screen and (max-width: 450px){
+
+    .dash-nav-toggle-buttons{
+        flex-direction: column;
+        gap: 0;
+        width: auto;
+    }
+}

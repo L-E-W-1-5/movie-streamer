@@ -3,6 +3,7 @@ import { useContext, useState, useEffect } from 'react'
 import { UserContext } from '../../UserContext'
 import UserView from '../UserView/UserView.js'
 import UserNavbar from '../UserNavbar/UserNavbar.js'
+import { WindowFocus } from '../WindowFocus/WindowFocus'
 import { type UserEdit } from '../../Types/Types.js'
 import tick from '../../assets/tick1.png' 
 import cross from '../../assets/cross1.png'
@@ -108,16 +109,14 @@ const UserEditForm: React.FC<UserEditProps> = ({ openForm, setOpenForm }) => {
 
 
     return (
+
+
         
-    <div className="edit-form border-shadow d-flex gap-3 justify-content-between align-items-center">
+    <div className="edit-form border-shadow d-flex align-items-center">
 
-        <div className="map-navbar">
+        <UserNavbar allUsers={allUsers} setFilteredUsers={setFilteredUsers}/>
 
-            <UserNavbar allUsers={allUsers} setFilteredUsers={setFilteredUsers}/>
-
-        </div>
-
-        <div className="map-container-user d-flex flex-column justify-content-start align-items-center">
+        <div className="map-container-user d-flex flex-column align-items-center">
 
             {filteredUsers.map((userEdit: UserEdit, index: number) => {
 
@@ -140,18 +139,34 @@ const UserEditForm: React.FC<UserEditProps> = ({ openForm, setOpenForm }) => {
 
          {userOptionsMenu &&
         
-            <div className="user-options-menu border-shadow container-style h-50 w-50 p-3 d-flex flex-column justify-content-around" style={{top: userOptionsMenu.position.top}}>
+                <WindowFocus level={2}>
+            <div className="user-options-menu border-shadow container-style h-50 w-50 p-3 d-flex flex-column justify-content-around" 
+            >
   
-                <UserView userEdit={userOptionsMenu.user}/>
+                    
+                    <UserView userEdit={userOptionsMenu.user}/>
+
                             
                 <button className="button-style border-shadow align-self-center" onClick={closeUserEditForm}>close</button>
 
             </div>
+                </WindowFocus>
         }
 
-        <button className="button-style border-shadow" onClick={closeForm}>close</button>
+        <div className="user-edit-form-footer">
+
+            <button 
+                className="user-edit-form-close-button button-style border-shadow" 
+                onClick={closeForm}>
+                    close
+            </button>
+
+        </div>
 
     </div>
+
+
+
 
     );
 };

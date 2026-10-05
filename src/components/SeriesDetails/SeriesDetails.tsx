@@ -37,8 +37,6 @@ export const SeriesDetails: React.FC<SeriesDetailsProps> = ({ series, showSeries
 
                     if(image.usage === 'series-container'){
 
-                       // console.log("here?")
-
                         imageRef.current?.style.setProperty("background-image", `url("${image.url}")`) //, "important"
 
                         cardSelected = true;
@@ -52,8 +50,6 @@ export const SeriesDetails: React.FC<SeriesDetailsProps> = ({ series, showSeries
                     
                     const cardImage = series.images.find(image => image.usage === 'other')
 
-                   // console.log(cardImage)
-
                     if(cardImage?.url) {
 
                         imageRef.current.style.setProperty("background-image", `url("${cardImage.url}")`)
@@ -62,7 +58,6 @@ export const SeriesDetails: React.FC<SeriesDetailsProps> = ({ series, showSeries
                     }
 
                     if(series.images[0].url){
-
 
                         imageRef.current.style.setProperty("background-image", `url(${series.images[0].url})`) 
                     }
@@ -94,13 +89,16 @@ export const SeriesDetails: React.FC<SeriesDetailsProps> = ({ series, showSeries
                 
                 <div className="d-flex flex-column align-items-center justify-content-between h-100 w-100">
 
-                    <img className="series-details-image" ref={imageRef}></img>
+                    <img className="series-details-image" 
+                    ref={imageRef}>
+                    </img>
 
                     <h5>{series.title}</h5>
 
                     <select 
                     defaultValue=""
-                    onChange={(e) => setSelectedSeason(Number(e.target.value))}>
+                    onChange={(e) => setSelectedSeason(Number(e.target.value))}
+                    >
 
                         <option value="" disabled>Select Season</option>
 
@@ -132,7 +130,10 @@ export const SeriesDetails: React.FC<SeriesDetailsProps> = ({ series, showSeries
 
                     <div className="movie-details-button-container d-flex gap-4 mb-2">
 
-                        <button className="movie-details-button border-shadow" onClick={() => showSeriesDetails(false)}>Close</button>
+                        <button className="movie-details-button border-shadow" 
+                        onClick={() => showSeriesDetails(false)}>
+                            Close
+                        </button>
             
                     </div>
 

@@ -64,8 +64,18 @@ const UserNavbar: React.FC<UserNavbarProps> = ({allUsers, setFilteredUsers}) => 
 
     return(
 
-        <div className="d-flex flex-row justify-content-around align-items-center p-2">
+        <div className="map-navbar">
         
+            <select 
+            className="user-sort-element form-select variable-colour border-shadow" 
+            onChange={handleSort}>
+
+                <option selected disabled>--sort--</option>
+                <option>by id</option>
+                <option>by username</option>
+
+            </select>
+
             <input 
             className="btn variable-colour border-shadow input-field" 
             type="text" 
@@ -73,17 +83,6 @@ const UserNavbar: React.FC<UserNavbarProps> = ({allUsers, setFilteredUsers}) => 
             onChange={handleSearch} 
             onKeyDown={handleGo}>
             </input>
-
-            <select className="user-sort-element form-select variable-colour border-shadow" 
-            onChange={handleSort}>
-
-                <option selected>--sort--</option>
-
-                <option>by id</option>
-                <option>by username</option>
-
-            </select>
-
 
         </div>
     )

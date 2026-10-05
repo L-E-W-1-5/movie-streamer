@@ -555,7 +555,7 @@ const MovieEditDetails: React.FC<MovieDetailsProps> = ({movie, setAllMovies, set
                 <span>{movie.genre}</span>
                 <span>{movie.description}</span>
                 <span>{`year of movie: ${movie.year}`}</span>
-                <span>{`date of upload: ${movie.timestamp}`}</span>
+                <span>{`date of upload: ${new Date(movie.timestamp).toLocaleString()}`}</span>
                 <span>{`number of times played: ${movie.times_played}`}</span>
                 <span>{movie.length ? `length of movie: ${movie.length}` : ""}</span>
                 <span>{movie.key}</span>

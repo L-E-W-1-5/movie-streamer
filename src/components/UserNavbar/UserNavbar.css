@@ -4,3 +4,17 @@
     cursor: pointer;
 }
 
+.map-navbar{
+    position: sticky;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    min-height: 60px;
+    background-color: black;
+    box-shadow: 0 20px 40px black;
+    z-index: 1;
+}

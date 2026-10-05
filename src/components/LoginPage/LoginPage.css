@@ -29,28 +29,6 @@
     content: "";
 }
 
-
-
-@keyframes demoButtonAnimation{
-    0%{
-        transform: scale(1);
-        opacity: 1;
-        /* transform: rotate(0deg); */
-    }
-    
-    100%{
-        transform: scale(1.5);
-        opacity: 0;
-        /* transform: rotate(360deg); */
-    }
-     /* 0%{
-        transform: rotate(0deg);
-    }
-    100%{
-        transform: rotate(360deg);
-    } */
-}
-
 .demo-button p{
     margin-top: 0;
     margin-bottom: 0;
@@ -117,6 +95,28 @@
 
 .login-container-responsive{
     flex-direction: column;
+}
+
+
+
+@keyframes demoButtonAnimation{
+    0%{
+        transform: scale(1);
+        opacity: 1;
+        /* transform: rotate(0deg); */
+    }
+    
+    100%{
+        transform: scale(1.5);
+        opacity: 0;
+        /* transform: rotate(360deg); */
+    }
+     /* 0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    } */
 }
 
 

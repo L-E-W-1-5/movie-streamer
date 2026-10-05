@@ -229,7 +229,7 @@ const MovieEditForm: React.FC<MovieEditProps> = ({ setOpenForm, allMovies, setAl
             
             <div className="media-form-footer">
 
-                <button className="button-min-height button-style border-shadow" onClick={stopMenuClosure}>
+                <button className="button-media-form button-style border-shadow" onClick={stopMenuClosure}>
                     close
                 </button>
 
