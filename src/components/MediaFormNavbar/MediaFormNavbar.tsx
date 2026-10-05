@@ -1,5 +1,5 @@
 import './MediaFormNavbar.css'
-import { type MediaType } from '../MovieEditForm/MovieEditForm'
+import { type MediaType } from '../../Types/Types';
 
 
 
