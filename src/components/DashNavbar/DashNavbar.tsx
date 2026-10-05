@@ -39,8 +39,6 @@ const DashNavbar: React.FC<UserOptionsProps> = ({ showAdminForm, animation, setF
     }, [allMovies, allSeries, setFilteredMedia])
 
 
-    const stopDevCode = false;
-
 
     const preventClosureOfMenu = (e: React.MouseEvent) => {
 
@@ -112,7 +110,6 @@ const DashNavbar: React.FC<UserOptionsProps> = ({ showAdminForm, animation, setF
 
             <h2 className="pt-1">LuluFlix</h2>   
 
-            {!stopDevCode &&
             <div className="dash-nav-tools">
 
                 <div className="dash-nav-toggle-buttons">
@@ -141,7 +138,6 @@ const DashNavbar: React.FC<UserOptionsProps> = ({ showAdminForm, animation, setF
                 />
 
             </div>
-            }
 
             <button className="admin-nav-button" onClick={preventClosureOfMenu}></button>
 
