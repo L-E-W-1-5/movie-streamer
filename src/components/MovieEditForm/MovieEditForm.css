@@ -112,7 +112,7 @@
 @media only screen and (max-width: 765px){
 
     .movie-edit-form{
-        width: 100%;
+        width: 99%;
         font-size: 0.8rem;
     }
 
@@ -135,8 +135,8 @@
     } */
 
     .movie-edit-form{
-        height: 95%;
-        margin-top: 20px;
+        height: 99%;
+        /* margin-top: 20px; */
     }
 }
 

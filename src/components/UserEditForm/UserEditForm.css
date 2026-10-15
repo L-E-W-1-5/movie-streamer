@@ -75,7 +75,14 @@
 @media only screen and (max-width: 765px){
 
     .edit-form{
-        width: 100%;
+        width: 99%;
+    }
+}
+
+@media only screen and (max-height: 600px){
+
+    .edit-form{
+        min-height: 99%;
     }
 }
 

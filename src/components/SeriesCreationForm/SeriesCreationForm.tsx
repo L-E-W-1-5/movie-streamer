@@ -84,13 +84,13 @@ export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm,
 
         <div>
 
-            <form onSubmit={handleSubmit} className="upload-form border-shadow container-style p-3 gap-2">
+            <form onSubmit={handleSubmit} className="series-upload-form border-shadow container-style p-3 gap-2">
 
                 <label>images
                 <input 
                     id="series-images" 
                     name="images[]"
-                    className="upload-form-element first-column btn variable-colour border-shadow"
+                    className="series-upload-form-element first-column btn variable-colour border-shadow"
                     type="file" 
                     multiple
                     {...({ webkitdirectory: true } as React.InputHTMLAttributes<HTMLInputElement>)}
@@ -100,7 +100,7 @@ export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm,
                 <input 
                     id="series-title" 
                     name="title" 
-                    className="upload-form-element first-column btn variable-colour border-shadow input-field" 
+                    className="series-upload-form-element first-column btn variable-colour border-shadow input-field" 
                     type="text" 
                     placeholder="Series Title"
                 />
@@ -108,7 +108,7 @@ export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm,
                 <select 
                     id="series-genre" 
                     name="genre"
-                    className="upload-form-element first-column form-select select-element variable-colour border-shadow" 
+                    className="series-upload-form-element first-column form-select select-element variable-colour border-shadow" 
                     >       
                         <option value="" disabled>please select</option>
                         <option value="action">Action</option>
@@ -123,7 +123,7 @@ export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm,
                 <input
                     id="series-year"
                     name="year"
-                    className="upload-form-element first-column btn variable-colour border-shadow input-field" 
+                    className="series-upload-form-element first-column btn variable-colour border-shadow input-field" 
                     type="number"
                     placeholder="series year"
                 />
@@ -131,12 +131,12 @@ export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm,
                 <textarea 
                     id="series-description" 
                     name="description" 
-                    className="upload-form-element upload-form-textarea second-column variable-colour border-shadow input-field" 
+                    className="series-upload-form-element upload-form-textarea second-column variable-colour border-shadow input-field" 
                     placeholder="Series Description"
                 />
 
 
-                <div className=" upload-form-buttons d-flex align-self-center mt-3">
+                <div className="series-upload-form-buttons d-flex align-self-center mt-3">
                 
                     <button 
                         className="upload-form-button button-style border-shadow" 
