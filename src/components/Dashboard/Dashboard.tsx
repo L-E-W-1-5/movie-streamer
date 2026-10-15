@@ -60,8 +60,6 @@ const Dashboard = () => {
 
                 const series = await res.json();
 
-                console.log("series fetch", series)
-
                 if(res.ok && series.status === "success"){
 
                     setAllSeries(series.payload)

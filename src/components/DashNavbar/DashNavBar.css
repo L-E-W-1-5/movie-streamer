@@ -37,7 +37,12 @@
     flex-shrink: 2;
     min-width: 40px;
     width: 300px;
+    color: white;
 }
+
+/* .dash-searchbar::placeholder{
+    color: var(--borderShadow);
+} */
 
 @media only screen and (max-width: 450px){
 

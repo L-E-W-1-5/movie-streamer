@@ -139,7 +139,7 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl, closeDeta
 
             <div className="movie-info">
 
-                <h3>{`${film.title} - ${film.year}`}</h3>
+                <h3>{`${film.title}  (${film.year})`}</h3>
             
                 <h4>{film.genre}</h4>
 

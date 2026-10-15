@@ -87,15 +87,16 @@ export const SeriesDetails: React.FC<SeriesDetailsProps> = ({ series, showSeries
 
         <div className="series-details-container border-shadow">
                 
-                <div className="d-flex flex-column align-items-center justify-content-between h-100 w-100">
+                <div className="series-inside-container d-flex flex-column align-items-center justify-content-between h-100 w-100">
 
                     <img className="series-details-image" 
                     ref={imageRef}>
                     </img>
 
-                    <h5>{series.title}</h5>
+                    <h4>{series.title}</h4>
 
                     <select 
+                    className="media-nav-element btn variable-colour border-shadow"
                     defaultValue=""
                     onChange={(e) => setSelectedSeason(Number(e.target.value))}
                     >

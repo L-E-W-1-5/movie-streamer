@@ -131,10 +131,12 @@ const DashNavbar: React.FC<UserOptionsProps> = ({ showAdminForm, animation, setF
                 </div>
 
                 <input
-                className="dash-searchbar"
+                className="dash-searchbar btn border-shadow"
                 type="text"
                 onChange={searchMedia}
                 placeholder="search.."
+                onFocus={(e) => e.target.placeholder = ""}
+                onBlur={(e) => e.target.placeholder = "search..."}
                 />
 
             </div>

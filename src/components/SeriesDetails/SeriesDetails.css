@@ -13,6 +13,11 @@
     color: var(--borderShadow);
 }
 
+.series-inside-container{
+    gap: 10px;
+}
+
+
 .series-details-image{
     background-size: cover;
     background-position: center;

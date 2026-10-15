@@ -142,6 +142,8 @@ export const MediaFormNavbar = ({ setFilteredList, allMedia, filteredList }: Med
             onChange={searchMedia}
             type="text"
             placeholder="search.."
+            onFocus={(e) => e.target.placeholder = ""}
+            onBlur={(e) => e.target.placeholder = "search.."}
             />
         
         </div>

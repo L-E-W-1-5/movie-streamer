@@ -30,6 +30,10 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
 
     const expandAnimation = useRef<HTMLDivElement>(null)
 
+    const messageEnd = useRef<HTMLDivElement>(null)
+
+
+
     useEffect(() => {
 
         if(messageBoard.current){
@@ -74,6 +78,17 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
 
     }, [user])
 
+
+    useEffect(() => {
+
+        if(messageEnd.current){
+
+            console.log("scrolling to bottom of message board")
+
+            messageEnd.current.scrollIntoView()
+        }
+
+    }, [allMessages])
 
 
     const handleEnterPress = (e:React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -201,6 +216,13 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
                 messageBoard.current.style.setProperty("display", "flex", "important")
             }
 
+            if(messageEnd.current){
+
+                console.log("scrolling to bottom of message board")
+
+                messageEnd.current.scrollIntoView()
+            }
+
             expandAnimation.current?.classList.remove(
                     "expand",
                     "expand-mobile",
@@ -272,17 +294,33 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ setMessageSlide }) => {
 
                 <div className="messages-sent">
                    
-                    {allMessages.map((msg:MessageUpload, index:number) => {
+                    {allMessages.map((msg: MessageUpload) => {
 
                         return (
-                            <div className="message-boxes d-flex flex-column lh-1 textarea-style mb-2 p-1" key={index}>
+                            <div className="message-boxes d-flex flex-column lh-1 textarea-style mb-2 p-1" 
+                            key={msg.id}>
                                 
-                                <p className="d-flex flex-row justify-content-between"><b>{msg.username.split(' ')[0] + ' ' + msg.username.split(' ')[1][0]}</b><i>{msg.timestamp}</i>{user?.admin && <button className="delete-cross align-self-end" onClick={() => deleteMessage(msg)}></button>}</p>
+                                <p className="d-flex flex-row justify-content-between">
+
+                                    <b>{msg.username.split(' ')[0] + ' ' + msg.username.split(' ')[1][0]}</b>
+                                    
+                                    <i>{msg.timestamp}</i>
+                                    
+                                    {user?.admin && 
+                                    
+                                        <button className="delete-cross align-self-end" 
+                                        onClick={() => deleteMessage(msg)}>
+                                        </button>}
+                                    
+                                    </p>
+
                                 <p>{msg.message}</p>
                                 
                             </div>
                         )
                     })}
+
+                    <div ref={messageEnd}/>
  
                 </div>
 
