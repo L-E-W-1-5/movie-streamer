@@ -50,7 +50,6 @@ export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm,
 
             console.log("series reply payload", reply.payload)
 
-            //TODO: test that this is adding to state correctly.
             if(res.ok && reply.status === "success"){
 
                 setAllSeries(prev => [

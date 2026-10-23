@@ -22,9 +22,7 @@ export const SeriesDetails: React.FC<SeriesDetailsProps> = ({ series, showSeries
 
     const [seriesEpisodes, setSeriesEpisodes] = useState<MovieDownloadNew[]>([])
     
-    //TODO: get all episodes by series id (once series_id added to media table)
-    //THEN sort by season etc..
-    //maybe have this and the seasons set inside a useEffect
+
 
 
     useEffect(() => {

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import SeriesCreationForm from '../SeriesCreationForm/SeriesCreationForm';
 import type { MovieUpload, Series } from '../../Types/Types';
+import { WindowFocus } from '../WindowFocus/WindowFocus';
 
 
 type SeriesDataProps = {
@@ -52,7 +53,11 @@ export const SeriesData = ({ handleChanges, series, movieUpload, setSeriesContai
 
                         {addSeriesContainer && 
 
-                            <SeriesCreationForm setOpenForm={showAddSeriesContainer} setAllSeries={setAllSeries}/>
+                            <WindowFocus level={3}>
+
+                                <SeriesCreationForm setOpenForm={showAddSeriesContainer} setAllSeries={setAllSeries}/>
+
+                            </WindowFocus>
                         }
 
                         <input

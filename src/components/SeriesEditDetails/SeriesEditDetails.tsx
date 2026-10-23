@@ -21,11 +21,7 @@ type SeriesEditDetailsProps = {
     } | null>>
 }
 
-//TODO: complete this component - enjoy :)
-// render episodes inside each series rather than on the main list
-// create a form to edit the details or images of the series
-// create a button to delete the entire series or maybe to delete an individual season?
-// use the previous MovieEditDetails form to edit the episodes once clicked
+
 
 export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, setAllSeries, allMedia, setAllMovies, setSeriesEditContainer}) => {
 
@@ -109,7 +105,6 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
     };
 
 
-    //TODO: make function to upload new images
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
 
         if(e.target.files){
@@ -457,11 +452,9 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
     }
 
 
-
-    //TODO: add a delete button and function for the entire series and make the backend route.
     const deleteSeries = async () => {
 
-        const willDelete = confirm("are you sure you wish to delete this series?");
+        const willDelete = confirm("are you sure you wish to delete this entire series?");
 
         if (!willDelete) return;
 
@@ -486,7 +479,7 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
                 body: JSON.stringify({series})
             })
 
-            const { payload, status} = await res.json();
+            const { payload, status } = await res.json();
 
             if(res.ok && status === "success"){
 

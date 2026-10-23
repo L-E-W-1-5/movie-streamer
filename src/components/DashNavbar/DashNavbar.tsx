@@ -63,7 +63,6 @@ const DashNavbar: React.FC<UserOptionsProps> = ({ showAdminForm, animation, setF
     }
 
     const toggleMovies = () => {
-//TODO: complete navbar tools
 
         if(movieButton){
 

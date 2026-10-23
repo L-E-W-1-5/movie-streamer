@@ -156,7 +156,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies,
             case "episodeTitle":
             setMovieUpload(prev => ({...prev, episode_title: e.target.value}))
             break;
-            //TODO: create case for series_select and complete the rest of the route accordingly
+
             case "seriesId":
                 console.log("series id case");
             setMovieUpload(prev => ({...prev, series_id: parseInt(e.target.value)}))
@@ -312,50 +312,80 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies,
         
             try{
 
-                //const maxRetries = 3; // Maximum number of retries for each batch
-                //TODO: impliment retries
+                const maxRetries = 3; // Maximum number of retries for each batch
 
                 for (let i = 0; i < chunks.length; i++) {    
-                    
-                    console.log(`starting batch ${i + 1}/${chunks.length}`)
 
-                    let formData = new FormData();
+                    let success = false;
+
+                    let attempts = 0;
+
+                    while(attempts < maxRetries && !success){
+
+                        attempts++;
+
+                        console.log(`starting batch ${i + 1}/${chunks.length} on attempt ${attempts}`);
+
+                        let formData = new FormData();
             
-                    if(i === 0){
+                        if(i === 0){
                 
-                        formData = createFormData(formData);
+                            formData = createFormData(formData);
                         
-                        console.log(formData);
-                    }
+                            console.log(formData);
+                        }
                     
-                    formData.append('isFirstBatch', i === 0 ? "true" : "false");
+                        formData.append('isFirstBatch', i === 0 ? "true" : "false");
 
-                    formData.append("batchNumber", i.toString());
+                        formData.append("batchNumber", i.toString());
         
-                    chunks[i].forEach((file) => {
+                        chunks[i].forEach((file) => {
 
-                        formData.append('hls_files[]', file, file.webkitRelativePath || file.name);
-                    })
+                            formData.append('hls_files[]', file, file.webkitRelativePath || file.name);
+                        })
 
-                    console.log(`uploading batch ${i + 1} of ${chunks.length}`);
+                        try{
 
-                    res = await sendHLS(formData, endpoint, uploadController.current.signal);
+                            console.log(`uploading batch ${i + 1} of ${chunks.length}`);
 
-                    if (!res || !res.ok){
+                            res = await sendHLS(formData, endpoint, uploadController.current.signal);
 
-                        setUploadProgress(0);
+                            if (!res || !res.ok){
                         
-                        throw new Error(`batch ${i + 1} upload failed ${res ? `with status ${res.status}` : ''}`);
-                    }
+                                throw new Error(`batch ${i + 1} upload failed ${`with status ${res?.status ?? 'no response'}`}`);
+                            }
 
-                    setUploadProgress(Math.round(((i + 1) / chunks.length) * 100));
+                            if(i === 0){
 
-                    if(i === 0){
+                                const data = await res.json();
 
-                        const data = await res.json();
+                                createdMovie = data.payload;
+                            }
+                        
+                            success = true;
+                            
+                            setUploadProgress(Math.round(((i + 1) / chunks.length) * 100));
+                        
+                        }catch(err){
 
-                        createdMovie = data.payload;
-                    }
+                            console.error(`Batch ${i + 1} failed on attempt ${attempts} with error: ${err instanceof Error ? err.message : 'Unknown error'}`);
+
+                            if(err instanceof DOMException && err.name === "AbortError"){
+
+                                throw err;
+                            };
+
+                            if(attempts >= maxRetries){
+
+                                alert(`Batch ${i + 1} failed after ${maxRetries} attempts. Upload aborted.`);
+
+                                throw new Error(`maximum retries reached for batch ${i + 1}, failed with error: ${err instanceof Error ? err.message : String(err)}`);
+                            
+                            }
+                        }
+
+
+                    }    
 
                 }     
 
@@ -393,21 +423,21 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies,
 
             if(formData.has('movie')){
 
-            console.log("single movie")
+                console.log("single movie")
 
-            const res = await sendSingleMovie(formData, uploadController.current?.signal);
+                const res = await sendSingleMovie(formData, uploadController.current?.signal);
 
-            if(res && res.ok){
+                if(res && res.ok){
 
-                const data = await res.json();
+                    const data = await res.json();
 
-                checkResponse(data.payload);
+                    checkResponse(data.payload);
 
-            }else{
+                }else{
 
-                alert("Error, correct response not received from server")
-            }
-        };
+                    alert("Error, correct response not received from server")
+                }
+            };
  
                 
         }
@@ -444,6 +474,10 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies,
         }catch(err){
 
             console.log(err)
+
+            alert("Error sending HLS files to server" + (err instanceof Error ? `: ${err.message}` : ''));
+
+            return null;
         }      
     }
 
@@ -484,6 +518,9 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies,
 
             if(createdMovie){
 
+                console.log("createdMovie - check structure", createdMovie);
+                //TODO: simplify this to add to state without creating a new object, but for now this is safer to ensure the structure is correct
+
                 const newUpload: MovieDownloadNew = {
                     id: createdMovie.id,
                     title: createdMovie.title,
@@ -494,7 +531,7 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies,
                     length: createdMovie.length,
                     timestamp: createdMovie.timestamp,
                     times_played: createdMovie.times_played,
-                    images: createdMovie.images ? createdMovie.images : null,
+                    images: createdMovie.images ?? null,
                     media_format: createdMovie.media_format,
                     season_number: createdMovie.season_number,
                     episode_number: createdMovie.episode_number,
@@ -502,9 +539,9 @@ const MovieUploadForm: React.FC<UploadFormProps> = ({ setOpenForm, setAllMovies,
                     series_id: createdMovie.series_id
                 };
 
-            setAllMovies(prev => [...prev, newUpload]);
+                setAllMovies(prev => [...prev, newUpload]);
 
-            alert("movie uploaded successfully");
+                alert("movie uploaded successfully");
 
             };
 

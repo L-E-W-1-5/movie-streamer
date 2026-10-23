@@ -17,10 +17,12 @@ type MovieListProps = {
 
 const MovieList: React.FC<MovieListProps> = ({ allMedia, allMovies, setSignedUrl, messageSlide }) => {
 
+    //TODO: create the conditional render here for demo media
 
     return (
 
-        <div className="dashboard-movie-container border-shadow" style={{display: messageSlide ? "none" : "block"}}>
+        <div className="dashboard-movie-container border-shadow" 
+        style={{display: messageSlide ? "none" : "block"}}>
 
             <div className="movie-list-container d-flex flex-row flex-wrap p-2 gap-2 w-100">
 
@@ -92,7 +94,7 @@ export default MovieList
 
                         {allMovies.map((film:MovieDownloadNew, x:number) => {
 
-//TODO: add logic to swap between series and movies based on media format (with nav button state)
+
 //TODO: add demo media for demo account to be shown here
 
                         // if(user?.username === "demo account"){

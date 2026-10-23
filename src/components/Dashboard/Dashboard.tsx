@@ -26,7 +26,11 @@ const Dashboard = () => {
 
     const [filteredMedia, setFilteredMedia] = useState<MediaType[]>([]);
 
-    const [signedUrl, setSignedUrl] = useState<MovieUrl>({url: "", type: "", title: ""})
+    const [signedUrl, setSignedUrl] = useState<MovieUrl>({
+        url: "", 
+        type: "", 
+        title: ""
+    })
 
     const [messageSlide, setMessageSlide] = useState<boolean>(false); 
 
@@ -225,7 +229,7 @@ const Dashboard = () => {
                 {filteredMedia &&
                 
                     <MovieList allMedia={filteredMedia} allMovies={allMovies} setSignedUrl={setSignedUrl} messageSlide={messageSlide}/>
-        }
+                }
                 </>
 
                 <>
