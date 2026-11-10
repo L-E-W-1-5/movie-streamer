@@ -21,6 +21,13 @@ export const SeriesCreationForm: React.FC<SeriesCreationProps> = ({ setOpenForm,
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
         e.preventDefault();
+
+        if(user?.username === "demo account"){
+
+            alert("demo account cannot create series");
+
+            return;
+        }
     
         const formData = new FormData(e.currentTarget);
 

@@ -1,6 +1,8 @@
 import './MovieList.css';
 import MovieCard from '../MovieCard/MovieCard.tsx';
 import SeriesCard from '../SeriesCard/SeriesCard.tsx';
+import { useContext } from 'react';
+import { UserContext } from '../../UserContext.ts';
 import { type MovieUrl, type MovieDownloadNew, type MediaType } from '../../Types/Types.ts';
 
 
@@ -17,6 +19,8 @@ type MovieListProps = {
 
 const MovieList: React.FC<MovieListProps> = ({ allMedia, allMovies, setSignedUrl, messageSlide }) => {
 
+    const { user } = useContext(UserContext);
+
     //TODO: create the conditional render here for demo media
 
     return (
@@ -30,14 +34,37 @@ const MovieList: React.FC<MovieListProps> = ({ allMedia, allMovies, setSignedUrl
                 
                     allMedia.map((media, index) => {
 
-                        if("media_format" in media && media.media_format === "movie"){
+                        if(user?.username === "demo account"){
 
-                            return <MovieCard key={index} film={media} setSignedUrl={setSignedUrl}/>
-                        }
-                        if(!("media_format" in media)){
+                            if("media_format" in media 
+                                && media.media_format === "movie" 
+                                && media.description?.toLowerCase() === "demo media"){
 
-                            return <SeriesCard key={index} series={media} setSignedUrl={setSignedUrl} allMedia={allMovies}/>
+                                    return <MovieCard key={index} film={media} setSignedUrl={setSignedUrl}/>
+                            }
+
+                            if(!("media_format" in media)
+                                && media.description?.toLowerCase() === "demo media"){
+
+                                    return <SeriesCard key={index} series={media} setSignedUrl={setSignedUrl} allMedia={allMovies}/>
+                            }
+
                         }
+                        else{
+
+                            if("media_format" in media && media.media_format === "movie"){
+
+                                return <MovieCard key={index} film={media} setSignedUrl={setSignedUrl}/>
+                            }
+
+
+                            if(!("media_format" in media)){
+
+                                return <SeriesCard key={index} series={media} setSignedUrl={setSignedUrl} allMedia={allMovies}/>
+                            }
+
+                        }  
+                        
                     })
                 }  
 

@@ -87,6 +87,7 @@ const MovieDetails:React.FC<MovieDetailsProps> = ({film, setSignedUrl, closeDeta
             })
 
 
+            // if(!res.status.toString().startsWith("2")){
             if(res.status !== 200){
 
                 alert("problem retreiving media from server");

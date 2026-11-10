@@ -48,10 +48,11 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
 
     useEffect(() => {
 
-        const seasonArray = allMedia.filter(episode => episode.series_id === series.id)
+        const seasonArray = [...new Set((allMedia.filter(episode => episode.series_id === series.id)
                                 .map(e => e.season_number)
                                 .filter((season): season is number => season !== null && season !== undefined)
-                                .sort((a, b) => a - b)
+                                .sort((a, b) => a - b))
+                            )];
 
         
         setSeasons(seasonArray)
@@ -106,6 +107,13 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
 
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+        if(!user?.token || user?.username === "demo account"){
+
+            alert("editing not available for demo account");
+
+            return;
+        };
 
         if(e.target.files){
 
@@ -277,6 +285,13 @@ export const SeriesEditDetails: React.FC<SeriesEditDetailsProps> = ({series, set
 
 
     const postImagePositions = async (updates: {id: number, usage: string}[]) => {
+
+        if(!user?.token || user?.username === "demo account"){
+
+            alert("editing not available for demo account");
+
+            return;
+        };
 
         try{
 

@@ -183,8 +183,8 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
         }
 
 
-        if (video.canPlayType('application/vnd.apple.mpegurl')) {
         // Native support
+        if (video.canPlayType('application/vnd.apple.mpegurl')) {
 
             console.log("canPlay - native support")
 
@@ -198,6 +198,12 @@ const MoviePlayer: React.FC<MovieInfo> = ({setSignedUrl, signedUrl}) => {
             console.log("HLS.isSupported")
 
             const hls = new Hls();
+
+            hls.on(Hls.Events.ERROR, (event, data) => {
+
+                console.log('HLS ERROR:', data);
+
+            });
 
             hlsRef.current = hls;
 
